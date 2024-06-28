@@ -44,7 +44,7 @@ class _ApproachSelectionScreenState extends State<ApproachSelectionScreen> {
               // 다음 페이지로 이동하는 로직 추가
             },
             child: const Text(
-              '次へ@@@',
+              '次へ',
               style: TextStyle(
                 color: Colors.green,
                 fontSize: 16.0,
