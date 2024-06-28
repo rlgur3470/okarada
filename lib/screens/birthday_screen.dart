@@ -153,7 +153,7 @@ class _NextPageButton extends StatelessWidget {
       children: [
         ElevatedButton(
           onPressed: () {
-            Navigator.pushNamed(context , '/user-weight');
+            Navigator.pushNamed(context , '/height-input');
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.green,
