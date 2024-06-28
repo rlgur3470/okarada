@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:weight_control/screens/sex_screen.dart';
+import 'package:weight_control/screens/perpose_screen.dart';
+import 'package:weight_control/screens/nickname_screen.dart';
+import 'package:weight_control/screens/birthday_screen.dart';
 import 'package:weight_control/screens/height_input_screen.dart';
 import 'package:weight_control/screens/user_weight_screen.dart';
 import 'package:weight_control/screens/email_input_screen.dart';
@@ -22,7 +26,11 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const HeightInputScreen(),
+        '/': (context) => const SexScreen(),
+        '/perpose': (context) => const PerposeScreen(),
+        '/nickname': (context) => const NicknameScreen(),
+        '/birthday': (context) => const BirthdayScreen(),
+        '/height-input': (context) => const HeightInputScreen(),
         '/user-weight': (context) => const UserWeightScreen(),
         '/email-input': (context) => const EmailInputScreen(),
         '/weight-input': (context) => const WeightInputScreen(),
