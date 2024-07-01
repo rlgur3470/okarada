@@ -170,10 +170,10 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2024-06-28T09:23:18.192404Z",
+  "generated": "2024-07-01T13:33:21.271722Z",
   "generator": "pub",
-  "generatorVersion": "3.4.0",
+  "generatorVersion": "3.4.3",
   "flutterRoot": "file:///Users/hyunmincho/flutter",
-  "flutterVersion": "3.22.0",
+  "flutterVersion": "3.22.2",
   "pubCache": "file:///Users/hyunmincho/.pub-cache"
 }

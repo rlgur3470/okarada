@@ -68,9 +68,9 @@ class _UserWeightScreenState extends State<UserWeightScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 40),
-            Image.asset(
-              'asset/img/weight.png',
-              height: 100,
+            Icon(Icons.monitor_weight,
+            size: 60,
+              color: Colors.green,
             ),
             const SizedBox(height: 50),
             const Text(

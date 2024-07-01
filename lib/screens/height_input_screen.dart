@@ -41,7 +41,7 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(height: 40),
-            _buildImage(),
+            _buildIcon(),
             const SizedBox(height: 50),
             _buildTitle(),
             const SizedBox(height: 70),
@@ -88,10 +88,29 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
     );
   }
 
-  Widget _buildImage() {
-    return Image.asset(
-      'asset/img/scale.png',
-      height: 100,
+  Widget _buildIcon() {
+    return Container(
+      width: 100,
+      child: Stack(
+        children: [
+          Icon(
+            Icons.accessibility_new_outlined,
+            size: 60,
+            color: Colors.green,
+          ),
+          Positioned(
+            left: 40,
+            child: Transform.rotate(
+              angle: 3 * 3.14159 / 2,
+              child: Icon(
+                Icons.straighten,
+                size: 60,
+                color: Colors.green,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -160,16 +179,18 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
         child: ElevatedButton(
           onPressed: _isButtonEnabled
               ? () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const UserWeightScreen(),
-              ),
-            );
-          }
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const UserWeightScreen(),
+                    ),
+                  );
+                }
               : null,
           style: ElevatedButton.styleFrom(
-            backgroundColor: _isButtonEnabled ? Colors.lightGreen.withOpacity(0.5) : Colors.grey,
+            backgroundColor: _isButtonEnabled
+                ? Colors.lightGreen.withOpacity(0.5)
+                : Colors.grey,
             minimumSize: const Size.fromHeight(50),
             elevation: 0,
           ),
