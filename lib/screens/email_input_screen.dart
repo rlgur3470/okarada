@@ -76,6 +76,11 @@ class _EmailInputScreenState extends State<EmailInputScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Icon(
+              Icons.mail,
+              size: 100.0,
+              color: Colors.green,
+            ),
             const SizedBox(height: 40),
             SizedBox(
               width: 800,

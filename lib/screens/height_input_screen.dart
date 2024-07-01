@@ -90,21 +90,21 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
 
   Widget _buildIcon() {
     return Container(
-      width: 100,
+      width: 165.5,
       child: Stack(
         children: [
           Icon(
             Icons.accessibility_new_outlined,
-            size: 60,
+            size: 100,
             color: Colors.green,
           ),
           Positioned(
-            left: 40,
+            left: 65,
             child: Transform.rotate(
               angle: 3 * 3.14159 / 2,
               child: Icon(
                 Icons.straighten,
-                size: 60,
+                size: 100.0,
                 color: Colors.green,
               ),
             ),

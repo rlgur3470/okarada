@@ -69,7 +69,7 @@ class _UserWeightScreenState extends State<UserWeightScreen> {
           children: [
             const SizedBox(height: 40),
             Icon(Icons.monitor_weight,
-            size: 60,
+            size: 100,
               color: Colors.green,
             ),
             const SizedBox(height: 50),
