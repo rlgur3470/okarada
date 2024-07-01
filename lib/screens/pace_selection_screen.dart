@@ -87,7 +87,7 @@ class _PaceSelectionScreenState extends State<PaceSelectionScreen> {
                     ),
                     SizedBox(height: 4),
                     Text(
-                      '1ヶ月で1.2kg減量ペース',
+                      '1ヶ月で1.3kg減量ペース',
                       style:
                           TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
