@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../component/app_bar_design.dart';
 import 'weight_input_screen.dart';
 
 class EmailInputScreen extends StatefulWidget {
@@ -44,32 +45,20 @@ class _EmailInputScreenState extends State<EmailInputScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.of(context).pop();
           },
         ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(3.0),
-                child: LinearProgressIndicator(
-                  value: 0.6,
-                  backgroundColor: Colors.grey[300],
-                  color: Colors.green,
-                  minHeight: 6.0,
-                ),
-              ),
-            ),
-            const SizedBox(width: 16),
-            const Text(
-              '次へ',
-              style: TextStyle(fontSize: 16, color: Colors.lightGreen),
-            ),
-          ],
+        title: ProgressBarStateStyle(
+          progress: 0.62,
         ),
+        actions: [
+          TextButton(
+            onPressed: () {},
+            child: const TugiheButtonStyle(),
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
