@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../component/app_bar_design.dart';
 import 'user_weight_screen.dart'; // 다음 화면인 UserWeightScreen 임포트
 
 class HeightInputScreen extends StatefulWidget {
@@ -59,32 +60,20 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
       leading: IconButton(
-        icon: const Icon(Icons.arrow_back),
+        icon: const Icon(Icons.arrow_back_ios),
         onPressed: () {
-          Navigator.pop(context);
+          Navigator.of(context).pop();
         },
       ),
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: LinearProgressIndicator(
-                value: 0.2,
-                backgroundColor: Colors.grey[300],
-                color: Colors.green,
-                minHeight: 6.0,
-              ),
-            ),
-          ),
-          const SizedBox(width: 16),
-          const Text(
-            '次へ',
-            style: TextStyle(fontSize: 16, color: Colors.lightGreen),
-          ),
-        ],
+      title: ProgressBarStateStyle(
+        progress: 0.37,
       ),
+      actions: [
+        TextButton(
+          onPressed: () {},
+          child: const TugiheButtonStyle(),
+        )
+      ],
     );
   }
 
