@@ -41,7 +41,7 @@ class _ApproachSelectionScreenState extends State<ApproachSelectionScreen> {
         actions: [
           TextButton(
             onPressed: () {
-              // 다음 페이지로 이동하는 로직 추가
+               Navigator.pushNamed(context, '/activity-level');
             },
             child: const Text(
               '次へ',
@@ -193,7 +193,7 @@ class _ApproachSelectionScreenState extends State<ApproachSelectionScreen> {
             const SizedBox(height: 24),
             ElevatedButton(
               onPressed: () {
-                // 다음 단계로 이동하는 로직 추가
+                 Navigator.pushNamed(context, '/activity-level');
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
