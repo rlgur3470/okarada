@@ -198,7 +198,7 @@ class _ApproachSelectionScreenState extends State<ApproachSelectionScreen> {
                     Navigator.pushNamed(context,'/activity-level');
                   });// 다음 단계로 이동하는 로직 추가
                 },
-                style: ElevatedButton.styleFrom(
+                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
                   foregroundColor: Colors.white,
                   minimumSize: const Size.fromHeight(50), // 버튼 높이 설정
