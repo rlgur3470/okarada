@@ -67,7 +67,7 @@ class _TargetIcon extends StatelessWidget {
     return const Icon(
       Icons.ads_click,
       color: Colors.green,
-      size: 70.0,
+      size: 100.0,
     );
   }
 }

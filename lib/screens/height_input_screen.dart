@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../component/app_bar_design.dart';
 import 'user_weight_screen.dart'; // 다음 화면인 UserWeightScreen 임포트
 
 class HeightInputScreen extends StatefulWidget {
@@ -41,7 +42,7 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(height: 40),
-            _buildImage(),
+            _buildIcon(),
             const SizedBox(height: 50),
             _buildTitle(),
             const SizedBox(height: 70),
@@ -59,39 +60,46 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
       leading: IconButton(
-        icon: const Icon(Icons.arrow_back),
+        icon: const Icon(Icons.arrow_back_ios),
         onPressed: () {
-          Navigator.pop(context);
+          Navigator.of(context).pop();
         },
       ),
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: LinearProgressIndicator(
-                value: 0.2,
-                backgroundColor: Colors.grey[300],
-                color: Colors.green,
-                minHeight: 6.0,
-              ),
-            ),
-          ),
-          const SizedBox(width: 16),
-          const Text(
-            '次へ',
-            style: TextStyle(fontSize: 16, color: Colors.lightGreen),
-          ),
-        ],
+      title: ProgressBarStateStyle(
+        progress: 0.37,
       ),
+      actions: [
+        TextButton(
+          onPressed: () {},
+          child: const TugiheButtonStyle(),
+        )
+      ],
     );
   }
 
-  Widget _buildImage() {
-    return Image.asset(
-      'asset/img/scale.png',
-      height: 100,
+  Widget _buildIcon() {
+    return Container(
+      width: 165.5,
+      child: Stack(
+        children: [
+          Icon(
+            Icons.accessibility_new_outlined,
+            size: 100,
+            color: Colors.green,
+          ),
+          Positioned(
+            left: 65,
+            child: Transform.rotate(
+              angle: 3 * 3.14159 / 2,
+              child: Icon(
+                Icons.straighten,
+                size: 100.0,
+                color: Colors.green,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -160,16 +168,18 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
         child: ElevatedButton(
           onPressed: _isButtonEnabled
               ? () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const UserWeightScreen(),
-              ),
-            );
-          }
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const UserWeightScreen(),
+                    ),
+                  );
+                }
               : null,
           style: ElevatedButton.styleFrom(
-            backgroundColor: _isButtonEnabled ? Colors.lightGreen.withOpacity(0.5) : Colors.grey,
+            backgroundColor: _isButtonEnabled
+                ? Colors.lightGreen.withOpacity(0.5)
+                : Colors.grey,
             minimumSize: const Size.fromHeight(50),
             elevation: 0,
           ),

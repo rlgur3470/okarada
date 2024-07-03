@@ -9,6 +9,8 @@ import 'package:weight_control/screens/email_input_screen.dart';
 import 'package:weight_control/screens/weight_input_screen.dart';
 import 'package:weight_control/screens/pace_selection_screen.dart';
 import 'package:weight_control/screens/approach_selection_screen.dart';
+import 'package:weight_control/screens/activity_level_screen.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -36,6 +38,7 @@ class MyApp extends StatelessWidget {
         '/weight-input': (context) => const WeightInputScreen(),
         '/pace-selection': (context) => const PaceSelectionScreen(),
         '/approach-selection': (context) => const ApproachSelectionScreen(),
+        '/activity-level': (context) => const ActivityLevelScreen(),
       },
     );
   }

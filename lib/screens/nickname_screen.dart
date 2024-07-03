@@ -64,7 +64,7 @@ class _Icon extends StatelessWidget {
     return const Icon(
       Icons.verified,
       color: Colors.green,
-      size: 70,
+      size: 100,
     );
   }
 }

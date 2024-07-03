@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../component/app_bar_design.dart';
 import 'perpose_screen.dart';
 
 class SexScreen extends StatefulWidget {
@@ -28,10 +29,7 @@ class _SexScreenState extends State<SexScreen> {
         actions: [
           TextButton(
             onPressed: () {},
-            child: const Text(
-              '次へ',
-              style: TextStyle(color: Colors.green),
-            ),
+            child: const TugiheButtonStyle(),
           )
         ],
       ),
@@ -73,7 +71,7 @@ class _Icon extends StatelessWidget {
     return const Icon(
       Icons.badge,
       color: Colors.green,
-      size: 70.0,
+      size: 100.0,
     );
   }
 }
