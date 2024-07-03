@@ -282,6 +282,9 @@ class _NextPageButton extends StatelessWidget {
         onPressed: onPressed,
         child: const Text(
           '次へ',
+          style: TextStyle(
+            fontSize: 18
+          ),
         ),
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.green,

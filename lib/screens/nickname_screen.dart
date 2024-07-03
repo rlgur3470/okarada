@@ -106,10 +106,14 @@ class _TextInput extends StatelessWidget {
                           LengthLimitingTextInputFormatter(10),
                         ],
                         cursorColor: Colors.green,
-                        cursorHeight: 23,
+                        cursorHeight: 20,
                         controller: controller,
                         decoration: const InputDecoration(
-                          hintText: '15文字以内',
+                          hintText: '10文字以内',
+                          hintStyle: TextStyle(
+                            fontSize: 18,
+                            height: 1.8
+                          ),
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.green),
                           ),
@@ -163,6 +167,9 @@ class _NextPageButton extends StatelessWidget {
           ),
           child: const Text(
             '次へ',
+            style: TextStyle(
+              fontSize: 18,
+            ),
           ),
         ),
       ],

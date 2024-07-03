@@ -36,25 +36,24 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(context),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            const SizedBox(height: 40),
-            _buildIcon(),
-            const SizedBox(height: 50),
-            _buildTitle(),
-            const SizedBox(height: 70),
-            _buildHeightInput(),
-            const SizedBox(height: 8),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                _buildNextButton(context),
-              ],
-            )
-          ],
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16.0
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(
+                height: 5,
+              ),
+              _buildIcon(),
+              _buildTitle(),
+              _buildHeightInput(),
+              _buildNextButton(context),
+            ],
+          ),
         ),
       ),
     );
@@ -81,35 +80,41 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
   }
 
   Widget _buildIcon() {
-    return Container(
-      width: 165.5,
-      child: Stack(
-        children: [
-          Icon(
-            Icons.accessibility_new_outlined,
-            size: 100,
-            color: Colors.green,
-          ),
-          Positioned(
-            left: 65,
-            child: Transform.rotate(
-              angle: 3 * 3.14159 / 2,
-              child: Icon(
-                Icons.straighten,
-                size: 100.0,
-                color: Colors.green,
+    return Align(
+      alignment: Alignment.center,
+      child: Container(
+        width: 165.5,
+        child: Stack(
+          children: [
+            Icon(
+              Icons.accessibility_new_outlined,
+              size: 100,
+              color: Colors.green,
+            ),
+            Positioned(
+              left: 65,
+              child: Transform.rotate(
+                angle: 3 * 3.14159 / 2,
+                child: Icon(
+                  Icons.straighten,
+                  size: 100.0,
+                  color: Colors.green,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildTitle() {
-    return const Text(
-      'あなたの身長は ?',
-      style: TextStyle(fontSize: 18, color: Colors.grey),
+    return Align(
+      alignment: Alignment.center,
+      child: const Text(
+        'あなたの身長は ?',
+        style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),
+      ),
     );
   }
 
@@ -118,7 +123,7 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: EdgeInsets.only(left: 35),
+            padding: EdgeInsets.only(left: 15),
             child: Container(
               width: 100,
               height: 30,
@@ -128,9 +133,9 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
                 keyboardType: TextInputType.number,
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: 25),
-                maxLength: 6, // 최대 길이 6
+                maxLength: 3, // 최대 길이 6
                 showCursor: true,
-                cursorHeight: 24,
+                cursorHeight: 20,
                 decoration: const InputDecoration(
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
@@ -140,8 +145,11 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.green, width: 2),
                   ),
-                  hintText: '',
-                  hintStyle: TextStyle(color: Colors.green),
+                  hintText: '3桁で',
+                  hintStyle: TextStyle(
+                    fontSize: 18,
+                    height: 1.8
+                  ),
                   counterText: '', // 글자 수 카운터 텍스트 제거
                 ),
               ),

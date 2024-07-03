@@ -204,7 +204,7 @@ class _NextPageButtonState extends State<_NextPageButton> {
       },
       child: const Text('次へ',
       style: TextStyle(
-        fontSize: 20
+        fontSize: 18
       ),
       ),
       style: ElevatedButton.styleFrom(

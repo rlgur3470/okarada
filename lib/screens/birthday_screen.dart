@@ -161,6 +161,9 @@ class _NextPageButton extends StatelessWidget {
           ),
           child: const Text(
             '次へ',
+            style: TextStyle(
+              fontSize: 18
+            ),
           ),
         ),
       ],
