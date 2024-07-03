@@ -35,8 +35,8 @@ class _ActivityLevelScreenState extends State<ActivityLevelScreen> {
           TextButton(
             onPressed: state != null
                 ? () {
-              // 다음 페이지로 이동하는 로직 추가
-            }
+                    // 다음 페이지로 이동하는 로직 추가
+                  }
                 : null,
             child: Text(
               '次へ',
@@ -54,84 +54,90 @@ class _ActivityLevelScreenState extends State<ActivityLevelScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text(
-                '🏃‍♂️',
-                style: TextStyle(
-                  fontSize: 40,
+              SizedBox(
+                height: 50,
+              ),
+              Expanded(
+                child: Column(
+                  children: [
+                    const Icon(
+                      Icons.run_circle_outlined,
+                      size: 100,
+                      color: Colors.green,
+                    ),
+                    const SizedBox(height: 20.0),
+                    const Text(
+                      'あなたの活動レベルは？',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 40.0),
+                    _ActivityLevelOption(
+                      label: 'ほとんど運動をしない',
+                      stateValue: sedentary,
+                      currentState: state,
+                      onSelected: (value) {
+                        setState(() {
+                          state = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 10.0),
+                    _ActivityLevelOption(
+                      label: '週1~3日軽い運動',
+                      stateValue: lightActivity,
+                      currentState: state,
+                      onSelected: (value) {
+                        setState(() {
+                          state = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 10.0),
+                    _ActivityLevelOption(
+                      label: '学生または一般事務職',
+                      stateValue: moderateActivity,
+                      currentState: state,
+                      onSelected: (value) {
+                        setState(() {
+                          state = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 10.0),
+                    _ActivityLevelOption(
+                      label: '非常に活動的',
+                      stateValue: veryActive,
+                      currentState: state,
+                      onSelected: (value) {
+                        setState(() {
+                          state = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 10.0),
+                    _ActivityLevelOption(
+                      label: '肉体労働または激しい運動',
+                      stateValue: extremelyActive,
+                      currentState: state,
+                      onSelected: (value) {
+                        setState(() {
+                          state = value;
+                        });
+                      },
+                    ),
+                  ],
                 ),
-                textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 20.0),
-              const Text(
-                'あなたの活動レベルは？',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 40.0),
-              _ActivityLevelOption(
-                label: 'ほとんど運動をしない',
-                stateValue: sedentary,
-                currentState: state,
-                onSelected: (value) {
-                  setState(() {
-                    state = value;
-                  });
-                },
-              ),
-              const SizedBox(height: 10.0),
-              _ActivityLevelOption(
-                label: '週1~3日軽い運動',
-                stateValue: lightActivity,
-                currentState: state,
-                onSelected: (value) {
-                  setState(() {
-                    state = value;
-                  });
-                },
-              ),
-              const SizedBox(height: 10.0),
-              _ActivityLevelOption(
-                label: '学生または一般事務職',
-                stateValue: moderateActivity,
-                currentState: state,
-                onSelected: (value) {
-                  setState(() {
-                    state = value;
-                  });
-                },
-              ),
-              const SizedBox(height: 10.0),
-              _ActivityLevelOption(
-                label: '非常に活動的',
-                stateValue: veryActive,
-                currentState: state,
-                onSelected: (value) {
-                  setState(() {
-                    state = value;
-                  });
-                },
-              ),
-              const SizedBox(height: 10.0),
-              _ActivityLevelOption(
-                label: '肉体労働または激しい運動',
-                stateValue: extremelyActive,
-                currentState: state,
-                onSelected: (value) {
-                  setState(() {
-                    state = value;
-                  });
-                },
-              ),
-              const SizedBox(height: 20.0),
               ElevatedButton(
                 onPressed: state != null
                     ? () {
-                  // 다음 페이지로 이동하는 로직 추가
-                }
+                        // 다음 페이지로 이동하는 로직 추가
+                      }
                     : null,
                 child: const Text('次へ'),
                 style: ElevatedButton.styleFrom(
@@ -173,7 +179,8 @@ class _ActivityLevelOption extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
-        backgroundColor: currentState == stateValue ? Colors.green : Colors.white,
+        backgroundColor:
+            currentState == stateValue ? Colors.green : Colors.white,
         side: const BorderSide(color: Colors.green),
       ),
       child: Text(

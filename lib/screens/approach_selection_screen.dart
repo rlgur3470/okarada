@@ -67,7 +67,7 @@ class _ApproachSelectionScreenState extends State<ApproachSelectionScreen> {
               ),
               const SizedBox(height: 24),
               const Text(
-                '減量へのアプローチ方法はgsadadsa？',
+                '減量へのアプローチ方法は？',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),

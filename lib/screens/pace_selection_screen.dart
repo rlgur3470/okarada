@@ -23,7 +23,7 @@ class _PaceSelectionScreenState extends State<PaceSelectionScreen> {
           },
         ),
         title: ProgressBarStateStyle(
-          progress: 0.81,
+          progress: 0.80,
         ),
         actions: [
           TextButton(

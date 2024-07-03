@@ -113,7 +113,7 @@ class _EmailInputScreenState extends State<EmailInputScreen> {
                     _toggleSubscribe();
                   },
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  activeColor: Colors.lightGreen,
+                  activeColor: Colors.green,
                 ),
                 GestureDetector(
                   onTap: () {
@@ -136,7 +136,7 @@ class _EmailInputScreenState extends State<EmailInputScreen> {
                 }
                     : null,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.lightGreen,
+                  backgroundColor: Colors.green,
                   minimumSize: const Size(double.infinity, 50),
                 ),
                 child: const Text(

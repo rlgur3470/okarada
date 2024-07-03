@@ -44,7 +44,7 @@ class _SexScreenState extends State<SexScreen> {
                 const Expanded(
                   child: Column(
                     children: [
-                      SizedBox(height: 100),
+                      SizedBox(height: 80),
                       _Icon(),
                       SizedBox(height: 40),
                       _BodyText(),
@@ -131,7 +131,7 @@ class _IconSelectState extends State<_IconSelect> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(40.0)),
             backgroundColor:
-            _selectedGender == male ? Colors.green : Colors.white,
+                _selectedGender == male ? Colors.green : Colors.white,
             side: const BorderSide(color: Colors.green),
           ),
           child: Column(
@@ -158,10 +158,10 @@ class _IconSelectState extends State<_IconSelect> {
           },
           style: OutlinedButton.styleFrom(
             minimumSize: const Size(150, 150),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(40)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
             backgroundColor:
-            _selectedGender == female ? Colors.green : Colors.white,
+                _selectedGender == female ? Colors.green : Colors.white,
             side: const BorderSide(color: Colors.green),
           ),
           child: Column(
@@ -173,7 +173,8 @@ class _IconSelectState extends State<_IconSelect> {
               Text(
                 '女性',
                 style: TextStyle(
-                  color: _selectedGender == female ? Colors.white : Colors.green,
+                  color:
+                      _selectedGender == female ? Colors.white : Colors.green,
                 ),
               ),
             ],
@@ -195,16 +196,21 @@ class _NextPageButtonState extends State<_NextPageButton> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-        onPressed: () {
-          setState(() {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => const PerposeScreen()));
-          });
-        },
-        child: const Text('次へ'),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.green,
-          foregroundColor: Colors.white,
-        ));
+      onPressed: () {
+        setState(() {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (BuildContext context) => const PerposeScreen()));
+        });
+      },
+      child: const Text('次へ',
+      style: TextStyle(
+        fontSize: 20
+      ),
+      ),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.green,
+        foregroundColor: Colors.white,
+      ),
+    );
   }
 }
