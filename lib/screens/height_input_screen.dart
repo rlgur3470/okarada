@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../component/app_bar_design.dart';
 import 'user_weight_screen.dart'; // 다음 화면인 UserWeightScreen 임포트
@@ -38,8 +39,7 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             const SizedBox(height: 40),
             _buildIcon(),
@@ -48,9 +48,12 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
             const SizedBox(height: 70),
             _buildHeightInput(),
             const SizedBox(height: 8),
-            _buildUnderline(),
-            const Spacer(),
-            _buildNextButton(context),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _buildNextButton(context),
+              ],
+            )
           ],
         ),
       ),
@@ -111,42 +114,48 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
   }
 
   Widget _buildHeightInput() {
-    return Center(
-      child: Stack(
-        alignment: Alignment.center,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Positioned(
-            right: 5,
-            child: const Text(
-              'cm',
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: 25,
+          Padding(
+            padding: EdgeInsets.only(left: 35),
+            child: Container(
+              width: 100,
+              height: 30,
+              child: TextField(
+                cursorColor: Colors.green,
+                controller: _controller,
+                keyboardType: TextInputType.number,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 25),
+                maxLength: 6, // 최대 길이 6
+                showCursor: true,
+                cursorHeight: 24,
+                decoration: const InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.green,
+                    ),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.green, width: 2),
+                  ),
+                  hintText: '',
+                  hintStyle: TextStyle(color: Colors.green),
+                  counterText: '', // 글자 수 카운터 텍스트 제거
+                ),
               ),
             ),
           ),
-          SizedBox(
-            width: 200,
-            height: 30,
-            child: TextField(
-              cursorColor: Colors.lightGreen,
-              controller: _controller,
-              keyboardType: TextInputType.number,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 28),
-              maxLength: 6, // 최대 길이 6
-              showCursor: true,
-              decoration: const InputDecoration(
-                border: InputBorder.none,
-                hintText: '',
-                hintStyle: TextStyle(color: Colors.green),
-                counterText: '', // 글자 수 카운터 텍스트 제거
-              ),
+          Text(
+            'cm',
+            style: TextStyle(
+              color: Colors.grey,
+              fontSize: 25,
             ),
           ),
         ],
-      ),
-    );
+      );
   }
 
   Widget _buildUnderline() {
@@ -158,35 +167,28 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
   }
 
   Widget _buildNextButton(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
-      child: Container(
-        decoration: BoxDecoration(
-          // 연두색 배경 설정
-          borderRadius: BorderRadius.circular(8.0),
+    return Container(
+      decoration: BoxDecoration(
+        // 연두색 배경 설정
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: ElevatedButton(
+        onPressed: _isButtonEnabled
+            ? () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const UserWeightScreen(),
+                  ),
+                );
+              }
+            : null,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: _isButtonEnabled ? Colors.green : Colors.grey,
         ),
-        child: ElevatedButton(
-          onPressed: _isButtonEnabled
-              ? () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const UserWeightScreen(),
-                    ),
-                  );
-                }
-              : null,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: _isButtonEnabled
-                ? Colors.lightGreen.withOpacity(0.5)
-                : Colors.grey,
-            minimumSize: const Size.fromHeight(50),
-            elevation: 0,
-          ),
-          child: const Text(
-            '次へ',
-            style: TextStyle(fontSize: 20, color: Colors.white),
-          ),
+        child: const Text(
+          '次へ',
+          style: TextStyle(fontSize: 18, color: Colors.white),
         ),
       ),
     );

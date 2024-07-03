@@ -105,7 +105,7 @@ class _UserWeightScreenState extends State<UserWeightScreen> {
                 }
                     : null,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.lightGreen,
+                  backgroundColor: Colors.green,
                   minimumSize: const Size(double.infinity, 50),
                 ),
                 child: const Text(

@@ -120,7 +120,7 @@ class _WeightInputScreenState extends State<WeightInputScreen> {
                   ),
                 ),
                 child: const Text(
-                  '次え',
+                  '次へ',
                   style: TextStyle(fontSize: 16),
                 ),
               ),

@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'birthday_screen.dart';
 import 'package:weight_control/component/app_bar_design.dart';
 import 'package:flutter/services.dart';
@@ -40,9 +42,9 @@ class _NicknameScreenState extends State<NicknameScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
               children: [
-                const SizedBox(height: 110),
-                const _Icon(),
                 const SizedBox(height: 100),
+                const _Icon(),
+                const SizedBox(height: 50),
                 Expanded(
                   child: _TextInput(controller: _controller),
                 ),
@@ -89,16 +91,46 @@ class _TextInput extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 50),
-          TextField(
-            textAlign: TextAlign.center,
-            inputFormatters: [
-              LengthLimitingTextInputFormatter(15),
-            ],
-            controller: controller,
-            decoration: const InputDecoration(
-              hintText: '15文字以内',
-            ),
-          ),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 30),
+                    child: Container(
+                      height: 30,
+                      width: 150,
+                      child: TextField(
+                        textAlign: TextAlign.center,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(10),
+                        ],
+                        cursorColor: Colors.green,
+                        cursorHeight: 23,
+                        controller: controller,
+                        decoration: const InputDecoration(
+                          hintText: '15文字以内',
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.green),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.green, width: 2)
+                          ),
+                        ),
+                        style: TextStyle(fontSize: 25),
+
+                      ),
+                    ),
+                  ),
+                  Text(
+                    '様',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 25,
+                    ),
+                  ),
+                ],
+              ),
         ],
       ),
     );
