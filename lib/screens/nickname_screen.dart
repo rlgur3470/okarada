@@ -44,7 +44,7 @@ class _NicknameScreenState extends State<NicknameScreen> {
               children: [
                 const SizedBox(height: 100),
                 const _Icon(),
-                const SizedBox(height: 50),
+                const SizedBox(height: 100),
                 Expanded(
                   child: _TextInput(controller: _controller),
                 ),

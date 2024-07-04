@@ -39,19 +39,24 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(
-            horizontal: 16.0
+              horizontal: 16.0
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SizedBox(
-                height: 5,
+                height: 100,
               ),
               _buildIcon(),
-              _buildTitle(),
-              _buildHeightInput(),
-              _buildNextButton(context),
+              SizedBox(
+                height: 109,
+              ),
+              _UserHeightInputField(controller: _controller),
+              _NextPageButton(
+                onPressed: buttonOnPressed,
+                isButtonEnabled: _isButtonEnabled,
+              )
             ],
           ),
         ),
@@ -79,7 +84,36 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
     );
   }
 
-  Widget _buildIcon() {
+
+  Widget _buildTitle() {
+    return Align(
+      alignment: Alignment.center,
+      child: const Text(
+        'あなたの身長は ?',
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+      ),
+    );
+  }
+
+  buttonOnPressed(){
+    _isButtonEnabled ? setState(() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const UserWeightScreen(),
+        ),
+      );
+    }) : null;
+  }
+
+
+}
+
+class _buildIcon extends StatelessWidget {
+  const _buildIcon({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.center,
       child: Container(
@@ -107,98 +141,104 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
       ),
     );
   }
+}
 
-  Widget _buildTitle() {
-    return Align(
-      alignment: Alignment.center,
-      child: const Text(
-        'あなたの身長は ?',
-        style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),
-      ),
-    );
-  }
+class _UserHeightInputField extends StatelessWidget {
 
-  Widget _buildHeightInput() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+  final TextEditingController controller;
+
+  const _UserHeightInputField({
+    required this.controller,
+    super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Column(
         children: [
-          Padding(
-            padding: EdgeInsets.only(left: 15),
-            child: Container(
-              width: 100,
-              height: 30,
-              child: TextField(
-                cursorColor: Colors.green,
-                controller: _controller,
-                keyboardType: TextInputType.number,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 25),
-                maxLength: 3, // 최대 길이 6
-                showCursor: true,
-                cursorHeight: 20,
-                decoration: const InputDecoration(
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.green,
+        Align(
+        alignment: Alignment.center,
+        child: const Text(
+          'あなたの身長は ?',
+          style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),
+        ),
+      ),
+          SizedBox(
+            height: 120,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 15),
+                child: Container(
+                  width: 100,
+                  height: 30,
+                  child: TextField(
+                    cursorColor: Colors.green,
+                    controller: controller,
+                    keyboardType: TextInputType.number,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 25),
+                    maxLength: 3, // 최대 길이 6
+                    showCursor: true,
+                    cursorHeight: 20,
+                    decoration: const InputDecoration(
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.green,
+                        ),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.green, width: 2),
+                      ),
+                      hintText: '3桁で',
+                      hintStyle: TextStyle(
+                          fontSize: 15,
+                          height: 2
+                      ),
+                      counterText: '', // 글자 수 카운터 텍스트 제거
                     ),
                   ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.green, width: 2),
-                  ),
-                  hintText: '3桁で',
-                  hintStyle: TextStyle(
-                    fontSize: 18,
-                    height: 1.8
-                  ),
-                  counterText: '', // 글자 수 카운터 텍스트 제거
                 ),
               ),
-            ),
-          ),
-          Text(
-            'cm',
-            style: TextStyle(
-              color: Colors.grey,
-              fontSize: 25,
-            ),
+              Text(
+                'cm',
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 25,
+                ),
+              ),
+            ],
           ),
         ],
-      );
-  }
-
-  Widget _buildUnderline() {
-    return Container(
-      width: 100,
-      height: 2,
-      color: Colors.green, // 녹색 선 색상
-    );
-  }
-
-  Widget _buildNextButton(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        // 연두색 배경 설정
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: ElevatedButton(
-        onPressed: _isButtonEnabled
-            ? () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const UserWeightScreen(),
-                  ),
-                );
-              }
-            : null,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: _isButtonEnabled ? Colors.green : Colors.grey,
-        ),
-        child: const Text(
-          '次へ',
-          style: TextStyle(fontSize: 18, color: Colors.white),
-        ),
       ),
     );
   }
 }
+
+class _NextPageButton extends StatelessWidget {
+  final VoidCallback onPressed;
+  final bool isButtonEnabled;
+  const _NextPageButton({
+    required this.onPressed,
+    required this.isButtonEnabled,
+    super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: isButtonEnabled ? Colors.green : Colors.grey,
+      ),
+      child: const Text(
+        '次へ',
+        style: TextStyle(fontSize: 18, color: Colors.white),
+      ),
+    );
+  }
+}
+
+
+
