@@ -11,15 +11,35 @@ class WeightInputScreen extends StatefulWidget {
 
 class _WeightInputScreenState extends State<WeightInputScreen> {
   final TextEditingController _currentWeightController =
-      TextEditingController(text: "85.0");
-  final TextEditingController _goalWeightController =
-      TextEditingController(text: "75");
+      TextEditingController();
+  final TextEditingController _goalWeightController = TextEditingController();
+  bool _isCurrentButtonEnabled = false;
+  bool _isGoalButtonEnabled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _goalWeightController.addListener(_checkGoalButtonState);
+    _currentWeightController.addListener(_checkCurrentButtonState);
+  }
 
   @override
   void dispose() {
     _currentWeightController.dispose();
     _goalWeightController.dispose();
     super.dispose();
+  }
+
+  void _checkCurrentButtonState() {
+    setState(() {
+      _isCurrentButtonEnabled = _currentWeightController.text.isNotEmpty;
+    });
+  }
+
+  void _checkGoalButtonState() {
+    setState(() {
+      _isGoalButtonEnabled = _goalWeightController.text.isNotEmpty;
+    });
   }
 
   @override
@@ -44,89 +64,192 @@ class _WeightInputScreenState extends State<WeightInputScreen> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16.0,
+          ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              const SizedBox(height: 100),
+              _IconField(),
+              const SizedBox(height: 50),
+              _TextField(),
               const SizedBox(height: 24),
-              const Icon(
-                Icons.bar_chart,
-                size: 100,
-                color: Colors.green,
+              _WeightChange(
+                  currentController: _currentWeightController,
+                  goalWeightController: _goalWeightController),
+              SizedBox(
+                height: 70,
               ),
-              const SizedBox(height: 24),
-              Align(
-                alignment: Alignment.center,
-                child: const Text(
-                  'あなたの目標体重は?',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ),
-              const SizedBox(height: 8),
-              Align(
-                alignment: Alignment.center,
-                child: const Text(
-                  '最初は、２ヶ月後を目標にします。',
-                  style: TextStyle(fontSize: 14, color: Colors.grey),
-                ),
-              ),
-              const SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Flexible(
-                    child: TextField(
-                      controller: _currentWeightController,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 36),
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        suffixText: 'kg',
-                        suffixStyle: TextStyle(fontSize: 24),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  const Icon(Icons.arrow_forward, size: 36),
-                  const SizedBox(width: 10),
-                  Flexible(
-                    child: TextField(
-                      controller: _goalWeightController,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 36),
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        suffixText: 'kg',
-                        suffixStyle: TextStyle(fontSize: 24),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const Spacer(),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/pace-selection');
-                },
+              _NextPagebutton(
+                onPressed: onNextButtonPressed,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
+                  backgroundColor:
+                      _isCurrentButtonEnabled && _isGoalButtonEnabled
+                          ? Colors.green
+                          : Colors.grey[300],
                   foregroundColor: Colors.white,
-                  minimumSize: const Size(150, 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
                 ),
-                child: const Text(
-                  '次へ',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
+              )
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  onNextButtonPressed() {
+    _isCurrentButtonEnabled && _isGoalButtonEnabled
+        ? setState(() {
+            Navigator.pushNamed(context, '/pace-selection');
+          })
+        : null;
+  }
+}
+
+class _IconField extends StatelessWidget {
+  const _IconField({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Icon(
+      Icons.bar_chart,
+      size: 100,
+      color: Colors.green,
+    );
+  }
+}
+
+class _TextField extends StatelessWidget {
+  const _TextField({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Align(
+          alignment: Alignment.center,
+          child: const Text(
+            'あなたの目標体重は?',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+        ),
+        SizedBox(height: 8),
+        Align(
+          alignment: Alignment.center,
+          child: const Text(
+            '最初は、２ヶ月後を目標にします。',
+            style: TextStyle(fontSize: 18, color: Colors.grey),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _WeightChange extends StatelessWidget {
+  final TextEditingController currentController;
+  final TextEditingController goalWeightController;
+  const _WeightChange(
+      {required this.currentController,
+      required this.goalWeightController,
+      super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Flexible(
+            child: Container(
+              width: 150,
+              height: 30,
+              child: TextField(
+                cursorColor: Colors.green,
+                cursorHeight: 20,
+                maxLength: 3,
+                controller: currentController,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 24),
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.green,
+                      ),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.green, width: 2),
+                    ),
+                    border: InputBorder.none,
+                    suffixStyle: TextStyle(fontSize: 24),
+                    hintText: '今の体重',
+                    hintStyle: TextStyle(fontSize: 15, height: 2),
+                    counterText: ''),
+              ),
+            ),
+          ),
+          Text(
+            'KG',
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
+          ),
+          const SizedBox(width: 10),
+          const Icon(Icons.arrow_forward, size: 36),
+          const SizedBox(width: 10),
+          Flexible(
+            child: Container(
+              width: 150,
+              height: 30,
+              child: TextField(
+                cursorColor: Colors.green,
+                cursorHeight: 20,
+                maxLength: 3,
+                controller: goalWeightController,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 24),
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.green,
+                      ),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.green, width: 2),
+                    ),
+                    border: InputBorder.none,
+                    hintText: '目指せる体重',
+                    hintStyle: TextStyle(fontSize: 15, height: 2),
+                    counterText: ''),
+              ),
+            ),
+          ),
+          Text(
+            'KG',
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _NextPagebutton extends StatelessWidget {
+  final VoidCallback onPressed;
+  final ButtonStyle style;
+  const _NextPagebutton(
+      {required this.onPressed, required this.style, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: style,
+      child: const Text(
+        '次へ',
+        style: TextStyle(fontSize: 18),
       ),
     );
   }

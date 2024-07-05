@@ -36,25 +36,29 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(context),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            const SizedBox(height: 40),
-            _buildIcon(),
-            const SizedBox(height: 50),
-            _buildTitle(),
-            const SizedBox(height: 70),
-            _buildHeightInput(),
-            const SizedBox(height: 8),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                _buildNextButton(context),
-              ],
-            )
-          ],
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+              horizontal: 16.0
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(
+                height: 100,
+              ),
+              _buildIcon(),
+              SizedBox(
+                height: 109,
+              ),
+              _UserHeightInputField(controller: _controller),
+              _NextPageButton(
+                onPressed: buttonOnPressed,
+                isButtonEnabled: _isButtonEnabled,
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -80,117 +84,161 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
     );
   }
 
-  Widget _buildIcon() {
-    return Container(
-      width: 165.5,
-      child: Stack(
-        children: [
-          Icon(
-            Icons.accessibility_new_outlined,
-            size: 100,
-            color: Colors.green,
-          ),
-          Positioned(
-            left: 65,
-            child: Transform.rotate(
-              angle: 3 * 3.14159 / 2,
-              child: Icon(
-                Icons.straighten,
-                size: 100.0,
-                color: Colors.green,
-              ),
-            ),
-          ),
-        ],
+
+  Widget _buildTitle() {
+    return Align(
+      alignment: Alignment.center,
+      child: const Text(
+        'あなたの身長は ?',
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
       ),
     );
   }
 
-  Widget _buildTitle() {
-    return const Text(
-      'あなたの身長は ?',
-      style: TextStyle(fontSize: 18, color: Colors.grey),
-    );
+  buttonOnPressed(){
+    _isButtonEnabled ? setState(() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const UserWeightScreen(),
+        ),
+      );
+    }) : null;
   }
 
-  Widget _buildHeightInput() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(left: 35),
-            child: Container(
-              width: 100,
-              height: 30,
-              child: TextField(
-                cursorColor: Colors.green,
-                controller: _controller,
-                keyboardType: TextInputType.number,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 25),
-                maxLength: 6, // 최대 길이 6
-                showCursor: true,
-                cursorHeight: 24,
-                decoration: const InputDecoration(
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.green,
-                    ),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.green, width: 2),
-                  ),
-                  hintText: '',
-                  hintStyle: TextStyle(color: Colors.green),
-                  counterText: '', // 글자 수 카운터 텍스트 제거
+
+}
+
+class _buildIcon extends StatelessWidget {
+  const _buildIcon({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.center,
+      child: Container(
+        width: 165.5,
+        child: Stack(
+          children: [
+            Icon(
+              Icons.accessibility_new_outlined,
+              size: 100,
+              color: Colors.green,
+            ),
+            Positioned(
+              left: 65,
+              child: Transform.rotate(
+                angle: 3 * 3.14159 / 2,
+                child: Icon(
+                  Icons.straighten,
+                  size: 100.0,
+                  color: Colors.green,
                 ),
               ),
             ),
-          ),
-          Text(
-            'cm',
-            style: TextStyle(
-              color: Colors.grey,
-              fontSize: 25,
-            ),
-          ),
-        ],
-      );
-  }
-
-  Widget _buildUnderline() {
-    return Container(
-      width: 100,
-      height: 2,
-      color: Colors.green, // 녹색 선 색상
-    );
-  }
-
-  Widget _buildNextButton(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        // 연두색 배경 설정
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: ElevatedButton(
-        onPressed: _isButtonEnabled
-            ? () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const UserWeightScreen(),
-                  ),
-                );
-              }
-            : null,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: _isButtonEnabled ? Colors.green : Colors.grey,
-        ),
-        child: const Text(
-          '次へ',
-          style: TextStyle(fontSize: 18, color: Colors.white),
+          ],
         ),
       ),
     );
   }
 }
+
+class _UserHeightInputField extends StatelessWidget {
+
+  final TextEditingController controller;
+
+  const _UserHeightInputField({
+    required this.controller,
+    super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Column(
+        children: [
+        Align(
+        alignment: Alignment.center,
+        child: const Text(
+          'あなたの身長は ?',
+          style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),
+        ),
+      ),
+          SizedBox(
+            height: 120,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 15),
+                child: Container(
+                  width: 100,
+                  height: 30,
+                  child: TextField(
+                    cursorColor: Colors.green,
+                    controller: controller,
+                    keyboardType: TextInputType.number,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 25),
+                    maxLength: 3, // 최대 길이 6
+                    showCursor: true,
+                    cursorHeight: 20,
+                    decoration: const InputDecoration(
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.green,
+                        ),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.green, width: 2),
+                      ),
+                      hintText: '3桁で',
+                      hintStyle: TextStyle(
+                          fontSize: 15,
+                          height: 2
+                      ),
+                      counterText: '', // 글자 수 카운터 텍스트 제거
+                    ),
+                  ),
+                ),
+              ),
+              Text(
+                'cm',
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 25,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _NextPageButton extends StatelessWidget {
+  final VoidCallback onPressed;
+  final bool isButtonEnabled;
+  const _NextPageButton({
+    required this.onPressed,
+    required this.isButtonEnabled,
+    super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: isButtonEnabled ? Colors.green : Colors.grey,
+      ),
+      child: const Text(
+        '次へ',
+        style: TextStyle(fontSize: 18, color: Colors.white),
+      ),
+    );
+  }
+}
+
+
+

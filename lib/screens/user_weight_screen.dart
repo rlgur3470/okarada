@@ -51,72 +51,127 @@ class _UserWeightScreenState extends State<UserWeightScreen> {
           )
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 40),
-            Icon(Icons.monitor_weight,
-            size: 100,
-              color: Colors.green,
-            ),
-            const SizedBox(height: 50),
-            const Text(
-              'あなたの体重は ?',
-              style: TextStyle(fontSize: 18, color: Colors.grey),
-            ),
-            const Text(
-              '大体でOKです。　後でいつでも変更できます。',
-              style: TextStyle(fontSize: 16, color: Colors.grey),
-            ),
-            const SizedBox(height: 70),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 100,
-                  child: TextField(
-                    cursorColor: Colors.lightGreen,
-                    controller: _controller,
-                    keyboardType: TextInputType.number,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 48),
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      hintText: '',
-                      hintStyle: TextStyle(color: Colors.green),
-                    ),
-                  ),
-                ),
-                const Text(
-                  'kg',
-                  style: TextStyle(fontSize: 24, color: Colors.grey),
-                ),
-              ],
-            ),
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
-              child: ElevatedButton(
-                onPressed: _isButtonEnabled
-                    ? () {
-                  Navigator.pushNamed(context, '/email-input');
-                }
-                    : null,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                  minimumSize: const Size(double.infinity, 50),
-                ),
-                child: const Text(
-                  '次へ',
-                  style: TextStyle(fontSize: 20, color: Colors.white),
-                ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(height: 100),
+              Icon(
+                Icons.monitor_weight,
+                size: 100,
+                color: Colors.green,
               ),
-            ),
-          ],
+              SizedBox(height: 100),
+              _WeightInputText(controller: _controller),
+              _NextPageButton(onPressed: moveToNextPage, isButtonEnabled: _isButtonEnabled)
+            ],
+          ),
         ),
       ),
     );
   }
+
+  moveToNextPage(){
+    _isButtonEnabled
+        ? setState(() {
+      Navigator.pushNamed(context, '/email-input');
+        })
+        : null;
+  }
 }
+
+class _WeightInputText extends StatelessWidget {
+  final TextEditingController controller;
+  const _WeightInputText({required this.controller, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Column(
+        children: [
+          Text(
+            textAlign: TextAlign.center,
+            'あなたの体重は?',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            textAlign: TextAlign.center,
+            '大体でもOKです。後でいつでも変更できます。',
+            style: TextStyle(fontSize: 18, color: Colors.grey),
+          ),
+          SizedBox(
+            height: 95,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 15),
+                child: Container(
+                  width: 100,
+                  height: 30,
+                  child: TextField(
+                    cursorColor: Colors.green,
+                    cursorHeight: 20,
+                    maxLength: 3,
+                    controller: controller,
+                    keyboardType: TextInputType.number,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 25),
+                    decoration: const InputDecoration(
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.green,
+                          ),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.green, width: 2),
+                        ),
+                        border: InputBorder.none,
+                        hintText: '3桁以内に',
+                        hintStyle: TextStyle(fontSize: 15, height: 2),
+                        counterText: ''),
+                  ),
+                ),
+              ),
+              const Text(
+                'kg',
+                style: TextStyle(fontSize: 24, color: Colors.grey),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _NextPageButton extends StatelessWidget {
+  final VoidCallback onPressed;
+  final bool isButtonEnabled;
+  const _NextPageButton({
+    required this.onPressed,
+    required this.isButtonEnabled,
+    super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: isButtonEnabled ? Colors.green : Colors.grey[300],
+      ),
+      child: const Text(
+        '次へ',
+        style: TextStyle(fontSize: 18, color: Colors.white),
+      ),
+    );
+  }
+}
+

@@ -90,13 +90,13 @@ class _BodyText extends StatelessWidget {
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
         ),
-        SizedBox(height: 40),
+        SizedBox(height: 20),
         Text(
           '''
 あなたのことを知れば、
 正確なサポートをすることができます。''',
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 16),
+          style: TextStyle(fontSize: 18, color: Colors.grey),
         ),
       ],
     );
@@ -204,7 +204,7 @@ class _NextPageButtonState extends State<_NextPageButton> {
       },
       child: const Text('次へ',
       style: TextStyle(
-        fontSize: 20
+        fontSize: 18
       ),
       ),
       style: ElevatedButton.styleFrom(

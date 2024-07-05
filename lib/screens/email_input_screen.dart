@@ -1,3 +1,6 @@
+import 'dart:ffi';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../component/app_bar_design.dart';
 import 'weight_input_screen.dart';
@@ -29,8 +32,15 @@ class _EmailInputScreenState extends State<EmailInputScreen> {
   void _checkButtonState() {
     setState(() {
       String email = _controller.text.trim();
-      bool isValidEmail = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
+      bool isValidEmail =
+          RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
       _isButtonEnabled = email.isNotEmpty && isValidEmail;
+    });
+  }
+
+  void _toggleSubscribeChanged(bool) {
+    setState(() {
+      _subscribeToEmails = !_subscribeToEmails;
     });
   }
 
@@ -60,94 +70,121 @@ class _EmailInputScreenState extends State<EmailInputScreen> {
           )
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.mail,
-              size: 100.0,
-              color: Colors.green,
-            ),
-            const SizedBox(height: 40),
-            SizedBox(
-              width: 800,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'メールアドレス',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.lightGreen,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  TextField(
-                    cursorColor: Colors.lightGreen,
-                    controller: _controller,
-                    keyboardType: TextInputType.emailAddress,
-                    textAlign: TextAlign.start,
-                    style: const TextStyle(fontSize: 18),
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.grey[200],
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      hintStyle: const TextStyle(color: Colors.grey),
-                    ),
-                  ),
-                ],
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(
+                height:100
               ),
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                Checkbox(
-                  value: _subscribeToEmails,
-                  onChanged: (value) {
-                    _toggleSubscribe();
-                  },
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  activeColor: Colors.green,
+              Icon(
+                Icons.mail,
+                size: 100.0,
+                color: Colors.green,
+              ),
+              SizedBox(
+                height: 50.0,
+              ),
+              Expanded(
+                child: _EmailInput(
+                  controller: _controller,
+                  subscribeToEmails: _subscribeToEmails,
+                  onChanged: _toggleSubscribeChanged,
+                  onTap: _toggleSubscribe,
                 ),
-                GestureDetector(
-                  onTap: () {
-                    _toggleSubscribe();
-                  },
-                  child: const Text(
-                    '健康に関する情報やイベントメールを受け取る',
-                    style: TextStyle(fontSize: 14, color: Colors.black54),
-                  ),
-                ),
-              ],
-            ),
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
-              child: ElevatedButton(
+              ),
+              ElevatedButton(
                 onPressed: _isButtonEnabled
                     ? () {
-                  Navigator.pushNamed(context, '/weight-input');
-                }
+                        Navigator.pushNamed(context, '/weight-input');
+                      }
                     : null,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
-                  minimumSize: const Size(double.infinity, 50),
                 ),
                 child: const Text(
                   '次へ',
-                  style: TextStyle(fontSize: 20, color: Colors.white),
+                  style: TextStyle(fontSize: 18, color: Colors.white),
                 ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _EmailInput extends StatelessWidget {
+  final TextEditingController controller;
+  final bool subscribeToEmails;
+  final ValueChanged onChanged;
+  final VoidCallback onTap;
+
+  const _EmailInput(
+      {required this.controller,
+      required this.subscribeToEmails,
+      required this.onChanged,
+      required this.onTap,
+      super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(
+          width: 800,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'メールアドレス',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.lightGreen,
+                ),
+              ),
+              TextField(
+                cursorColor: Colors.lightGreen,
+                controller: controller,
+                keyboardType: TextInputType.emailAddress,
+                textAlign: TextAlign.start,
+                style: const TextStyle(fontSize: 18),
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  hintStyle: const TextStyle(color: Colors.grey),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Row(
+          children: [
+            Checkbox(
+              value: subscribeToEmails,
+              onChanged: onChanged,
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              activeColor: Colors.green,
+            ),
+            GestureDetector(
+              onTap: onTap,
+              child: const Text(
+                '健康に関する情報やイベントメールを受け取る',
+                style: TextStyle(fontSize: 14, color: Colors.black),
               ),
             ),
           ],
         ),
-      ),
+      ],
     );
   }
 }

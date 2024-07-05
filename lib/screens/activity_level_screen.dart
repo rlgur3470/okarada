@@ -13,7 +13,7 @@ class _ActivityLevelScreenState extends State<ActivityLevelScreen> {
   final moderateActivity = 'moderateActivity';
   final veryActive = 'veryActive';
   final extremelyActive = 'extremelyActive';
-  String? state;
+  String? state = '';
 
   @override
   Widget build(BuildContext context) {
@@ -51,106 +51,76 @@ class _ActivityLevelScreenState extends State<ActivityLevelScreen> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(
-                height: 50,
+              Column(
+                children: [
+                  SizedBox(
+                    height: 100,
+                  ),
+                  _IconBuild(),
+                  const SizedBox(height: 38.0),
+                  _MainText(),
+                  const SizedBox(height: 58.0),
+                  _OptionButton(
+                    onFirstSelected: onFirstSelected,
+                    onSecondSelected: onSecondSelected,
+                    onThirdSelected: onThirdSelected,
+                    onFourthSelected: onFourthSelected,
+                    onFifthSelected: onFifthSelected,
+                    currentState: state ?? '',
+                    sedentary: sedentary,
+                    lightActivity: lightActivity,
+                    moderateActivity: moderateActivity,
+                    veryActive: veryActive,
+                    extremelyActive: extremelyActive,
+                  ),
+                ],
               ),
-              Expanded(
-                child: Column(
-                  children: [
-                    const Icon(
-                      Icons.run_circle_outlined,
-                      size: 100,
-                      color: Colors.green,
-                    ),
-                    const SizedBox(height: 20.0),
-                    const Text(
-                      'あなたの活動レベルは？',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.green,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 40.0),
-                    _ActivityLevelOption(
-                      label: 'ほとんど運動をしない',
-                      stateValue: sedentary,
-                      currentState: state,
-                      onSelected: (value) {
-                        setState(() {
-                          state = value;
-                        });
-                      },
-                    ),
-                    const SizedBox(height: 10.0),
-                    _ActivityLevelOption(
-                      label: '週1~3日軽い運動',
-                      stateValue: lightActivity,
-                      currentState: state,
-                      onSelected: (value) {
-                        setState(() {
-                          state = value;
-                        });
-                      },
-                    ),
-                    const SizedBox(height: 10.0),
-                    _ActivityLevelOption(
-                      label: '学生または一般事務職',
-                      stateValue: moderateActivity,
-                      currentState: state,
-                      onSelected: (value) {
-                        setState(() {
-                          state = value;
-                        });
-                      },
-                    ),
-                    const SizedBox(height: 10.0),
-                    _ActivityLevelOption(
-                      label: '非常に活動的',
-                      stateValue: veryActive,
-                      currentState: state,
-                      onSelected: (value) {
-                        setState(() {
-                          state = value;
-                        });
-                      },
-                    ),
-                    const SizedBox(height: 10.0),
-                    _ActivityLevelOption(
-                      label: '肉体労働または激しい運動',
-                      stateValue: extremelyActive,
-                      currentState: state,
-                      onSelected: (value) {
-                        setState(() {
-                          state = value;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              ElevatedButton(
-                onPressed: state != null
-                    ? () {
-                        // 다음 페이지로 이동하는 로직 추가
-                      }
-                    : null,
-                child: const Text('次へ'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                  foregroundColor: Colors.white,
-                  disabledBackgroundColor: Colors.grey,
-                ),
+              SizedBox(height: 70,),
+              _NextPageButton(
+                onPressed: onNextPageButtonPressed,
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  onFirstSelected(value) {
+    setState(() {
+      state = value;
+    });
+  }
+
+  onSecondSelected(value) {
+    setState(() {
+      state = value;
+    });
+  }
+
+  onThirdSelected(value) {
+    setState(() {
+      state = value;
+    });
+  }
+
+  onFourthSelected(value) {
+    setState(() {
+      state = value;
+    });
+  }
+
+  onFifthSelected(value) {
+    setState(() {
+      state = value;
+    });
+  }
+
+  onNextPageButtonPressed() {
+    state != null ? setState(() {}) : null;
   }
 }
 
@@ -175,7 +145,7 @@ class _ActivityLevelOption extends StatelessWidget {
         onSelected(stateValue);
       },
       style: OutlinedButton.styleFrom(
-        minimumSize: const Size(double.infinity, 70),
+        minimumSize: const Size(double.infinity, 60),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
@@ -190,6 +160,126 @@ class _ActivityLevelOption extends StatelessWidget {
           fontSize: 18,
           fontWeight: FontWeight.w600,
         ),
+      ),
+    );
+  }
+}
+
+class _IconBuild extends StatelessWidget {
+  const _IconBuild({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Icon(
+      Icons.run_circle_outlined,
+      size: 100,
+      color: Colors.green,
+    );
+  }
+}
+
+class _MainText extends StatelessWidget {
+  const _MainText({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      'あなたの活動レベルは？',
+      style: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+        color: Colors.green,
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+}
+
+class _OptionButton extends StatelessWidget {
+  final ValueChanged<String> onFirstSelected;
+  final ValueChanged<String> onSecondSelected;
+  final ValueChanged<String> onThirdSelected;
+  final ValueChanged<String> onFourthSelected;
+  final ValueChanged<String> onFifthSelected;
+  final String currentState;
+  final String sedentary;
+  final String lightActivity;
+  final String moderateActivity;
+  final String veryActive;
+  final String extremelyActive;
+
+  const _OptionButton(
+      {required this.onFirstSelected,
+      required this.onSecondSelected,
+      required this.onThirdSelected,
+      required this.onFourthSelected,
+      required this.onFifthSelected,
+      required this.currentState,
+      required this.sedentary,
+      required this.lightActivity,
+      required this.moderateActivity,
+      required this.veryActive,
+      required this.extremelyActive,
+      super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        _ActivityLevelOption(
+          label: 'ほとんど運動をしない',
+          stateValue: sedentary,
+          currentState: currentState,
+          onSelected: onFirstSelected,
+        ),
+        const SizedBox(height: 10.0),
+        _ActivityLevelOption(
+          label: '週1~3日軽い運動',
+          stateValue: lightActivity,
+          currentState: currentState,
+          onSelected: onSecondSelected,
+        ),
+        const SizedBox(height: 10.0),
+        _ActivityLevelOption(
+            label: '学生または一般事務職',
+            stateValue: moderateActivity,
+            currentState: currentState,
+            onSelected: onThirdSelected),
+        const SizedBox(height: 10.0),
+        _ActivityLevelOption(
+          label: '非常に活動的',
+          stateValue: veryActive,
+          currentState: currentState,
+          onSelected: onFourthSelected,
+        ),
+        const SizedBox(height: 10.0),
+        _ActivityLevelOption(
+          label: '肉体労働または激しい運動',
+          stateValue: extremelyActive,
+          currentState: currentState,
+          onSelected: onFifthSelected,
+        ),
+      ],
+    );
+  }
+}
+
+class _NextPageButton extends StatelessWidget {
+  final VoidCallback onPressed;
+
+  const _NextPageButton({
+    required this.onPressed,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      child: const Text('次へ'),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.green,
+        foregroundColor: Colors.white,
       ),
     );
   }
