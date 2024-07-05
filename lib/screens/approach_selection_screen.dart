@@ -65,9 +65,9 @@ class _ApproachSelectionScreenState extends State<ApproachSelectionScreen> {
             children: [
               SizedBox(height: 100),
               _IconBuild(),
-              SizedBox(height: 40),
+              SizedBox(height: 25),
               _MainText(),
-              SizedBox(height: 40),
+              SizedBox(height: 25),
               _SelectApproach(
                 selectedMethod: selectedMethod,
                 firstOnTap: firstOnTap,

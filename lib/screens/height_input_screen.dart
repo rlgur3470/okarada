@@ -35,6 +35,7 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: _buildAppBar(context),
       body: SafeArea(
         child: Padding(

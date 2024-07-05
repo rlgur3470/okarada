@@ -60,9 +60,9 @@ class _ActivityLevelScreenState extends State<ActivityLevelScreen> {
                     height: 100,
                   ),
                   _IconBuild(),
-                  const SizedBox(height: 38.0),
+                  const SizedBox(height: 33.0),
                   _MainText(),
-                  const SizedBox(height: 58.0),
+                  const SizedBox(height: 34.0),
                   _OptionButton(
                     onFirstSelected: onFirstSelected,
                     onSecondSelected: onSecondSelected,
@@ -78,7 +78,7 @@ class _ActivityLevelScreenState extends State<ActivityLevelScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 70,),
+              Expanded(child: SizedBox()),
               _NextPageButton(
                 onPressed: onNextPageButtonPressed,
               ),
