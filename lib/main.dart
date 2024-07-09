@@ -10,6 +10,7 @@ import 'package:weight_control/screens/weight_input_screen.dart';
 import 'package:weight_control/screens/pace_selection_screen.dart';
 import 'package:weight_control/screens/approach_selection_screen.dart';
 import 'package:weight_control/screens/activity_level_screen.dart';
+import 'package:weight_control/screens/user_activity_level_screen.dart';
 
 
 void main() {
@@ -28,9 +29,9 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const SexScreen(),
+        '/': (context) => const NicknameScreen(),
+        '/sex': (context) => const SexScreen(),
         '/perpose': (context) => const PerposeScreen(),
-        '/nickname': (context) => const NicknameScreen(),
         '/birthday': (context) => const BirthdayScreen(),
         '/height-input': (context) => const HeightInputScreen(),
         '/user-weight': (context) => const UserWeightScreen(),
@@ -39,6 +40,8 @@ class MyApp extends StatelessWidget {
         '/pace-selection': (context) => const PaceSelectionScreen(),
         '/approach-selection': (context) => const ApproachSelectionScreen(),
         '/activity-level': (context) => const ActivityLevelScreen(),
+        '/user-activity-level': (context) => const UserActivityLevelScreen(),
+
       },
     );
   }

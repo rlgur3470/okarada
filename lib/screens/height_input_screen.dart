@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:weight_control/user_data_creator/User_Data_Creator.dart';
 import '../component/app_bar_design.dart';
 import 'user_weight_screen.dart'; // 다음 화면인 UserWeightScreen 임포트
 
@@ -13,6 +14,15 @@ class HeightInputScreen extends StatefulWidget {
 class _HeightInputScreenState extends State<HeightInputScreen> {
   final TextEditingController _controller = TextEditingController();
   bool _isButtonEnabled = false;
+
+  late UserValue userValue;
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    userValue = ModalRoute.of(context)!.settings.arguments as UserValue;
+  }
 
   @override
   void initState() {
@@ -39,9 +49,7 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
       appBar: _buildAppBar(context),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: 16.0
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -85,7 +93,6 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
     );
   }
 
-
   Widget _buildTitle() {
     return Align(
       alignment: Alignment.center,
@@ -96,18 +103,19 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
     );
   }
 
-  buttonOnPressed(){
-    _isButtonEnabled ? setState(() {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const UserWeightScreen(),
-        ),
+  buttonOnPressed() {
+    _isButtonEnabled
+        ? setState(() {
+      int userCurrentHeight = int.parse(_controller.text);
+      userValue = userValue.copyWith(height: userCurrentHeight);
+      Navigator.of(context).pushNamed('/user-weight',
+        arguments: userValue,
       );
-    }) : null;
+      print(
+          'nickname: ${userValue.nickname}, sex: ${userValue.sex}, age: ${userValue.age}, height: ${userValue.height}');
+    })
+        : null;
   }
-
-
 }
 
 class _buildIcon extends StatelessWidget {
@@ -145,25 +153,22 @@ class _buildIcon extends StatelessWidget {
 }
 
 class _UserHeightInputField extends StatelessWidget {
-
   final TextEditingController controller;
 
-  const _UserHeightInputField({
-    required this.controller,
-    super.key});
+  const _UserHeightInputField({required this.controller, super.key});
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Column(
         children: [
-        Align(
-        alignment: Alignment.center,
-        child: const Text(
-          'あなたの身長は ?',
-          style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),
-        ),
-      ),
+          Align(
+            alignment: Alignment.center,
+            child: const Text(
+              'あなたの身長は ?',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            ),
+          ),
           SizedBox(
             height: 120,
           ),
@@ -194,10 +199,7 @@ class _UserHeightInputField extends StatelessWidget {
                         borderSide: BorderSide(color: Colors.green, width: 2),
                       ),
                       hintText: '3桁で',
-                      hintStyle: TextStyle(
-                          fontSize: 15,
-                          height: 2
-                      ),
+                      hintStyle: TextStyle(fontSize: 15, height: 2),
                       counterText: '', // 글자 수 카운터 텍스트 제거
                     ),
                   ),
@@ -221,10 +223,8 @@ class _UserHeightInputField extends StatelessWidget {
 class _NextPageButton extends StatelessWidget {
   final VoidCallback onPressed;
   final bool isButtonEnabled;
-  const _NextPageButton({
-    required this.onPressed,
-    required this.isButtonEnabled,
-    super.key});
+  const _NextPageButton(
+      {required this.onPressed, required this.isButtonEnabled, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -240,6 +240,3 @@ class _NextPageButton extends StatelessWidget {
     );
   }
 }
-
-
-

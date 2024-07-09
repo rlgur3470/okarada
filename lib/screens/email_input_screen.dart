@@ -33,7 +33,7 @@ class _EmailInputScreenState extends State<EmailInputScreen> {
     setState(() {
       String email = _controller.text.trim();
       bool isValidEmail =
-          RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
+      RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
       _isButtonEnabled = email.isNotEmpty && isValidEmail;
     });
   }
@@ -79,7 +79,7 @@ class _EmailInputScreenState extends State<EmailInputScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SizedBox(
-                height:100
+                  height:100
               ),
               Icon(
                 Icons.mail,
@@ -100,8 +100,8 @@ class _EmailInputScreenState extends State<EmailInputScreen> {
               ElevatedButton(
                 onPressed: _isButtonEnabled
                     ? () {
-                        Navigator.pushNamed(context, '/weight-input');
-                      }
+                  Navigator.pushNamed(context, '/weight-input');
+                }
                     : null,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
@@ -127,10 +127,10 @@ class _EmailInput extends StatelessWidget {
 
   const _EmailInput(
       {required this.controller,
-      required this.subscribeToEmails,
-      required this.onChanged,
-      required this.onTap,
-      super.key});
+        required this.subscribeToEmails,
+        required this.onChanged,
+        required this.onTap,
+        super.key});
 
   @override
   Widget build(BuildContext context) {

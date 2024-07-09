@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:weight_control/user_data_creator/User_Data_Creator.dart';
 import '../component/app_bar_design.dart';
-import 'email_input_screen.dart';
 
 class UserWeightScreen extends StatefulWidget {
   const UserWeightScreen({super.key});
@@ -12,11 +12,19 @@ class UserWeightScreen extends StatefulWidget {
 class _UserWeightScreenState extends State<UserWeightScreen> {
   final TextEditingController _controller = TextEditingController();
   bool _isButtonEnabled = false;
+  late UserValue userValue;
 
   @override
   void initState() {
     super.initState();
     _controller.addListener(_checkButtonState);
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    userValue = ModalRoute.of(context)!.settings.arguments as UserValue;
   }
 
   @override
@@ -78,8 +86,13 @@ class _UserWeightScreenState extends State<UserWeightScreen> {
   moveToNextPage(){
     _isButtonEnabled
         ? setState(() {
-      Navigator.pushNamed(context, '/email-input');
-        })
+      int userCurrentWeight = int.parse(_controller.text);
+      userValue = userValue.copyWith(weight: userCurrentWeight);
+      Navigator.pushNamed(context, '/weight-input',
+        arguments: userValue,
+      );
+      print('nickname: ${userValue.nickname}, sex: ${userValue.sex}, age: ${userValue.age}, height: ${userValue.height}, weight: ${userValue.weight}');
+    })
         : null;
   }
 }

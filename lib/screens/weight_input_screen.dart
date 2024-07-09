@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
+import 'dart:ffi';
 
+import 'package:flutter/material.dart';
+import 'package:weight_control/user_data_creator/User_Data_Creator.dart';
 import '../component/app_bar_design.dart';
 
 class WeightInputScreen extends StatefulWidget {
@@ -10,17 +12,27 @@ class WeightInputScreen extends StatefulWidget {
 }
 
 class _WeightInputScreenState extends State<WeightInputScreen> {
+  final int initialWeight = 0;
   final TextEditingController _currentWeightController =
-      TextEditingController();
+  TextEditingController();
   final TextEditingController _goalWeightController = TextEditingController();
   bool _isCurrentButtonEnabled = false;
   bool _isGoalButtonEnabled = false;
+  late UserValue userValue;
 
   @override
   void initState() {
     super.initState();
     _goalWeightController.addListener(_checkGoalButtonState);
     _currentWeightController.addListener(_checkCurrentButtonState);
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    userValue = ModalRoute.of(context)!.settings.arguments as UserValue;
+    _currentWeightController.text = userValue.weight.toString();
   }
 
   @override
@@ -45,7 +57,6 @@ class _WeightInputScreenState extends State<WeightInputScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
@@ -68,32 +79,35 @@ class _WeightInputScreenState extends State<WeightInputScreen> {
           padding: const EdgeInsets.symmetric(
             horizontal: 16.0,
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(height: 100),
-              _IconField(),
-              const SizedBox(height: 50),
-              _TextField(),
-              const SizedBox(height: 24),
-              _WeightChange(
-                  currentController: _currentWeightController,
-                  goalWeightController: _goalWeightController),
-              SizedBox(
-                height: 70,
-              ),
-              _NextPagebutton(
-                onPressed: onNextButtonPressed,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      _isCurrentButtonEnabled && _isGoalButtonEnabled
-                          ? Colors.green
-                          : Colors.grey[300],
-                  foregroundColor: Colors.white,
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 100),
+                _IconField(),
+                const SizedBox(height: 50),
+                _TextField(),
+                const SizedBox(height: 24),
+                _WeightChange(
+                    currentController: _currentWeightController,
+                    goalWeightController: _goalWeightController),
+                SizedBox(
+                  height: 70,
                 ),
-              )
-            ],
+                _NextPagebutton(
+                  onPressed: onNextButtonPressed,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                    _isCurrentButtonEnabled && _isGoalButtonEnabled
+                        ? Colors.green
+                        : Colors.grey[300],
+                    foregroundColor: Colors.white,
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -103,8 +117,13 @@ class _WeightInputScreenState extends State<WeightInputScreen> {
   onNextButtonPressed() {
     _isCurrentButtonEnabled && _isGoalButtonEnabled
         ? setState(() {
-            Navigator.pushNamed(context, '/pace-selection');
-          })
+      int weightDifference = int.parse(_currentWeightController.text) - int.parse(_goalWeightController.text);
+      userValue = userValue.copyWith(weightDiffrence: weightDifference);
+      Navigator.pushNamed(context, '/activity-level',
+        arguments: userValue,
+      );
+      print('nickname: ${userValue.nickname}, sex: ${userValue.sex}, age: ${userValue.age}, height: ${userValue.height}, weight: ${userValue.weight}, weightDifference: ${userValue.weightDiffrence}');
+    })
         : null;
   }
 }
@@ -154,85 +173,83 @@ class _WeightChange extends StatelessWidget {
   final TextEditingController goalWeightController;
   const _WeightChange(
       {required this.currentController,
-      required this.goalWeightController,
-      super.key});
+        required this.goalWeightController,
+        super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Flexible(
-            child: Container(
-              width: 150,
-              height: 30,
-              child: TextField(
-                cursorColor: Colors.green,
-                cursorHeight: 20,
-                maxLength: 3,
-                controller: currentController,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 24),
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.green,
-                      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Flexible(
+          child: Container(
+            width: 150,
+            height: 30,
+            child: TextField(
+              cursorColor: Colors.green,
+              cursorHeight: 20,
+              maxLength: 3,
+              controller: currentController,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 24),
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.green,
                     ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.green, width: 2),
-                    ),
-                    border: InputBorder.none,
-                    suffixStyle: TextStyle(fontSize: 24),
-                    hintText: '今の体重',
-                    hintStyle: TextStyle(fontSize: 15, height: 2),
-                    counterText: ''),
-              ),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.green, width: 2),
+                  ),
+                  border: InputBorder.none,
+                  suffixStyle: TextStyle(fontSize: 24),
+                  hintText: '今の体重',
+                  hintStyle: TextStyle(fontSize: 15, height: 2),
+                  counterText: ''),
             ),
           ),
-          Text(
-            'KG',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
-          ),
-          const SizedBox(width: 10),
-          const Icon(Icons.arrow_forward, size: 36),
-          const SizedBox(width: 10),
-          Flexible(
-            child: Container(
-              width: 150,
-              height: 30,
-              child: TextField(
-                cursorColor: Colors.green,
-                cursorHeight: 20,
-                maxLength: 3,
-                controller: goalWeightController,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 24),
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.green,
-                      ),
+        ),
+        Text(
+          'KG',
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
+        ),
+        const SizedBox(width: 10),
+        const Icon(Icons.arrow_forward, size: 36),
+        const SizedBox(width: 10),
+        Flexible(
+          child: Container(
+            width: 150,
+            height: 30,
+            child: TextField(
+              cursorColor: Colors.green,
+              cursorHeight: 20,
+              maxLength: 3,
+              controller: goalWeightController,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 24),
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.green,
                     ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.green, width: 2),
-                    ),
-                    border: InputBorder.none,
-                    hintText: '目指せる体重',
-                    hintStyle: TextStyle(fontSize: 15, height: 2),
-                    counterText: ''),
-              ),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.green, width: 2),
+                  ),
+                  border: InputBorder.none,
+                  hintText: '目指せる体重',
+                  hintStyle: TextStyle(fontSize: 15, height: 2),
+                  counterText: ''),
             ),
           ),
-          Text(
-            'KG',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
-          ),
-        ],
-      ),
+        ),
+        Text(
+          'KG',
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
+        ),
+      ],
     );
   }
 }
