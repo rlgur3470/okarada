@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weight_control/user_data_creator/User_Data_Creator.dart';
 
 class ActivityLevelScreen extends StatefulWidget {
   const ActivityLevelScreen({super.key});
@@ -14,6 +15,15 @@ class _ActivityLevelScreenState extends State<ActivityLevelScreen> {
   final veryActive = 'veryActive';
   final extremelyActive = 'extremelyActive';
   String? state = '';
+
+  late UserValue userValue;
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    userValue = ModalRoute.of(context)!.settings.arguments as UserValue;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +45,8 @@ class _ActivityLevelScreenState extends State<ActivityLevelScreen> {
           TextButton(
             onPressed: state != null
                 ? () {
-                    // 다음 페이지로 이동하는 로직 추가
-                  }
+              // 다음 페이지로 이동하는 로직 추가
+            }
                 : null,
             child: Text(
               '次へ',
@@ -60,9 +70,9 @@ class _ActivityLevelScreenState extends State<ActivityLevelScreen> {
                     height: 100,
                   ),
                   _IconBuild(),
-                  const SizedBox(height: 38.0),
+                  const SizedBox(height: 33.0),
                   _MainText(),
-                  const SizedBox(height: 58.0),
+                  const SizedBox(height: 34.0),
                   _OptionButton(
                     onFirstSelected: onFirstSelected,
                     onSecondSelected: onSecondSelected,
@@ -78,7 +88,7 @@ class _ActivityLevelScreenState extends State<ActivityLevelScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 70,),
+              Expanded(child: SizedBox()),
               _NextPageButton(
                 onPressed: onNextPageButtonPressed,
               ),
@@ -120,7 +130,13 @@ class _ActivityLevelScreenState extends State<ActivityLevelScreen> {
   }
 
   onNextPageButtonPressed() {
-    state != null ? setState(() {}) : null;
+    state != null ? setState(() {
+      userValue = userValue.copyWith(activityLevel: state);
+      Navigator.of(context).pushNamed('/user-activity-level',
+        arguments: userValue,
+      );
+      print('nickname: ${userValue.nickname}, sex: ${userValue.sex}, age: ${userValue.age}, height: ${userValue.height}, weight: ${userValue.weight}, weightDifference: ${userValue.weightDiffrence}, activityLevel: ${userValue.activityLevel}');
+    }): null;
   }
 }
 
@@ -150,7 +166,7 @@ class _ActivityLevelOption extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
         ),
         backgroundColor:
-            currentState == stateValue ? Colors.green : Colors.white,
+        currentState == stateValue ? Colors.green : Colors.white,
         side: const BorderSide(color: Colors.green),
       ),
       child: Text(
@@ -210,17 +226,17 @@ class _OptionButton extends StatelessWidget {
 
   const _OptionButton(
       {required this.onFirstSelected,
-      required this.onSecondSelected,
-      required this.onThirdSelected,
-      required this.onFourthSelected,
-      required this.onFifthSelected,
-      required this.currentState,
-      required this.sedentary,
-      required this.lightActivity,
-      required this.moderateActivity,
-      required this.veryActive,
-      required this.extremelyActive,
-      super.key});
+        required this.onSecondSelected,
+        required this.onThirdSelected,
+        required this.onFourthSelected,
+        required this.onFifthSelected,
+        required this.currentState,
+        required this.sedentary,
+        required this.lightActivity,
+        required this.moderateActivity,
+        required this.veryActive,
+        required this.extremelyActive,
+        super.key});
 
   @override
   Widget build(BuildContext context) {

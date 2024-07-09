@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'birthday_screen.dart';
 import 'package:weight_control/component/app_bar_design.dart';
 import 'package:flutter/services.dart';
+import 'package:weight_control/user_data_creator/User_Data_Creator.dart';
 
 class NicknameScreen extends StatefulWidget {
   const NicknameScreen({super.key});
@@ -13,18 +13,33 @@ class NicknameScreen extends StatefulWidget {
 }
 
 class _NicknameScreenState extends State<NicknameScreen> {
+
+  UserValue userValue = UserValue(
+    sex: '',
+    purpose: '',
+    nickname: '',
+    age: 0,
+    weight: 0,
+    height: 0,
+    userEmail: '',
+    weightDiffrence: 0,
+    activityLevel: '',
+  );
+
   final TextEditingController _controller = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _controller.addListener(() => setState(() {}));
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
         title: ProgressBarStateStyle(
           progress: 0.24,
         ),
@@ -48,13 +63,35 @@ class _NicknameScreenState extends State<NicknameScreen> {
                 Expanded(
                   child: _TextInput(controller: _controller),
                 ),
-                _NextPageButton(controller: _controller),
+                _NextPageButton(
+                  onPressed: onNextPageButtonPressed,
+                  controller: _controller,
+                  backColor: _controller.text.isNotEmpty ? Colors.green : Colors.grey[300]!,
+                  foreColor: Colors.white,
+                ),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  onNextPageButtonPressed(){
+    if (_controller.text.isNotEmpty) {
+      userValue = userValue.copyWith(nickname: _controller.text);
+      Navigator.of(context).pushNamed('/sex',
+        arguments: userValue,
+      );
+
+      print('nickname:${userValue.nickname}');
+    }
+  }
+
+  backColorSettings(){
+    setState(() {
+      _controller.text.isNotEmpty ? Colors.green : Colors.grey[300];
+    });
   }
 }
 
@@ -92,49 +129,49 @@ class _TextInput extends StatelessWidget {
           ),
           const SizedBox(height: 50),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 30),
-                    child: Container(
-                      height: 30,
-                      width: 150,
-                      child: TextField(
-                        textAlign: TextAlign.center,
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(10),
-                        ],
-                        cursorColor: Colors.green,
-                        cursorHeight: 20,
-                        controller: controller,
-                        decoration: const InputDecoration(
-                          hintText: '10文字以内',
-                          hintStyle: TextStyle(
-                            fontSize: 18,
-                            height: 1.8
-                          ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.green),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.green, width: 2)
-                          ),
-                        ),
-                        style: TextStyle(fontSize: 25),
-
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 30),
+                child: Container(
+                  height: 30,
+                  width: 150,
+                  child: TextField(
+                    textAlign: TextAlign.center,
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(10),
+                    ],
+                    cursorColor: Colors.green,
+                    cursorHeight: 20,
+                    controller: controller,
+                    decoration: const InputDecoration(
+                      hintText: '10文字以内',
+                      hintStyle: TextStyle(
+                          fontSize: 18,
+                          height: 1.8
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.green),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.green, width: 2)
                       ),
                     ),
+                    style: TextStyle(fontSize: 25),
+
                   ),
-                  Text(
-                    '様',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 25,
-                    ),
-                  ),
-                ],
+                ),
               ),
+              Text(
+                '様',
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 25,
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -142,9 +179,17 @@ class _TextInput extends StatelessWidget {
 }
 
 class _NextPageButton extends StatelessWidget {
+  final VoidCallback onPressed;
   final TextEditingController controller;
+  final Color backColor;
+  final Color foreColor;
 
-  const _NextPageButton({required this.controller, super.key});
+  const _NextPageButton({
+    required this.onPressed,
+    required this.controller, super.key,
+    required this.backColor,
+    required this.foreColor,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -152,18 +197,11 @@ class _NextPageButton extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         ElevatedButton(
-          onPressed: () {
-            if (controller.text.isNotEmpty) {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (BuildContext context) {
-                  return const BirthdayScreen();
-                }),
-              );
-            }
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.green,
-            foregroundColor: Colors.white,
+          onPressed: onPressed,
+          style:
+          ElevatedButton.styleFrom(
+            backgroundColor: backColor,
+            foregroundColor: foreColor,
           ),
           child: const Text(
             '次へ',

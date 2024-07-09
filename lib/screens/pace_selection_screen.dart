@@ -74,9 +74,9 @@ class _PaceSelectionScreenState extends State<PaceSelectionScreen> {
   }
 
   onNextPageButtonPressed(){
-      setState(() {
-        Navigator.pushNamed(context, '/approach-selection');
-      });
+    setState(() {
+      Navigator.pushNamed(context, '/approach-selection');
+    });
   }
 }
 
@@ -113,9 +113,9 @@ class _SelectPlanButton extends StatelessWidget {
 
   const _SelectPlanButton(
       {required this.isRecommendedSelected,
-      required this.onFirstTap,
-      required this.onSecondTap,
-      super.key});
+        required this.onFirstTap,
+        required this.onSecondTap,
+        super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +124,7 @@ class _SelectPlanButton extends StatelessWidget {
         GestureDetector(
           onTap: onFirstTap,
           child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 10),
+            padding: const EdgeInsets.symmetric(vertical: 9),
             margin: const EdgeInsets.symmetric(vertical: 5),
             width: double.infinity,
             height: 70,
@@ -155,7 +155,7 @@ class _SelectPlanButton extends StatelessWidget {
         GestureDetector(
           onTap: onSecondTap,
           child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 10),
+            padding: const EdgeInsets.symmetric(vertical: 9),
             margin: const EdgeInsets.symmetric(vertical: 5),
             width: double.infinity,
             height: 70,

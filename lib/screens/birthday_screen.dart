@@ -1,16 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:weight_control/component/app_bar_design.dart';
+import 'package:weight_control/user_data_creator/User_Data_Creator.dart';
 
 class BirthdayScreen extends StatefulWidget {
   const BirthdayScreen({super.key});
+
 
   @override
   State<BirthdayScreen> createState() => _BirthdayScreenState();
 }
 
+
 class _BirthdayScreenState extends State<BirthdayScreen> {
   DateTime selectedDate = DateTime(2000, 01, 01);
+  late UserValue userValue;
+
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    userValue  = ModalRoute.of(context)!.settings.arguments as UserValue;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,13 +65,47 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
                         selectedDate = date;
                       });
                     }),
-                const _NextPageButton(),
+                _NextPageButton(
+                  onPressed: NextPageButtonPressed,
+                ),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  int calculateAge(DateTime birthDate){
+    DateTime currentDate = DateTime.now();
+    int age = currentDate.year - birthDate.year;
+    int month1 = currentDate.month;
+    int month2 = birthDate.month;
+
+    if(month2 > month1){
+      age--;
+    }
+    else if (month1 == month2)
+    {
+      int day1 = currentDate.day;
+      int day2 = birthDate.day;
+      if(day2 > day1){
+        age--;
+      }
+    }
+    return age;
+  }
+
+  NextPageButtonPressed(){
+    int myAge = calculateAge(selectedDate);
+    userValue = userValue.copyWith(age: myAge);
+    setState(() {
+      Navigator.pushNamed(context, '/height-input',
+        arguments: userValue,
+      );
+
+      print('nickname: ${userValue.nickname}, sex: ${userValue.sex}, age: ${userValue.age}');
+    });
   }
 }
 
@@ -165,7 +211,10 @@ class _BirthdayPicker extends StatelessWidget {
 }
 
 class _NextPageButton extends StatelessWidget {
-  const _NextPageButton({super.key});
+  final VoidCallback onPressed;
+  const _NextPageButton({
+    required this.onPressed,
+    super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -173,9 +222,7 @@ class _NextPageButton extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         ElevatedButton(
-          onPressed: () {
-            Navigator.pushNamed(context, '/height-input');
-          },
+          onPressed: onPressed,
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.green,
             foregroundColor: Colors.white,

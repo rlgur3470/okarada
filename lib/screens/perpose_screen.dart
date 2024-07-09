@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'nickname_screen.dart';
 import 'package:weight_control/component/app_bar_design.dart';
+import 'package:weight_control/user_data_creator/User_Data_Creator.dart';
 
 class PerposeScreen extends StatefulWidget {
   const PerposeScreen({super.key});
@@ -10,6 +10,22 @@ class PerposeScreen extends StatefulWidget {
 }
 
 class _PerposeScreenState extends State<PerposeScreen> {
+  final diet = 'diet';
+  final makeBody = 'makebody';
+  final healthCare = 'healthcare';
+  final notIncluded = 'notincluded';
+  String? state;
+
+  late UserValue userValue;
+
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    userValue = ModalRoute.of(context)!.settings.arguments as UserValue;
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,13 +58,19 @@ class _PerposeScreenState extends State<PerposeScreen> {
                 const SizedBox(height: 20.0),
                 const _TargetIcon(),
                 const _WeightText(),
-                const _SelectIcon(),
+                _SelectIcon(
+                  diet: diet,
+                  makeBody: makeBody,
+                  healthCare: healthCare,
+                  notIncluded: notIncluded,
+                  state: state,
+                  onDietPressed: onDietButtonPressed,
+                  onMakeBodyPressed: onMakeBodyButtonPressed,
+                  onHealthCarePressed: onHealthCareButtonPressed,
+                  onNotIncludedPressed: onNotIncludedButtonPressed,
+                ),
                 _NextPageButton(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                        const NicknameScreen()));
-                  },
+                    onPressed: onNextPageButtonPressed
                 )
               ],
             ),
@@ -57,7 +79,41 @@ class _PerposeScreenState extends State<PerposeScreen> {
       ),
     );
   }
+
+  onDietButtonPressed(){
+    setState(() {
+      state = diet;
+    });
+  }
+  onMakeBodyButtonPressed(){
+    setState(() {
+      state = makeBody;
+    });
+  }
+
+  onHealthCareButtonPressed(){
+    setState(() {
+      state = healthCare;
+    });
+  }
+  onNotIncludedButtonPressed(){
+    setState(() {
+      state = notIncluded;
+    });
+  }
+
+  onNextPageButtonPressed(){
+    userValue = userValue.copyWith(purpose: state);
+
+    Navigator.of(context).pushNamed(
+      '/nickname',
+      arguments: userValue,
+    );
+
+    print('sex:${userValue.sex},purpose:${userValue.purpose}');
+  }
 }
+
 
 class _TargetIcon extends StatelessWidget {
   const _TargetIcon({super.key});
@@ -88,19 +144,28 @@ class _WeightText extends StatelessWidget {
   }
 }
 
-class _SelectIcon extends StatefulWidget {
-  const _SelectIcon({super.key});
-
-  @override
-  State<_SelectIcon> createState() => _SelectIconState();
-}
-
-class _SelectIconState extends State<_SelectIcon> {
-  final diet = 'diet';
-  final makeBody = 'makebody';
-  final healthCare = 'healthcare';
-  final notIncluded = 'notincluded';
+class _SelectIcon extends StatelessWidget {
+  final String? diet;
+  final String? makeBody;
+  final String? healthCare;
+  final String? notIncluded;
   String? state;
+  final VoidCallback onDietPressed;
+  final VoidCallback onMakeBodyPressed;
+  final VoidCallback onHealthCarePressed;
+  final VoidCallback onNotIncludedPressed;
+
+  _SelectIcon(
+      {required this.diet,
+        required this.makeBody,
+        required this.healthCare,
+        required this.notIncluded,
+        required this.state,
+        required this.onDietPressed,
+        required this.onMakeBodyPressed,
+        required this.onHealthCarePressed,
+        required this.onNotIncludedPressed,
+        super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -111,17 +176,12 @@ class _SelectIconState extends State<_SelectIcon> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             OutlinedButton(
-              onPressed: () {
-                setState(() {
-                  state = diet;
-                });
-              },
+              onPressed: onDietPressed,
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size(150, 150),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(40)),
-                backgroundColor:
-                state == diet ? Colors.green : Colors.white,
+                backgroundColor: state == diet ? Colors.green : Colors.white,
                 side: const BorderSide(color: Colors.green),
               ),
               child: Column(
@@ -134,11 +194,9 @@ class _SelectIconState extends State<_SelectIcon> {
                   Text(
                     'ダイエット',
                     style: TextStyle(
-                        color:
-                        state == diet ? Colors.white : Colors.green,
+                        color: state == diet ? Colors.white : Colors.green,
                         fontSize: 15,
-                        fontWeight: FontWeight.w600
-                    ),
+                        fontWeight: FontWeight.w600),
                   ),
                 ],
               ),
@@ -147,11 +205,7 @@ class _SelectIconState extends State<_SelectIcon> {
               width: 40.0,
             ),
             OutlinedButton(
-              onPressed: () {
-                setState(() {
-                  state = makeBody;
-                });
-              },
+              onPressed: onMakeBodyPressed,
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size(150, 150),
                 shape: RoundedRectangleBorder(
@@ -162,20 +216,15 @@ class _SelectIconState extends State<_SelectIcon> {
               ),
               child: Column(
                 children: [
-                  Icon(
-                      Icons.settings_accessibility,
-                      color:
-                      state == makeBody ? Colors.white : Colors.green, size: 50
-                  ),
+                  Icon(Icons.settings_accessibility,
+                      color: state == makeBody ? Colors.white : Colors.green,
+                      size: 50),
                   Text(
                     'ボディメイク',
                     style: TextStyle(
-                        color: state == makeBody
-                            ? Colors.white
-                            : Colors.green,
+                        color: state == makeBody ? Colors.white : Colors.green,
                         fontSize: 15,
-                        fontWeight: FontWeight.w600
-                    ),
+                        fontWeight: FontWeight.w600),
                   ),
                 ],
               ),
@@ -189,11 +238,7 @@ class _SelectIconState extends State<_SelectIcon> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             OutlinedButton(
-              onPressed: () {
-                setState(() {
-                  state = healthCare;
-                });
-              },
+              onPressed: onHealthCarePressed,
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size(150, 150),
                 shape: RoundedRectangleBorder(
@@ -204,22 +249,16 @@ class _SelectIconState extends State<_SelectIcon> {
               ),
               child: Column(
                 children: [
-                  Icon(
-                      Icons.health_and_safety,
-                      color: state == healthCare
-                          ? Colors.white
-                          : Colors.green,
-                      size: 50
-                  ),
+                  Icon(Icons.health_and_safety,
+                      color: state == healthCare ? Colors.white : Colors.green,
+                      size: 50),
                   Text(
                     '健康管理',
                     style: TextStyle(
-                        color: state == healthCare
-                            ? Colors.white
-                            : Colors.green,
+                        color:
+                        state == healthCare ? Colors.white : Colors.green,
                         fontSize: 16,
-                        fontWeight: FontWeight.w400
-                    ),
+                        fontWeight: FontWeight.w400),
                   ),
                 ],
               ),
@@ -228,11 +267,7 @@ class _SelectIconState extends State<_SelectIcon> {
               width: 40.0,
             ),
             OutlinedButton(
-              onPressed: () {
-                setState(() {
-                  state = notIncluded;
-                });
-              },
+              onPressed: onNotIncludedPressed,
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size(150, 150),
                 shape: RoundedRectangleBorder(
@@ -243,22 +278,16 @@ class _SelectIconState extends State<_SelectIcon> {
               ),
               child: Column(
                 children: [
-                  Icon(
-                      Icons.interests,
-                      color: state == notIncluded
-                          ? Colors.white
-                          : Colors.green,
-                      size: 50
-                  ),
+                  Icon(Icons.interests,
+                      color: state == notIncluded ? Colors.white : Colors.green,
+                      size: 50),
                   Text(
                     'その他',
                     style: TextStyle(
-                        color: state == notIncluded
-                            ? Colors.white
-                            : Colors.green,
+                        color:
+                        state == notIncluded ? Colors.white : Colors.green,
                         fontSize: 16,
-                        fontWeight: FontWeight.w400
-                    ),
+                        fontWeight: FontWeight.w400),
                   ),
                 ],
               ),
@@ -272,9 +301,7 @@ class _SelectIconState extends State<_SelectIcon> {
 
 class _NextPageButton extends StatelessWidget {
   final VoidCallback onPressed;
-  const _NextPageButton({
-    required this.onPressed,
-    super.key});
+  const _NextPageButton({required this.onPressed, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -282,9 +309,7 @@ class _NextPageButton extends StatelessWidget {
         onPressed: onPressed,
         child: const Text(
           '次へ',
-          style: TextStyle(
-            fontSize: 18
-          ),
+          style: TextStyle(fontSize: 18),
         ),
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.green,
