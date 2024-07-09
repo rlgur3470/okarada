@@ -74,9 +74,9 @@ class _PaceSelectionScreenState extends State<PaceSelectionScreen> {
   }
 
   onNextPageButtonPressed(){
-      setState(() {
-        Navigator.pushNamed(context, '/approach-selection');
-      });
+    setState(() {
+      Navigator.pushNamed(context, '/approach-selection');
+    });
   }
 }
 
@@ -113,9 +113,9 @@ class _SelectPlanButton extends StatelessWidget {
 
   const _SelectPlanButton(
       {required this.isRecommendedSelected,
-      required this.onFirstTap,
-      required this.onSecondTap,
-      super.key});
+        required this.onFirstTap,
+        required this.onSecondTap,
+        super.key});
 
   @override
   Widget build(BuildContext context) {

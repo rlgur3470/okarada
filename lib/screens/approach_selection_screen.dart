@@ -148,10 +148,10 @@ class _SelectApproach extends StatelessWidget {
   final VoidCallback thirdOnTap;
   const _SelectApproach(
       {required this.selectedMethod,
-      required this.firstOnTap,
-      required this.secondOnTap,
-      required this.thirdOnTap,
-      super.key});
+        required this.firstOnTap,
+        required this.secondOnTap,
+        required this.thirdOnTap,
+        super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -166,7 +166,7 @@ class _SelectApproach extends StatelessWidget {
             height: 70,
             decoration: BoxDecoration(
               color:
-                  selectedMethod == "diet" ? Colors.green[100] : Colors.white,
+              selectedMethod == "diet" ? Colors.green[100] : Colors.white,
               borderRadius: BorderRadius.circular(30.0),
               border: Border.all(
                 color: Colors.green,
@@ -245,9 +245,9 @@ class _ResultKcal extends StatelessWidget {
   final Map<String, int> calorieBurn;
   const _ResultKcal(
       {required this.selectedMethod,
-      required this.calorieIntake,
-      required this.calorieBurn,
-      super.key});
+        required this.calorieIntake,
+        required this.calorieBurn,
+        super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../component/app_bar_design.dart';
-import 'perpose_screen.dart';
+import 'package:weight_control/user_data_creator/User_Data_Creator.dart';
 
 class SexScreen extends StatefulWidget {
   const SexScreen({super.key});
@@ -10,6 +10,18 @@ class SexScreen extends StatefulWidget {
 }
 
 class _SexScreenState extends State<SexScreen> {
+  String selectedGender = '';
+  String male = 'male';
+  String female = 'female';
+  late UserValue userValue;
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    userValue = ModalRoute.of(context)!.settings.arguments as UserValue;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +53,7 @@ class _SexScreenState extends State<SexScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Expanded(
+                Expanded(
                   child: Column(
                     children: [
                       SizedBox(height: 80),
@@ -49,17 +61,50 @@ class _SexScreenState extends State<SexScreen> {
                       SizedBox(height: 40),
                       _BodyText(),
                       SizedBox(height: 100),
-                      _IconSelect(),
+                      _IconSelect(
+                        onMalePressed: onMaleButtonPressed,
+                        onFemalePressed: onFemaleButtonPressed,
+                        male: male,
+                        female: female,
+                        selectedGender: selectedGender,
+                      ),
                     ],
                   ),
                 ),
-                const _NextPageButton(),
+                _NextPageButton(
+                  onPressed: onNextButtonPressed,
+                ),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  onMaleButtonPressed() {
+    setState(() {
+      selectedGender = male;
+    });
+  }
+
+  onFemaleButtonPressed() {
+    setState(() {
+      selectedGender = female;
+    });
+  }
+
+  onNextButtonPressed() {
+    setState(() {
+      userValue = userValue.copyWith(sex: selectedGender);
+
+      Navigator.of(context).pushNamed(
+        '/birthday',
+        arguments: userValue,
+      );
+
+      print('name: ${userValue.nickname}, sex: ${userValue.sex}');
+    });
   }
 }
 
@@ -103,17 +148,20 @@ class _BodyText extends StatelessWidget {
   }
 }
 
-class _IconSelect extends StatefulWidget {
-  const _IconSelect({super.key});
+class _IconSelect extends StatelessWidget {
+  final VoidCallback onMalePressed;
+  final VoidCallback onFemalePressed;
+  final String male;
+  final String female;
+  final String selectedGender;
 
-  @override
-  State<_IconSelect> createState() => _IconSelectState();
-}
-
-class _IconSelectState extends State<_IconSelect> {
-  String? _selectedGender;
-  String male = 'male';
-  String female = 'female';
+  const _IconSelect(
+      {required this.onMalePressed,
+        required this.onFemalePressed,
+        required this.male,
+        required this.female,
+        required this.selectedGender,
+        super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -121,29 +169,25 @@ class _IconSelectState extends State<_IconSelect> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         OutlinedButton(
-          onPressed: () {
-            setState(() {
-              _selectedGender = male;
-            });
-          },
+          onPressed: onMalePressed,
           style: OutlinedButton.styleFrom(
             minimumSize: const Size(150, 150),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(40.0)),
             backgroundColor:
-                _selectedGender == male ? Colors.green : Colors.white,
+            selectedGender == male ? Colors.green : Colors.white,
             side: const BorderSide(color: Colors.green),
           ),
           child: Column(
             children: [
               Icon(
                 Icons.male,
-                color: _selectedGender == male ? Colors.white : Colors.green,
+                color: selectedGender == male ? Colors.white : Colors.green,
               ),
               Text(
                 '男性',
                 style: TextStyle(
-                  color: _selectedGender == male ? Colors.white : Colors.green,
+                  color: selectedGender == male ? Colors.white : Colors.green,
                 ),
               ),
             ],
@@ -151,30 +195,25 @@ class _IconSelectState extends State<_IconSelect> {
         ),
         const SizedBox(width: 40),
         OutlinedButton(
-          onPressed: () {
-            setState(() {
-              _selectedGender = female;
-            });
-          },
+          onPressed: onFemalePressed,
           style: OutlinedButton.styleFrom(
             minimumSize: const Size(150, 150),
             shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
             backgroundColor:
-                _selectedGender == female ? Colors.green : Colors.white,
+            selectedGender == female ? Colors.green : Colors.white,
             side: const BorderSide(color: Colors.green),
           ),
           child: Column(
             children: [
               Icon(
                 Icons.female,
-                color: _selectedGender == female ? Colors.white : Colors.green,
+                color: selectedGender == female ? Colors.white : Colors.green,
               ),
               Text(
                 '女性',
                 style: TextStyle(
-                  color:
-                      _selectedGender == female ? Colors.white : Colors.green,
+                  color: selectedGender == female ? Colors.white : Colors.green,
                 ),
               ),
             ],
@@ -185,27 +224,17 @@ class _IconSelectState extends State<_IconSelect> {
   }
 }
 
-class _NextPageButton extends StatefulWidget {
-  const _NextPageButton({super.key});
+class _NextPageButton extends StatelessWidget {
+  final VoidCallback onPressed;
+  const _NextPageButton({required this.onPressed, super.key});
 
-  @override
-  State<_NextPageButton> createState() => _NextPageButtonState();
-}
-
-class _NextPageButtonState extends State<_NextPageButton> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
-        setState(() {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (BuildContext context) => const PerposeScreen()));
-        });
-      },
-      child: const Text('次へ',
-      style: TextStyle(
-        fontSize: 18
-      ),
+      onPressed: onPressed,
+      child: const Text(
+        '次へ',
+        style: TextStyle(fontSize: 18),
       ),
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.green,
