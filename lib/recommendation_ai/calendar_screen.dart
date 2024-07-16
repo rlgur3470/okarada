@@ -19,10 +19,8 @@ class CalendarScreen extends StatefulWidget {
 class _CalendarScreenState extends State<CalendarScreen> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
-  late Map<String, Map<String, Map<String, List<Map<String, dynamic>>>>>
-  savedMeals;
-  final Map<String, Map<String, List<Map<String, dynamic>>>> foodDatabase =
-  const {
+  late Map<String, Map<String, Map<String, List<Map<String, dynamic>>>>> savedMeals;
+  final Map<String, Map<String, List<Map<String, dynamic>>>> foodDatabase = const {
     '韓国料理': {
       '밥류': [
         {'food_name': 'クッパ', 'calories': 343.9},
@@ -329,6 +327,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       ],
     },
   };
+
   Set<String> selectedFoods = {};
 
   @override
@@ -356,18 +355,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   Map<String, List<Map<String, dynamic>>> _generateMealForTime(int calories) {
     Map<String, List<Map<String, dynamic>>> mealPlan = {
-      '밥류': _getMealsForCalories(calories ~/ 5, '밥류', 1),
+      '밥류': _getMealsForCalories(calories ~/ 5, '밥류', 1, ensureOne: true),
       '국류': _getMealsForCalories(calories ~/ 5, '국류', 1),
       '메인': _getMealsForCalories(calories ~/ 5, '메인', 1),
       '서브': _getMealsForCalories(calories ~/ 5 * 2, '서브', 2),
       '간식': _getMealsForCalories(calories ~/ 5, '간식', 1),
     };
-
-    // 한식과 일식의 경우 밥류가 반드시 1개 나오도록 수정
-    if (['韓国料理', '和食'].contains(widget.selectedCuisine) &&
-        (mealPlan['밥류']?.isEmpty ?? true)) {
-      mealPlan['밥류'] = _getMealsForCalories(calories ~/ 5, '밥류', 1, ensureOne: true);
-    }
 
     return mealPlan;
   }
@@ -397,7 +390,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       Map<String, dynamic> meal = cuisineMeals[randomIndex];
       int mealCalories = (meal['calories'] as num).toInt();
       if (!selectedFoods.contains(meal['food_name']) &&
-          totalCalories + mealCalories <= calories - 50) {
+          totalCalories + mealCalories <= calories - 30) {
         selectedMeals.add(meal);
         totalCalories += mealCalories;
         selectedFoods.add(meal['food_name']);
@@ -407,7 +400,45 @@ class _CalendarScreenState extends State<CalendarScreen> {
       }
     }
 
+    // 부족한 칼로리를 서브와 간식에서 채우기
+    if (totalCalories < calories - 30) {
+      int remainingCalories = calories - totalCalories;
+      selectedMeals.addAll(_getAdditionalMealsForCalories(
+          remainingCalories, '서브'));
+      if (totalCalories < calories - 30) {
+        remainingCalories = calories - totalCalories;
+        selectedMeals.addAll(_getAdditionalMealsForCalories(
+            remainingCalories, '간식'));
+      }
+    }
+
     return selectedMeals;
+  }
+
+  List<Map<String, dynamic>> _getAdditionalMealsForCalories(
+      int calories, String category) {
+    List<Map<String, dynamic>> additionalMeals = [];
+    List<Map<String, dynamic>> categoryMeals =
+    List.from(foodDatabase[widget.selectedCuisine]?[category] ?? []);
+    int totalCalories = 0;
+    Random random = Random();
+
+    while (categoryMeals.isNotEmpty && totalCalories < calories) {
+      int randomIndex = random.nextInt(categoryMeals.length);
+      Map<String, dynamic> meal = categoryMeals[randomIndex];
+      int mealCalories = (meal['calories'] as num).toInt();
+      if (!selectedFoods.contains(meal['food_name']) &&
+          totalCalories + mealCalories <= calories - 30) {
+        additionalMeals.add(meal);
+        totalCalories += mealCalories;
+        selectedFoods.add(meal['food_name']);
+        categoryMeals.removeAt(randomIndex);
+      } else {
+        categoryMeals.removeAt(randomIndex);
+      }
+    }
+
+    return additionalMeals;
   }
 
   @override

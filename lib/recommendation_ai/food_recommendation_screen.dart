@@ -379,7 +379,7 @@ class _FoodRecommendationScreenState extends State<FoodRecommendationScreen> {
         int randomIndex = random.nextInt(cuisineMeals.length);
         Map<String, dynamic> meal = cuisineMeals[randomIndex];
         int mealCalories = (meal['calories'] as num).toInt();
-        if (totalCalories + mealCalories <= calories - 50) {
+        if (totalCalories + mealCalories <= calories) {
           selectedMeals.add(meal);
           totalCalories += mealCalories;
           selectedFoods.add(meal['food_name']);
@@ -396,7 +396,7 @@ class _FoodRecommendationScreenState extends State<FoodRecommendationScreen> {
       Map<String, dynamic> meal = sideDishes[randomIndex];
       int mealCalories = (meal['calories'] as num).toInt();
       if (!selectedFoods.contains(meal['food_name']) &&
-          totalCalories + mealCalories <= calories - 50) {
+          totalCalories + mealCalories <= calories) {
         selectedMeals.add(meal);
         totalCalories += mealCalories;
         selectedFoods.add(meal['food_name']);
@@ -413,11 +413,27 @@ class _FoodRecommendationScreenState extends State<FoodRecommendationScreen> {
       int randomIndex = random.nextInt(snacks.length);
       Map<String, dynamic> meal = snacks[randomIndex];
       int mealCalories = (meal['calories'] as num).toInt();
-      if (totalCalories + mealCalories <= calories - 50) {
+      if (totalCalories + mealCalories <= calories) {
         selectedMeals.add(meal);
         totalCalories += mealCalories;
         selectedFoods.add(meal['food_name']);
         snacks.removeAt(randomIndex);
+      }
+    }
+
+    // 전체 칼로리가 목표 칼로리보다 적을 경우, 서브리스트에서 추가 선택
+    while (totalCalories < calories && sideDishes.isNotEmpty) {
+      int randomIndex = random.nextInt(sideDishes.length);
+      Map<String, dynamic> meal = sideDishes[randomIndex];
+      int mealCalories = (meal['calories'] as num).toInt();
+      if (!selectedFoods.contains(meal['food_name']) &&
+          totalCalories + mealCalories <= calories) {
+        selectedMeals.add(meal);
+        totalCalories += mealCalories;
+        selectedFoods.add(meal['food_name']);
+        sideDishes.removeAt(randomIndex);
+      } else {
+        sideDishes.removeAt(randomIndex);
       }
     }
 
