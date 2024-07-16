@@ -71,9 +71,6 @@ class _SexScreenState extends State<SexScreen> {
                     ],
                   ),
                 ),
-                _NextPageButton(
-                  onPressed: onNextButtonPressed,
-                ),
               ],
             ),
           ),
@@ -85,19 +82,22 @@ class _SexScreenState extends State<SexScreen> {
   onMaleButtonPressed() {
     setState(() {
       selectedGender = male;
+      userValue = userValue.copyWith(sex: selectedGender);
+
+      Navigator.of(context).pushNamed(
+        '/birthday',
+        arguments: userValue,
+      );
+
+      print('name: ${userValue.nickname}, sex: ${userValue.sex}');
+
     });
   }
 
   onFemaleButtonPressed() {
     setState(() {
       selectedGender = female;
-    });
-  }
-
-  onNextButtonPressed() {
-    setState(() {
       userValue = userValue.copyWith(sex: selectedGender);
-
       Navigator.of(context).pushNamed(
         '/birthday',
         arguments: userValue,
@@ -220,26 +220,6 @@ class _IconSelect extends StatelessWidget {
           ),
         )
       ],
-    );
-  }
-}
-
-class _NextPageButton extends StatelessWidget {
-  final VoidCallback onPressed;
-  const _NextPageButton({required this.onPressed, super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      child: const Text(
-        '次へ',
-        style: TextStyle(fontSize: 18),
-      ),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.green,
-        foregroundColor: Colors.white,
-      ),
     );
   }
 }
