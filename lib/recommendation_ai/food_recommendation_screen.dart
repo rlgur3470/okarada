@@ -101,9 +101,9 @@ class _FoodRecommendationScreenState extends State<FoodRecommendationScreen> {
     },
     '和食': {
       '밥류': [
-        {'food_name': 'カレーライス', 'calories': 954},
-        {'food_name': '牛丼', 'calories': 909},
-        {'food_name': 'かつどん', 'calories': 893},
+        {'food_name': 'カレーライス', 'calories': 477},
+        {'food_name': '牛丼', 'calories': 454.4},
+        {'food_name': 'かつどん', 'calories': 446.5},
         {'food_name': 'ごはん1杯', 'calories': 252},
         {'food_name': 'おにぎり2個', 'calories': 342},
         {'food_name': '栗ごはん', 'calories': 326},
