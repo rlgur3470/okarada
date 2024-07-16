@@ -362,6 +362,20 @@ class _CalendarScreenState extends State<CalendarScreen> {
       '간식': _getMealsForCalories(calories ~/ 5, '간식', 1),
     };
 
+    int totalCalories = mealPlan.values
+        .expand((meals) => meals)
+        .map((meal) => meal['calories'] as num)
+        .reduce((a, b) => a + b)
+        .toInt();
+
+    while (totalCalories < calories - 20) {
+      Map<String, dynamic> additionalMeal = _getAdditionalMealsForCalories(calories - totalCalories);
+      if (additionalMeal.isEmpty) break;
+      String category = additionalMeal['category'];
+      mealPlan[category]!.add(additionalMeal);
+      totalCalories += additionalMeal['calories'] as int;
+    }
+
     return mealPlan;
   }
 
@@ -400,45 +414,28 @@ class _CalendarScreenState extends State<CalendarScreen> {
       }
     }
 
-    // 부족한 칼로리를 서브와 간식에서 채우기
-    if (totalCalories < calories - 30) {
-      int remainingCalories = calories - totalCalories;
-      selectedMeals.addAll(_getAdditionalMealsForCalories(
-          remainingCalories, '서브'));
-      if (totalCalories < calories - 30) {
-        remainingCalories = calories - totalCalories;
-        selectedMeals.addAll(_getAdditionalMealsForCalories(
-            remainingCalories, '간식'));
-      }
-    }
-
     return selectedMeals;
   }
 
-  List<Map<String, dynamic>> _getAdditionalMealsForCalories(
-      int calories, String category) {
-    List<Map<String, dynamic>> additionalMeals = [];
-    List<Map<String, dynamic>> categoryMeals =
-    List.from(foodDatabase[widget.selectedCuisine]?[category] ?? []);
-    int totalCalories = 0;
+  Map<String, dynamic> _getAdditionalMealsForCalories(int calories) {
     Random random = Random();
+    List<Map<String, dynamic>> potentialMeals = foodDatabase[widget.selectedCuisine]!
+        .values
+        .expand((meals) => meals)
+        .where((meal) => !selectedFoods.contains(meal['food_name']))
+        .toList();
+    if (potentialMeals.isEmpty) return {};
 
-    while (categoryMeals.isNotEmpty && totalCalories < calories) {
-      int randomIndex = random.nextInt(categoryMeals.length);
-      Map<String, dynamic> meal = categoryMeals[randomIndex];
-      int mealCalories = (meal['calories'] as num).toInt();
-      if (!selectedFoods.contains(meal['food_name']) &&
-          totalCalories + mealCalories <= calories - 30) {
-        additionalMeals.add(meal);
-        totalCalories += mealCalories;
-        selectedFoods.add(meal['food_name']);
-        categoryMeals.removeAt(randomIndex);
-      } else {
-        categoryMeals.removeAt(randomIndex);
-      }
-    }
+    Map<String, dynamic> selectedMeal = potentialMeals[random.nextInt(potentialMeals.length)];
+    selectedFoods.add(selectedMeal['food_name']);
+    selectedMeal['category'] = _getCategory(selectedMeal['food_name']);
+    return selectedMeal;
+  }
 
-    return additionalMeals;
+  String _getCategory(String foodName) {
+    return foodDatabase[widget.selectedCuisine]!.entries
+        .firstWhere((entry) => entry.value.any((meal) => meal['food_name'] == foodName))
+        .key;
   }
 
   @override
