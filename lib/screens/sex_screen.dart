@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weight_control/component/okarada_color.dart';
 import '../component/app_bar_design.dart';
 import 'package:weight_control/user_data_creator/User_Data_Creator.dart';
 
@@ -47,29 +48,30 @@ class _SexScreenState extends State<SexScreen> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.only(
+            left: 16.0,
+            right: 16.0,
+            bottom: 30.0,
+          ),
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Expanded(
-                  child: Column(
-                    children: [
-                      SizedBox(height: 80),
-                      _Icon(),
-                      SizedBox(height: 40),
-                      _BodyText(),
-                      SizedBox(height: 100),
-                      _IconSelect(
-                        onMalePressed: onMaleButtonPressed,
-                        onFemalePressed: onFemaleButtonPressed,
-                        male: male,
-                        female: female,
-                        selectedGender: selectedGender,
-                      ),
-                    ],
-                  ),
+                SizedBox(
+                  height: 20,
+                ),
+                _Sex_Icon_Image(),
+                _BodyText(),
+                _IconSelect(
+                  onMalePressed: onMaleButtonPressed,
+                  onFemalePressed: onFemaleButtonPressed,
+                  male: male,
+                  female: female,
+                  selectedGender: selectedGender,
+                ),
+                SizedBox(
+                  height: 20,
                 ),
               ],
             ),
@@ -82,7 +84,10 @@ class _SexScreenState extends State<SexScreen> {
   onMaleButtonPressed() {
     setState(() {
       selectedGender = male;
-      userValue = userValue.copyWith(sex: selectedGender);
+      userValue = userValue.copyWith(
+        sex: selectedGender,
+        userGenderColor: okaradaGreenColor,
+      );
 
       Navigator.of(context).pushNamed(
         '/birthday',
@@ -90,14 +95,16 @@ class _SexScreenState extends State<SexScreen> {
       );
 
       print('name: ${userValue.nickname}, sex: ${userValue.sex}');
-
     });
   }
 
   onFemaleButtonPressed() {
     setState(() {
       selectedGender = female;
-      userValue = userValue.copyWith(sex: selectedGender);
+      userValue = userValue.copyWith(
+        sex: selectedGender,
+        userGenderColor: okaradaPinkColor,
+      );
       Navigator.of(context).pushNamed(
         '/birthday',
         arguments: userValue,
@@ -108,15 +115,14 @@ class _SexScreenState extends State<SexScreen> {
   }
 }
 
-class _Icon extends StatelessWidget {
-  const _Icon({super.key});
+class _Sex_Icon_Image extends StatelessWidget {
+  const _Sex_Icon_Image({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Icon(
-      Icons.badge,
-      color: Colors.green,
-      size: 100.0,
+    return Image.asset(
+      'asset/sex_image/sex_Icon.png',
+      scale: 1.1,
     );
   }
 }
@@ -126,24 +132,25 @@ class _BodyText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: const [
-        Text(
-          '''
-まずはあなたのことを、
-少しだけ教えてください。''',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-        ),
-        SizedBox(height: 20),
-        Text(
-          '''
-あなたのことを知れば、
-正確なサポートをすることができます。''',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 18, color: Colors.grey),
-        ),
-      ],
+    return Align(
+      alignment: Alignment.center,
+      child: Column(
+        children: const [
+          Text(
+            'とても、素晴らしい名前ですね！',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Text(
+            'さて、性別を選んでください！',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -157,63 +164,107 @@ class _IconSelect extends StatelessWidget {
 
   const _IconSelect(
       {required this.onMalePressed,
-        required this.onFemalePressed,
-        required this.male,
-        required this.female,
-        required this.selectedGender,
-        super.key});
+      required this.onFemalePressed,
+      required this.male,
+      required this.female,
+      required this.selectedGender,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        OutlinedButton(
-          onPressed: onMalePressed,
-          style: OutlinedButton.styleFrom(
-            minimumSize: const Size(150, 150),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(40.0)),
-            backgroundColor:
-            selectedGender == male ? Colors.green : Colors.white,
-            side: const BorderSide(color: Colors.green),
-          ),
-          child: Column(
+        SizedBox(
+          width: 150,
+          height: 240,
+          child: Stack(
+            alignment: Alignment.topCenter,
             children: [
-              Icon(
-                Icons.male,
-                color: selectedGender == male ? Colors.white : Colors.green,
+              Positioned(
+                top: 0,
+                child: Image.asset(
+                  'asset/sex_image/up_arrow.png',
+                  scale: 11,
+                ),
               ),
-              Text(
-                '男性',
-                style: TextStyle(
-                  color: selectedGender == male ? Colors.white : Colors.green,
+              Positioned(
+                top: 45,
+                child: ElevatedButton(
+                  onPressed: onMalePressed,
+                  style: ElevatedButton.styleFrom(
+                    elevation: 5,
+                    minimumSize: const Size(
+                      150,
+                      150,
+                    ),
+                    shape: CircleBorder(),
+                    backgroundColor: selectedGender == male
+                        ? okaradaGreenColor
+                        : Colors.white,
+                    side: const BorderSide(
+                      color: okaradaGreenColor,
+                      width: 8,
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                    ),
+                    child: Text(
+                      '男性',
+                      style: TextStyle(
+                          color: selectedGender == male
+                              ? Colors.black
+                              : Colors.black,
+                          fontSize: 27,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ),
                 ),
               ),
             ],
           ),
         ),
-        const SizedBox(width: 40),
-        OutlinedButton(
-          onPressed: onFemalePressed,
-          style: OutlinedButton.styleFrom(
-            minimumSize: const Size(150, 150),
-            shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-            backgroundColor:
-            selectedGender == female ? Colors.green : Colors.white,
-            side: const BorderSide(color: Colors.green),
-          ),
-          child: Column(
+        const SizedBox(width: 30),
+        SizedBox(
+          width: 150,
+          height: 240,
+          child: Stack(
+            alignment: Alignment.topCenter,
             children: [
-              Icon(
-                Icons.female,
-                color: selectedGender == female ? Colors.white : Colors.green,
+              Positioned(
+                top: 45,
+                child: ElevatedButton(
+                  onPressed: onFemalePressed,
+                  style: ElevatedButton.styleFrom(
+                    elevation: 5,
+                    minimumSize: Size(150, 150),
+                    shape: CircleBorder(),
+                    backgroundColor: selectedGender == female
+                        ? okaradaPinkColor
+                        : Colors.white,
+                    side: const BorderSide(color: okaradaPinkColor, width: 8),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Text(
+                      '女性',
+                      style: TextStyle(
+                          color: selectedGender == female
+                              ? Colors.black
+                              : Colors.black,
+                          fontSize: 27,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ),
               ),
-              Text(
-                '女性',
-                style: TextStyle(
-                  color: selectedGender == female ? Colors.white : Colors.green,
+              Positioned(
+                bottom: 1,
+                child: Image.asset(
+                  'asset/sex_image/cross.png',
+                  scale: 11,
                 ),
               ),
             ],
