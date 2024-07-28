@@ -131,7 +131,7 @@ class _QuestionText extends StatelessWidget {
     return Text(
       'どんな名前で呼ばれたいですか？',
       style: TextStyle(
-        fontSize: 20,
+        fontSize: 23,
         fontWeight: FontWeight.w600,
       ),
     );

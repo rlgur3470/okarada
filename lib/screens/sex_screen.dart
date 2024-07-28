@@ -147,7 +147,7 @@ class _BodyText extends StatelessWidget {
           Text(
             'さて、性別を選んでください！',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
+            style: TextStyle(fontSize: 23, fontWeight: FontWeight.w600),
           ),
         ],
       ),
@@ -215,8 +215,8 @@ class _IconSelect extends StatelessWidget {
                       '男性',
                       style: TextStyle(
                           color: selectedGender == male
-                              ? Colors.black
-                              : Colors.black,
+                              ? Colors.white
+                              : okaradaGreenColor,
                           fontSize: 27,
                           fontWeight: FontWeight.w600),
                     ),
@@ -252,8 +252,8 @@ class _IconSelect extends StatelessWidget {
                       '女性',
                       style: TextStyle(
                           color: selectedGender == female
-                              ? Colors.black
-                              : Colors.black,
+                              ? Colors.white
+                              : okaradaPinkColor,
                           fontSize: 27,
                           fontWeight: FontWeight.w600),
                     ),

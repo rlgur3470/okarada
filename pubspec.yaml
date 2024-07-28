@@ -31,6 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   table_calendar: ^3.1.2
+  numberpicker: ^2.1.2
 
 
 
@@ -64,6 +65,7 @@ flutter:
     - asset/image/
     - asset/sex_image/
     - asset/okarada_logo_image/
+    - asset/height_image/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
