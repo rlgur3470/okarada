@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class UserValue {
   String? sex;
   String? purpose;
@@ -9,6 +11,7 @@ class UserValue {
   String? activityLevel;
   int? height;
   int? dailyKcal;
+  Color? userGenderColor;
 
   UserValue({
     required this.sex,
@@ -21,6 +24,7 @@ class UserValue {
     required this.activityLevel,
     required this.height,
     required this.dailyKcal,
+    required this.userGenderColor,
   });
 
   UserValue copyWith({
@@ -34,6 +38,7 @@ class UserValue {
     String? activityLevel,
     int? height,
     int? dailyKcal,
+    Color? userGenderColor,
   }) {
     return UserValue(
       sex: sex ?? this.sex,
@@ -46,6 +51,7 @@ class UserValue {
       weightDiffrence: weightDiffrence ?? this.weightDiffrence,
       activityLevel: activityLevel ?? this.activityLevel,
       dailyKcal: dailyKcal ?? this.dailyKcal,
+      userGenderColor: userGenderColor ?? this.userGenderColor,
     );
   }
 }

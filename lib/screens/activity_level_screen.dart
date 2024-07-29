@@ -88,10 +88,6 @@ class _ActivityLevelScreenState extends State<ActivityLevelScreen> {
                   ),
                 ],
               ),
-              Expanded(child: SizedBox()),
-              _NextPageButton(
-                onPressed: onNextPageButtonPressed,
-              ),
             ],
           ),
         ),
@@ -102,41 +98,56 @@ class _ActivityLevelScreenState extends State<ActivityLevelScreen> {
   onFirstSelected(value) {
     setState(() {
       state = value;
+      userValue = userValue.copyWith(activityLevel: state);
+      Navigator.of(context).pushNamed('/user-activity-level',
+        arguments: userValue,
+      );
+      print('nickname: ${userValue.nickname}, sex: ${userValue.sex}, age: ${userValue.age}, height: ${userValue.height}, weight: ${userValue.weight}, weightDifference: ${userValue.weightDiffrence}, activityLevel: ${userValue.activityLevel}');
     });
   }
 
   onSecondSelected(value) {
     setState(() {
       state = value;
+      userValue = userValue.copyWith(activityLevel: state);
+      Navigator.of(context).pushNamed('/user-activity-level',
+        arguments: userValue,
+      );
+      print('nickname: ${userValue.nickname}, sex: ${userValue.sex}, age: ${userValue.age}, height: ${userValue.height}, weight: ${userValue.weight}, weightDifference: ${userValue.weightDiffrence}, activityLevel: ${userValue.activityLevel}');
     });
   }
 
   onThirdSelected(value) {
     setState(() {
       state = value;
+      userValue = userValue.copyWith(activityLevel: state);
+      Navigator.of(context).pushNamed('/user-activity-level',
+        arguments: userValue,
+      );
+      print('nickname: ${userValue.nickname}, sex: ${userValue.sex}, age: ${userValue.age}, height: ${userValue.height}, weight: ${userValue.weight}, weightDifference: ${userValue.weightDiffrence}, activityLevel: ${userValue.activityLevel}');
     });
   }
 
   onFourthSelected(value) {
     setState(() {
       state = value;
+      userValue = userValue.copyWith(activityLevel: state);
+      Navigator.of(context).pushNamed('/user-activity-level',
+        arguments: userValue,
+      );
+      print('nickname: ${userValue.nickname}, sex: ${userValue.sex}, age: ${userValue.age}, height: ${userValue.height}, weight: ${userValue.weight}, weightDifference: ${userValue.weightDiffrence}, activityLevel: ${userValue.activityLevel}');
     });
   }
 
   onFifthSelected(value) {
     setState(() {
       state = value;
-    });
-  }
-
-  onNextPageButtonPressed() {
-    state != null ? setState(() {
       userValue = userValue.copyWith(activityLevel: state);
       Navigator.of(context).pushNamed('/user-activity-level',
         arguments: userValue,
       );
       print('nickname: ${userValue.nickname}, sex: ${userValue.sex}, age: ${userValue.age}, height: ${userValue.height}, weight: ${userValue.weight}, weightDifference: ${userValue.weightDiffrence}, activityLevel: ${userValue.activityLevel}');
-    }): null;
+    });
   }
 }
 
@@ -276,27 +287,6 @@ class _OptionButton extends StatelessWidget {
           onSelected: onFifthSelected,
         ),
       ],
-    );
-  }
-}
-
-class _NextPageButton extends StatelessWidget {
-  final VoidCallback onPressed;
-
-  const _NextPageButton({
-    required this.onPressed,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      child: const Text('次へ'),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.green,
-        foregroundColor: Colors.white,
-      ),
     );
   }
 }

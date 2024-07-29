@@ -4,6 +4,7 @@ import 'package:flutter/painting.dart';
 import 'package:weight_control/component/app_bar_design.dart';
 import 'package:flutter/services.dart';
 import 'package:weight_control/user_data_creator/User_Data_Creator.dart';
+import 'package:weight_control/component/okarada_color.dart';
 
 class NicknameScreen extends StatefulWidget {
   const NicknameScreen({super.key});
@@ -25,6 +26,7 @@ class _NicknameScreenState extends State<NicknameScreen> {
     weightDiffrence: 0,
     activityLevel: '',
     dailyKcal: 0,
+    userGenderColor: Colors.white,
   );
 
   final TextEditingController _controller = TextEditingController();
@@ -39,14 +41,13 @@ class _NicknameScreenState extends State<NicknameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: ProgressBarStateStyle(
           progress: 0.24,
         ),
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: onNextPageButtonPressed,
             child: const TugiheButtonStyle(),
           )
         ],
@@ -55,20 +56,35 @@ class _NicknameScreenState extends State<NicknameScreen> {
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.only(
+              left: 16,
+              right: 16,
+              bottom: 30,
+            ),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const SizedBox(height: 100),
-                const _Icon(),
-                const SizedBox(height: 100),
-                Expanded(
-                  child: _TextInput(controller: _controller),
+                SizedBox(
+                  height: 15,
+                ),
+                Column(
+                  children: [
+                    _Okarada_Logo_Icon(),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    _QuestionText(),
+                  ],
+                ),
+                _TextInput(controller: _controller),
+                SizedBox(
+                  height: 40,
                 ),
                 _NextPageButton(
                   onPressed: onNextPageButtonPressed,
                   controller: _controller,
-                  backColor: _controller.text.isNotEmpty ? Colors.green : Colors.grey[300]!,
-                  foreColor: Colors.white,
+                  backColor: _controller.text.isNotEmpty ? okaradaGreenColor : Colors.grey[300]!,
+                  foreColor: Colors.black,
                 ),
               ],
             ),
@@ -91,23 +107,37 @@ class _NicknameScreenState extends State<NicknameScreen> {
 
   backColorSettings(){
     setState(() {
-      _controller.text.isNotEmpty ? Colors.green : Colors.grey[300];
+      _controller.text.isNotEmpty ? okaradaGreenColor : Colors.grey[300];
     });
   }
 }
 
-class _Icon extends StatelessWidget {
-  const _Icon({super.key});
+class _Okarada_Logo_Icon extends StatelessWidget {
+  const _Okarada_Logo_Icon({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Icon(
-      Icons.verified,
-      color: Colors.green,
-      size: 100,
+    return Image.asset('asset/okarada_logo_image/okarada_logo.png',
+      scale: 5,
     );
   }
 }
+
+class _QuestionText extends StatelessWidget {
+  const _QuestionText({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      'どんな名前で呼ばれたいですか？',
+      style: TextStyle(
+        fontSize: 23,
+        fontWeight: FontWeight.w600,
+      ),
+    );
+  }
+}
+
 
 class _TextInput extends StatelessWidget {
   final TextEditingController controller;
@@ -118,18 +148,8 @@ class _TextInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 220,
-      height: 100,
       child: Column(
         children: [
-          const Text(
-            'あなたのニックネームは？',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 50),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -153,10 +173,10 @@ class _TextInput extends StatelessWidget {
                           height: 1.8
                       ),
                       enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.green),
+                        borderSide: BorderSide(color: okaradaGreenColor),
                       ),
                       focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.green, width: 2)
+                          borderSide: BorderSide(color: okaradaGreenColor, width: 2)
                       ),
                     ),
                     style: TextStyle(fontSize: 25),
@@ -167,7 +187,7 @@ class _TextInput extends StatelessWidget {
               Text(
                 '様',
                 style: TextStyle(
-                  color: Colors.grey,
+                  color: okaradaGreenColor,
                   fontSize: 25,
                 ),
               ),

@@ -15,6 +15,7 @@ class BirthdayScreen extends StatefulWidget {
 class _BirthdayScreenState extends State<BirthdayScreen> {
   DateTime selectedDate = DateTime(2000, 01, 01);
   late UserValue userValue;
+  late Color userGenderColor;
 
 
   @override
@@ -22,6 +23,7 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     userValue  = ModalRoute.of(context)!.settings.arguments as UserValue;
+    userGenderColor = userValue.userGenderColor!;
   }
 
   @override
@@ -66,6 +68,8 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
                       });
                     }),
                 _NextPageButton(
+                  backButtonColor: userGenderColor,
+                  foreButtonColor: Colors.black,
                   onPressed: NextPageButtonPressed,
                 ),
               ],
@@ -211,8 +215,12 @@ class _BirthdayPicker extends StatelessWidget {
 }
 
 class _NextPageButton extends StatelessWidget {
+  final Color foreButtonColor;
+  final Color backButtonColor;
   final VoidCallback onPressed;
   const _NextPageButton({
+    required this.foreButtonColor,
+    required this.backButtonColor,
     required this.onPressed,
     super.key});
 
@@ -224,8 +232,8 @@ class _NextPageButton extends StatelessWidget {
         ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.green,
-            foregroundColor: Colors.white,
+            backgroundColor: backButtonColor,
+            foregroundColor: foreButtonColor,
           ),
           child: const Text(
             '次へ',
