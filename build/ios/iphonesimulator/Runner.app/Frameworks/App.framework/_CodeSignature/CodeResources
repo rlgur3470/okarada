@@ -10,11 +10,11 @@
 		</data>
 		<key>flutter_assets/AssetManifest.bin</key>
 		<data>
-		ME0cAg6cl/bTZmwXEVgMugDccUI=
+		Sn2FXDTgUVO6FAs5SutW/WJZetw=
 		</data>
 		<key>flutter_assets/AssetManifest.json</key>
 		<data>
-		oG5/OGn+vw7vp/nu5DUDoZJ4nFc=
+		S88zRyIhlTG1NrodHN2uKlncymo=
 		</data>
 		<key>flutter_assets/FontManifest.json</key>
 		<data>
@@ -22,7 +22,39 @@
 		</data>
 		<key>flutter_assets/NOTICES.Z</key>
 		<data>
-		sEzUcP8szJOChZ1wjqKOD5t0LFE=
+		cVM5Ufj12wAaX8AsAjnJy2jbDgc=
+		</data>
+		<key>flutter_assets/asset/image/afternoon.jpg</key>
+		<data>
+		XOP4NacLqQ+wGubDZ/akPnLBLiw=
+		</data>
+		<key>flutter_assets/asset/image/evening.jpg</key>
+		<data>
+		mGuQ5JQtKMw8j7nsIKjAzsbWWiY=
+		</data>
+		<key>flutter_assets/asset/image/japanese_food.jpg</key>
+		<data>
+		iEuLVr6AQzT9qW8UrOGm/lys/dU=
+		</data>
+		<key>flutter_assets/asset/image/korean_food.jpg</key>
+		<data>
+		QznhofoY+FvKfeB/Rk0+MqBmUx4=
+		</data>
+		<key>flutter_assets/asset/image/morning.jpg</key>
+		<data>
+		PP3QjbNgZBkVMnG8NapoTb3fuz8=
+		</data>
+		<key>flutter_assets/asset/image/okarada_logo.png</key>
+		<data>
+		bemhyNHtUXhbY3sXtZYF3U+8JXE=
+		</data>
+		<key>flutter_assets/asset/image/vegan_food.jpg</key>
+		<data>
+		FHJjkkKTTfh3ZpuCIhuchhaqIGI=
+		</data>
+		<key>flutter_assets/asset/image/western_food.jpg</key>
+		<data>
+		ZtljuYqxs+ujokNDIuyVXzo7o6o=
 		</data>
 		<key>flutter_assets/fonts/MaterialIcons-Regular.otf</key>
 		<data>
@@ -34,7 +66,7 @@
 		</data>
 		<key>flutter_assets/kernel_blob.bin</key>
 		<data>
-		/MNvif73BDVf6UnDI+zjoIFLB+M=
+		BGGkU9lYyUn0A4tKD/Z3gDTG3zo=
 		</data>
 		<key>flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
 		<data>
@@ -55,14 +87,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			AK9VrT1vIYmP534P8JLRoc2lLJQbaGDpko1FyK+MCV0=
+			T7BH9Tct3+OdLSF1nNDI2angotb7SWnXG3dfw9c30hg=
 			</data>
 		</dict>
 		<key>flutter_assets/AssetManifest.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Sps95+7JukayebvM0TLjL1LW1VXXndpKp/O8tOm9ZR8=
+			ZqSEaWPqkgVeibTzjza7XQqplPK1iSkZRLHpbV0542M=
 			</data>
 		</dict>
 		<key>flutter_assets/FontManifest.json</key>
@@ -76,7 +108,63 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			qIshGhnt9x0o1cEL2zGCG6WiLpjhDMTDb8/2KdtINLM=
+			DAlokk2UaMn8MGfwX84q30I7Hs3McwtgK82LV2C1LK4=
+			</data>
+		</dict>
+		<key>flutter_assets/asset/image/afternoon.jpg</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			POwEZ7JtjSDrWewIcUmtDNYl5CmHyzaw1Nfa5sBDHc0=
+			</data>
+		</dict>
+		<key>flutter_assets/asset/image/evening.jpg</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			rqRtKq/b4MkXIs/ueH8BlYc2MIn7oniMzedavCQJfOQ=
+			</data>
+		</dict>
+		<key>flutter_assets/asset/image/japanese_food.jpg</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			v23W0XgNbs9N5tjUJ9QLNgEIHTZwmzZ5UOTOyr6+vww=
+			</data>
+		</dict>
+		<key>flutter_assets/asset/image/korean_food.jpg</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			dBrzdOtutITz6zNczLgfeHEn4gmmoYYK7UZJO0FwACA=
+			</data>
+		</dict>
+		<key>flutter_assets/asset/image/morning.jpg</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			vpDCUhPaAhFeE1XwdFM9CYv9vJXqQ1sZ63Ne3ZgOBAk=
+			</data>
+		</dict>
+		<key>flutter_assets/asset/image/okarada_logo.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			OliKAlj7q1L5llfQDl9v1PlSeFB131iId8QOriATEoY=
+			</data>
+		</dict>
+		<key>flutter_assets/asset/image/vegan_food.jpg</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			dH0e8wBFa2oarhWf2E7alrDjLfo+1zbTynqts0i1zrI=
+			</data>
+		</dict>
+		<key>flutter_assets/asset/image/western_food.jpg</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			LgVVAs8rn6aLAuKWJdEQD0N6D/LWSBW/V0oogCJEsj8=
 			</data>
 		</dict>
 		<key>flutter_assets/fonts/MaterialIcons-Regular.otf</key>
@@ -97,7 +185,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			KVsR3A1alBB6SWqlkt5gDrg94o/Yuf43sqIfw9Qcox4=
+			S1h2a1AwtKxyKMXtk+g4S5rWGStp8Elfh0dIWDJM75w=
 			</data>
 		</dict>
 		<key>flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:weight_control/user_data_creator/User_Data_Creator.dart';
 import '../component/app_bar_design.dart';
 
-
 class HeightInputScreen extends StatefulWidget {
   const HeightInputScreen({super.key});
 
@@ -19,7 +18,6 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     userValue = ModalRoute.of(context)!.settings.arguments as UserValue;
   }
@@ -39,7 +37,22 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
   void _checkButtonState() {
     setState(() {
       _isButtonEnabled = _controller.text.isNotEmpty;
+      if (_controller.text.length == 3) {
+        FocusScope.of(context).unfocus(); // 키보드를 내림
+      }
     });
+  }
+
+  void buttonOnPressed() {
+    if (_isButtonEnabled) {
+      int userCurrentHeight = int.parse(_controller.text);
+      userValue = userValue.copyWith(height: userCurrentHeight);
+      Navigator.of(context).pushNamed(
+        '/user-weight',
+        arguments: userValue,
+      );
+      print('nickname: ${userValue.nickname}, sex: ${userValue.sex}, age: ${userValue.age}, height: ${userValue.height}');
+    }
   }
 
   @override
@@ -54,13 +67,9 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(
-                height: 100,
-              ),
-              _buildIcon(),
-              SizedBox(
-                height: 109,
-              ),
+              const SizedBox(height: 100),
+              const _buildIcon(),
+              const SizedBox(height: 109),
               _UserHeightInputField(controller: _controller),
               _NextPageButton(
                 onPressed: buttonOnPressed,
@@ -92,30 +101,6 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
       ],
     );
   }
-
-  Widget _buildTitle() {
-    return Align(
-      alignment: Alignment.center,
-      child: const Text(
-        'あなたの身長は ?',
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-      ),
-    );
-  }
-
-  buttonOnPressed() {
-    _isButtonEnabled
-        ? setState(() {
-      int userCurrentHeight = int.parse(_controller.text);
-      userValue = userValue.copyWith(height: userCurrentHeight);
-      Navigator.of(context).pushNamed('/user-weight',
-        arguments: userValue,
-      );
-      print(
-          'nickname: ${userValue.nickname}, sex: ${userValue.sex}, age: ${userValue.age}, height: ${userValue.height}');
-    })
-        : null;
-  }
 }
 
 class _buildIcon extends StatelessWidget {
@@ -129,7 +114,7 @@ class _buildIcon extends StatelessWidget {
         width: 165.5,
         child: Stack(
           children: [
-            Icon(
+            const Icon(
               Icons.accessibility_new_outlined,
               size: 100,
               color: Colors.green,
@@ -138,7 +123,7 @@ class _buildIcon extends StatelessWidget {
               left: 65,
               child: Transform.rotate(
                 angle: 3 * 3.14159 / 2,
-                child: Icon(
+                child: const Icon(
                   Icons.straighten,
                   size: 100.0,
                   color: Colors.green,
@@ -162,21 +147,19 @@ class _UserHeightInputField extends StatelessWidget {
     return Expanded(
       child: Column(
         children: [
-          Align(
+          const Align(
             alignment: Alignment.center,
-            child: const Text(
+            child: Text(
               'あなたの身長は ?',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
           ),
-          SizedBox(
-            height: 120,
-          ),
+          const SizedBox(height: 120),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 15),
+                padding: const EdgeInsets.only(left: 15),
                 child: Container(
                   width: 100,
                   height: 30,
@@ -186,7 +169,7 @@ class _UserHeightInputField extends StatelessWidget {
                     keyboardType: TextInputType.number,
                     textAlign: TextAlign.center,
                     style: const TextStyle(fontSize: 25),
-                    maxLength: 3, // 최대 길이 6
+                    maxLength: 3, // 최대 길이 3
                     showCursor: true,
                     cursorHeight: 20,
                     decoration: const InputDecoration(
@@ -205,7 +188,7 @@ class _UserHeightInputField extends StatelessWidget {
                   ),
                 ),
               ),
-              Text(
+              const Text(
                 'cm',
                 style: TextStyle(
                   color: Colors.grey,
