@@ -30,19 +30,14 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(context),
+      appBar: _buildAppBar(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SizedBox(
@@ -66,7 +61,7 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
     );
   }
 
-  AppBar _buildAppBar(BuildContext context) {
+  AppBar _buildAppBar() {
     return AppBar(
       forceMaterialTransparency: true,
       leading: IconButton(
@@ -135,7 +130,7 @@ class _HeightPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 400,
+      height: 380,
       width: double.infinity,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -180,7 +175,6 @@ class _HeightPicker extends StatelessWidget {
             value: height,
             onChanged: onChanged,
             textMapper: (numberText) => numberText + 'cm',
-            haptics: true,
           ),
         ],
       ),
