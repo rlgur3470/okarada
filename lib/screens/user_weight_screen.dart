@@ -22,6 +22,7 @@ class _UserWeightScreenState extends State<UserWeightScreen> {
 
   @override
   void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     userValue = ModalRoute.of(context)!.settings.arguments as UserValue;
   }
@@ -35,23 +36,7 @@ class _UserWeightScreenState extends State<UserWeightScreen> {
   void _checkButtonState() {
     setState(() {
       _isButtonEnabled = _controller.text.isNotEmpty;
-      if (_controller.text.length >= 2) {
-        FocusScope.of(context).unfocus(); // 키보드를 내림
-      }
     });
-  }
-
-  void moveToNextPage() {
-    if (_isButtonEnabled) {
-      int userCurrentWeight = int.parse(_controller.text);
-      userValue = userValue.copyWith(weight: userCurrentWeight);
-      Navigator.pushNamed(
-        context,
-        '/weight-input',
-        arguments: userValue,
-      );
-      print('nickname: ${userValue.nickname}, sex: ${userValue.sex}, age: ${userValue.age}, height: ${userValue.height}, weight: ${userValue.weight}');
-    }
   }
 
   @override
@@ -82,13 +67,13 @@ class _UserWeightScreenState extends State<UserWeightScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const SizedBox(height: 100),
-              const Icon(
+              SizedBox(height: 100),
+              Icon(
                 Icons.monitor_weight,
                 size: 100,
                 color: Colors.green,
               ),
-              const SizedBox(height: 100),
+              SizedBox(height: 100),
               _WeightInputText(controller: _controller),
               _NextPageButton(onPressed: moveToNextPage, isButtonEnabled: _isButtonEnabled)
             ],
@@ -96,6 +81,19 @@ class _UserWeightScreenState extends State<UserWeightScreen> {
         ),
       ),
     );
+  }
+
+  moveToNextPage(){
+    _isButtonEnabled
+        ? setState(() {
+      int userCurrentWeight = int.parse(_controller.text);
+      userValue = userValue.copyWith(weight: userCurrentWeight);
+      Navigator.pushNamed(context, '/weight-input',
+        arguments: userValue,
+      );
+      print('nickname: ${userValue.nickname}, sex: ${userValue.sex}, age: ${userValue.age}, height: ${userValue.height}, weight: ${userValue.weight}');
+    })
+        : null;
   }
 }
 
@@ -108,27 +106,27 @@ class _WeightInputText extends StatelessWidget {
     return Expanded(
       child: Column(
         children: [
-          const Text(
+          Text(
             textAlign: TextAlign.center,
             'あなたの体重は?',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
           ),
-          const SizedBox(
+          SizedBox(
             height: 20,
           ),
-          const Text(
+          Text(
             textAlign: TextAlign.center,
             '大体でもOKです。後でいつでも変更できます。',
             style: TextStyle(fontSize: 18, color: Colors.grey),
           ),
-          const SizedBox(
+          SizedBox(
             height: 95,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 15),
+                padding: EdgeInsets.only(left: 15),
                 child: Container(
                   width: 100,
                   height: 30,
@@ -150,7 +148,7 @@ class _WeightInputText extends StatelessWidget {
                           borderSide: BorderSide(color: Colors.green, width: 2),
                         ),
                         border: InputBorder.none,
-                        hintText: '2桁以内に',
+                        hintText: '3桁以内に',
                         hintStyle: TextStyle(fontSize: 15, height: 2),
                         counterText: ''),
                   ),
@@ -190,3 +188,4 @@ class _NextPageButton extends StatelessWidget {
     );
   }
 }
+
