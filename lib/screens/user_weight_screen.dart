@@ -234,9 +234,6 @@ class _InfoArea extends StatelessWidget {
           '大体でもOKです。',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
         ),
-        SizedBox(
-          height: 1,
-        ),
       ],
     );
   }
