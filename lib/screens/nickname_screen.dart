@@ -228,6 +228,7 @@ class _NextPageButton extends StatelessWidget {
             '次へ',
             style: TextStyle(
               fontSize: 18,
+              color: Colors.white
             ),
           ),
         ),

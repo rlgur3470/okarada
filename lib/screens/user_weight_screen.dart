@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weight_control/user_data_creator/User_Data_Creator.dart';
+import 'package:animated_weight_picker/animated_weight_picker.dart';
 import '../component/app_bar_design.dart';
 
 class UserWeightScreen extends StatefulWidget {
@@ -11,14 +12,8 @@ class UserWeightScreen extends StatefulWidget {
 
 class _UserWeightScreenState extends State<UserWeightScreen> {
   final TextEditingController _controller = TextEditingController();
-  bool _isButtonEnabled = false;
   late UserValue userValue;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller.addListener(_checkButtonState);
-  }
+  int userWeight = 30;
 
   @override
   void didChangeDependencies() {
@@ -28,54 +23,48 @@ class _UserWeightScreenState extends State<UserWeightScreen> {
   }
 
   @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  void _checkButtonState() {
-    setState(() {
-      _isButtonEnabled = _controller.text.isNotEmpty;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        title: ProgressBarStateStyle(
-          progress: 0.44,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {},
-            child: const TugiheButtonStyle(),
-          )
-        ],
-      ),
+      appBar: _buildAppBar(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 100),
-              Icon(
-                Icons.monitor_weight,
-                size: 100,
-                color: Colors.green,
+              SizedBox(
+                height: 10,
               ),
-              SizedBox(height: 100),
-              _WeightInputText(controller: _controller),
-              _NextPageButton(onPressed: moveToNextPage, isButtonEnabled: _isButtonEnabled)
+              _InfoArea(
+                userGenderColor: userValue.userGenderColor!,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              _SelectedWeight(
+                userGenderColor: userValue.userGenderColor,
+                userWeight: userWeight.toString(),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              _PickWeight(
+                onChanged: (userValue) {
+                  setState(() {
+                    userWeight = int.parse(userValue);
+                  });
+                },
+                userGenderColor: userValue.userGenderColor!,
+              ),
+              SizedBox(
+                height: 25,
+              ),
+              _NextPageButton(
+                onPressed: moveToNextPage,
+                userGenderColor: userValue.userGenderColor!,
+              )
             ],
           ),
         ),
@@ -83,103 +72,222 @@ class _UserWeightScreenState extends State<UserWeightScreen> {
     );
   }
 
-  moveToNextPage(){
-    _isButtonEnabled
-        ? setState(() {
-      int userCurrentWeight = int.parse(_controller.text);
-      userValue = userValue.copyWith(weight: userCurrentWeight);
-      Navigator.pushNamed(context, '/weight-input',
+  AppBar _buildAppBar() {
+    return AppBar(
+      forceMaterialTransparency: true,
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back_ios),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      ),
+      title: ProgressBarStateStyle(
+        progress: 0.44,
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {},
+          child: const TugiheButtonStyle(),
+        )
+      ],
+    );
+  }
+
+  int userWeightValue(userValue) {
+    return userWeight = int.parse(userValue);
+  }
+
+  moveToNextPage() {
+    setState(() {
+      userValue = userValue.copyWith(weight: userWeight);
+      Navigator.pushNamed(
+        context,
+        '/weight-input',
         arguments: userValue,
       );
-      print('nickname: ${userValue.nickname}, sex: ${userValue.sex}, age: ${userValue.age}, height: ${userValue.height}, weight: ${userValue.weight}');
-    })
-        : null;
+      print(
+          'nickname: ${userValue.nickname}, sex: ${userValue.sex}, age: ${userValue.age}, height: ${userValue.height}, weight: ${userValue.weight}');
+    });
   }
 }
 
-class _WeightInputText extends StatelessWidget {
-  final TextEditingController controller;
-  const _WeightInputText({required this.controller, super.key});
+//module which can textInput by typing
+// class _WeightInputText extends StatelessWidget {
+//   final TextEditingController controller;
+//   const _WeightInputText({required this.controller, super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       children: [
+//         Row(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: [
+//             Padding(
+//               padding: EdgeInsets.only(left: 15),
+//               child: Container(
+//                 width: 100,
+//                 height: 30,
+//                 child: TextField(
+//                   cursorColor: Colors.green,
+//                   cursorHeight: 20,
+//                   maxLength: 3,
+//                   controller: controller,
+//                   keyboardType: TextInputType.number,
+//                   textAlign: TextAlign.center,
+//                   style: const TextStyle(fontSize: 25),
+//                   decoration: const InputDecoration(
+//                       enabledBorder: UnderlineInputBorder(
+//                         borderSide: BorderSide(
+//                           color: Colors.green,
+//                         ),
+//                       ),
+//                       focusedBorder: UnderlineInputBorder(
+//                         borderSide: BorderSide(color: Colors.green, width: 2),
+//                       ),
+//                       border: InputBorder.none,
+//                       hintText: '3桁以内に',
+//                       hintStyle: TextStyle(fontSize: 15, height: 2),
+//                       counterText: ''),
+//                 ),
+//               ),
+//             ),
+//             const Text(
+//               'kg',
+//               style: TextStyle(fontSize: 24, color: Colors.grey),
+//             ),
+//           ],
+//         ),
+//       ],
+//     );
+//   }
+// }
+
+class _SelectedWeight extends StatelessWidget {
+  final userGenderColor;
+  final userWeight;
+  const _SelectedWeight({
+    required this.userGenderColor,
+    required this.userWeight,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        children: [
-          Text(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Text(
+          '体重：',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 30,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        Container(
+          width: 100,
+          height: 50,
+          decoration: BoxDecoration(
+              border: Border.all(color: userGenderColor, width: 3),
+              borderRadius: BorderRadius.circular(10)),
+          child: Text(
+            userWeight,
             textAlign: TextAlign.center,
-            'あなたの体重は?',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+            style: TextStyle(
+                color: userGenderColor,
+                fontSize: 30,
+                fontWeight: FontWeight.w700),
           ),
-          SizedBox(
-            height: 20,
-          ),
-          Text(
-            textAlign: TextAlign.center,
-            '大体でもOKです。後でいつでも変更できます。',
-            style: TextStyle(fontSize: 18, color: Colors.grey),
-          ),
-          SizedBox(
-            height: 95,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(left: 15),
-                child: Container(
-                  width: 100,
-                  height: 30,
-                  child: TextField(
-                    cursorColor: Colors.green,
-                    cursorHeight: 20,
-                    maxLength: 3,
-                    controller: controller,
-                    keyboardType: TextInputType.number,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 25),
-                    decoration: const InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.green,
-                          ),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.green, width: 2),
-                        ),
-                        border: InputBorder.none,
-                        hintText: '3桁以内に',
-                        hintStyle: TextStyle(fontSize: 15, height: 2),
-                        counterText: ''),
-                  ),
-                ),
-              ),
-              const Text(
-                'kg',
-                style: TextStyle(fontSize: 24, color: Colors.grey),
-              ),
-            ],
-          ),
-        ],
-      ),
+        ),
+        SizedBox(
+          width: 10,
+        ),
+        Text(
+          'kg',
+          style: TextStyle(
+              color: Colors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.w600),
+        ),
+      ],
+    );
+  }
+}
+
+class _InfoArea extends StatelessWidget {
+  final Color userGenderColor;
+  const _InfoArea({required this.userGenderColor, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          textAlign: TextAlign.center,
+          'あなたの体重を教えて下さい?',
+          style: TextStyle(fontSize: 23, fontWeight: FontWeight.w600),
+        ),
+        Text(
+          textAlign: TextAlign.center,
+          '大体でもOKです。',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+        ),
+        SizedBox(
+          height: 1,
+        ),
+      ],
+    );
+  }
+}
+
+class _PickWeight extends StatelessWidget {
+  final Function(String value)? onChanged;
+  final Color userGenderColor;
+
+  _PickWeight({
+    required this.onChanged,
+    required this.userGenderColor,
+    super.key,
+  });
+
+  int? userWeightValue;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 100,
+      width: double.infinity,
+      child: AnimatedWeightPicker(
+          division: 1.0,
+          majorIntervalHeight: 30,
+          dialColor: userGenderColor,
+          selectedValueColor: userGenderColor,
+          suffixTextColor: userGenderColor,
+          minorIntervalColor: Colors.black,
+          majorIntervalColor: Colors.black,
+          majorIntervalTextColor: Colors.black,
+          subIntervalColor: Colors.black,
+          min: 30,
+          max: 120,
+          onChange: onChanged),
     );
   }
 }
 
 class _NextPageButton extends StatelessWidget {
   final VoidCallback onPressed;
-  final bool isButtonEnabled;
-  const _NextPageButton({
-    required this.onPressed,
-    required this.isButtonEnabled,
-    super.key});
+  final Color userGenderColor;
+  const _NextPageButton(
+      {required this.onPressed, required this.userGenderColor, super.key});
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: isButtonEnabled ? Colors.green : Colors.grey[300],
+        backgroundColor: userGenderColor,
       ),
       child: const Text(
         '次へ',
@@ -188,4 +296,3 @@ class _NextPageButton extends StatelessWidget {
     );
   }
 }
-
