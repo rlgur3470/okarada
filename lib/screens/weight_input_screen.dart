@@ -32,7 +32,7 @@ class _WeightInputScreenState extends State<WeightInputScreen> {
     userWeight = userValue.weight!.toDouble();
     maxWeight = userValue.weight!.toDouble();
     userGenderColor = userValue.userGenderColor!;
-    weightDifference = userWeight - minWeight;
+    weightDifference = userWeight - targetWeight;
   }
 
   @override
@@ -291,10 +291,14 @@ class _WeightChange extends StatelessWidget {
                   ),
                 ),
               ),
-              Icon(
-                Icons.arrow_forward_rounded,
-                size: 50,
-                color: userGenderColor,
+              SizedBox(
+                height: 10,
+              ),
+              Image.asset(
+                userGender == 'male'
+                    ? 'asset/sex_image/male_arrow.png'
+                    : 'asset/sex_image/female_arrow.png',
+                scale: 3,
               ),
             ],
           ),

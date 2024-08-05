@@ -15,7 +15,7 @@ class HeightInputScreen extends StatefulWidget {
 class _HeightInputScreenState extends State<HeightInputScreen> {
 
   late UserValue userValue;
-  late int height;
+  int height = 165;
   late String userSexImage;
 
   @override
@@ -23,7 +23,6 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     userValue = ModalRoute.of(context)!.settings.arguments as UserValue;
-    height = userValue.sex == 'male' ? 170 : 155;
     userSexImage = userValue.sex == 'male'
         ? 'asset/height_image/male_height.png'
         : 'asset/height_image/women_height.png';
