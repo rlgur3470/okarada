@@ -11,7 +11,7 @@ class UserWeightScreen extends StatefulWidget {
 }
 
 class _UserWeightScreenState extends State<UserWeightScreen> {
-  final TextEditingController _controller = TextEditingController();
+  //final TextEditingController _controller = TextEditingController();
   late UserValue userValue;
   int userWeight = 30;
 

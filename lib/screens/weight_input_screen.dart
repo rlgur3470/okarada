@@ -14,7 +14,7 @@ class _WeightInputScreenState extends State<WeightInputScreen> {
   final int initialWeight = 0;
   final TextEditingController _currentWeightController =
       TextEditingController();
-  final TextEditingController _goalWeightController = TextEditingController();
+  //final TextEditingController _goalWeightController = TextEditingController();
   late UserValue userValue;
   late double userWeight;
   late Color userGenderColor;
