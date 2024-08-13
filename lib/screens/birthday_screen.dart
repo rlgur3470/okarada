@@ -6,24 +6,23 @@ import 'package:weight_control/user_data_creator/User_Data_Creator.dart';
 class BirthdayScreen extends StatefulWidget {
   const BirthdayScreen({super.key});
 
-
   @override
   State<BirthdayScreen> createState() => _BirthdayScreenState();
 }
-
 
 class _BirthdayScreenState extends State<BirthdayScreen> {
   DateTime selectedDate = DateTime(2000, 01, 01);
   late UserValue userValue;
   late Color userGenderColor;
-
+  late String userNick;
 
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    userValue  = ModalRoute.of(context)!.settings.arguments as UserValue;
+    userValue = ModalRoute.of(context)!.settings.arguments as UserValue;
     userGenderColor = userValue.userGenderColor!;
+    userNick = userValue.nickname!;
   }
 
   @override
@@ -52,21 +51,33 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                const SizedBox(height: 100),
-                const _Icon(),
-                SizedBox(height: 100),
-                const _BirthdayText(),
-                const SizedBox(height: 50),
-
-                _BirthdayPicker(
-                    selectedDate: selectedDate,
-                    onDateSelected: (date) {
-                      setState(() {
-                        selectedDate = date;
-                      });
-                    }),
+                SizedBox(
+                  height: 10,
+                ),
+                _BirthdayText(
+                  userNick: userNick,
+                  userGenderColor: userGenderColor,
+                ),
+                Column(
+                  children: [
+                    _Icon(
+                      userGenderColor: userGenderColor,
+                    ),
+                    _BirthdayPicker(
+                        selectedDate: selectedDate,
+                        userGenderColor: userGenderColor,
+                        onDateSelected: (date) {
+                          setState(() {
+                            selectedDate = date;
+                          });
+                        }),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
                 _NextPageButton(
                   backButtonColor: userGenderColor,
                   foreButtonColor: Colors.black,
@@ -80,63 +91,111 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
     );
   }
 
-  int calculateAge(DateTime birthDate){
+  int calculateAge(DateTime birthDate) {
     DateTime currentDate = DateTime.now();
     int age = currentDate.year - birthDate.year;
     int month1 = currentDate.month;
     int month2 = birthDate.month;
 
-    if(month2 > month1){
+    if (month2 > month1) {
       age--;
-    }
-    else if (month1 == month2)
-    {
+    } else if (month1 == month2) {
       int day1 = currentDate.day;
       int day2 = birthDate.day;
-      if(day2 > day1){
+      if (day2 > day1) {
         age--;
       }
     }
     return age;
   }
 
-  NextPageButtonPressed(){
+  NextPageButtonPressed() {
     int myAge = calculateAge(selectedDate);
     userValue = userValue.copyWith(age: myAge);
     setState(() {
-      Navigator.pushNamed(context, '/height-input',
+      Navigator.pushNamed(
+        context,
+        '/height-input',
         arguments: userValue,
       );
 
-      print('nickname: ${userValue.nickname}, sex: ${userValue.sex}, age: ${userValue.age}');
+      print(
+          'nickname: ${userValue.nickname}, sex: ${userValue.sex}, age: ${userValue.age}');
     });
   }
 }
 
 class _Icon extends StatelessWidget {
-  const _Icon({super.key});
+  final Color userGenderColor;
+  const _Icon({
+    required this.userGenderColor,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const Icon(
+    return Icon(
       Icons.cake,
-      color: Colors.green,
-      size: 100.0,
+      color: userGenderColor,
+      size: 80,
     );
   }
 }
 
 class _BirthdayText extends StatelessWidget {
-  const _BirthdayText({super.key});
+  final String userNick;
+  final Color userGenderColor;
+  const _BirthdayText({
+    required this.userNick,
+    required this.userGenderColor,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const Text(
-      'あなたの生年月日は？',
-      style: TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.w600,
-      ),
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                  border: Border(
+                      bottom: BorderSide(width: 3, color: userGenderColor))),
+              child: Text(
+                "$userNick",
+                style: TextStyle(
+                  fontSize: 23,
+                  fontWeight: FontWeight.w600,
+                  color: userGenderColor,
+                ),
+              ),
+            ),
+            Text(
+              "様",
+              style: TextStyle(
+                fontSize: 23,
+                fontWeight: FontWeight.w600,
+                color: userGenderColor,
+              ),
+            ),
+            Text(
+              "の",
+              style: TextStyle(
+                fontSize: 23,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+        Text(
+          "誕生日を教えて下さい！",
+          style: TextStyle(
+            fontSize: 23,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ],
     );
   }
 }
@@ -144,72 +203,98 @@ class _BirthdayText extends StatelessWidget {
 class _BirthdayPicker extends StatelessWidget {
   final DateTime selectedDate;
   final ValueChanged<DateTime> onDateSelected;
+  final Color userGenderColor;
 
-  const _BirthdayPicker(
-      {required this.selectedDate, required this.onDateSelected, super.key});
+  const _BirthdayPicker({
+    required this.selectedDate,
+    required this.onDateSelected,
+    required this.userGenderColor,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        children: [
-          Text(
-            '${selectedDate.year}.${selectedDate.month}.${selectedDate.day}',
-            style: TextStyle(
-                fontSize: 50,
-                fontWeight: FontWeight.w600,
-                color: Colors.green),
+    return Column(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: userGenderColor,
           ),
-          SizedBox(
-            height: 100,
-          ),
-          CupertinoButton(
-            child: const Text(
-              '誕生日を選択する',
-              style: TextStyle(
-                color: Colors.green,
-                fontWeight: FontWeight.w600,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                '${selectedDate.year}年${selectedDate.month}月${selectedDate.day}日',
+                style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white),
               ),
-            ),
-            onPressed: () {
-              showCupertinoModalPopup(
-                context: context,
-                builder: (BuildContext context) {
-                  return Container(
-                    height: 300,
-                    color: Colors.white,
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 200,
-                          child: CupertinoDatePicker(
-                            initialDateTime: selectedDate,
-                            mode: CupertinoDatePickerMode.date,
-                            dateOrder: DatePickerDateOrder.ymd,
-                            onDateTimeChanged: (DateTime date) {
-                              onDateSelected(date);
-                            },
-                            maximumDate: DateTime.now(),
-                          ),
-                        ),
-                        CupertinoButton(
-                          child: const Text(
-                            '選択する',
-                            style: TextStyle(color: Colors.green),
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              );
-            },
+            ],
           ),
-        ],
-      ),
+        ),
+        SizedBox(
+          height: 50,
+        ),
+        CupertinoButton(
+          child: Container(
+            height: 45,
+            width: 200,
+            decoration: BoxDecoration(
+                border: Border.all(color: userGenderColor, width: 3),
+                borderRadius: BorderRadius.circular(10)),
+            child: Text(
+              '誕生日を選択する',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: userGenderColor,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 25),
+            ),
+          ),
+          onPressed: () {
+            showCupertinoModalPopup(
+              context: context,
+              builder: (BuildContext context) {
+                return Container(
+                  height: 300,
+                  color: Colors.white,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 200,
+                        child: CupertinoDatePicker(
+                          initialDateTime: selectedDate,
+                          mode: CupertinoDatePickerMode.date,
+                          dateOrder: DatePickerDateOrder.ymd,
+                          onDateTimeChanged: (DateTime date) {
+                            onDateSelected(date);
+                          },
+                          maximumDate: DateTime.now(),
+                        ),
+                      ),
+                      CupertinoButton(
+                        child: Text(
+                          '選択する',
+                          style: TextStyle(
+                            color: userGenderColor,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+          },
+        ),
+      ],
     );
   }
 }
@@ -218,11 +303,11 @@ class _NextPageButton extends StatelessWidget {
   final Color foreButtonColor;
   final Color backButtonColor;
   final VoidCallback onPressed;
-  const _NextPageButton({
-    required this.foreButtonColor,
-    required this.backButtonColor,
-    required this.onPressed,
-    super.key});
+  const _NextPageButton(
+      {required this.foreButtonColor,
+      required this.backButtonColor,
+      required this.onPressed,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -237,7 +322,10 @@ class _NextPageButton extends StatelessWidget {
           ),
           child: const Text(
             '次へ',
-            style: TextStyle(fontSize: 18),
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.white,
+            ),
           ),
         ),
       ],
