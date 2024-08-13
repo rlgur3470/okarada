@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
-// ignore: unused_import
 import 'package:weight_control/component/okarada_color.dart';
 import 'package:weight_control/user_data_creator/User_Data_Creator.dart';
 import '../component/app_bar_design.dart';
