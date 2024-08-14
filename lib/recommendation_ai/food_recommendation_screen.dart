@@ -506,16 +506,19 @@ class _FoodRecommendationScreenState extends State<FoodRecommendationScreen> {
               mealTime: '朝ご飯',
               imagePath: 'asset/image/morning.jpg',
               mealData: mealData,
+              userValue: userValue,
               nextMealScreen: MealScreen(
                 cuisine: selectedCuisine,
                 mealTime: '昼ご飯',
                 imagePath: 'asset/image/afternoon.jpg',
                 mealData: mealData,
+                userValue: userValue,
                 nextMealScreen: MealScreen(
                   cuisine: selectedCuisine,
                   mealTime: '夜ご飯',
                   imagePath: 'asset/image/evening.jpg',
                   mealData: mealData,
+                  userValue: userValue,
                   nextMealScreen: FinishedScreen(
                     selectedCuisine: selectedCuisine,
                     recommendedCalories: recommendedCalories,

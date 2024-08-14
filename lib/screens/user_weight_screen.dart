@@ -226,7 +226,7 @@ class _InfoArea extends StatelessWidget {
       children: [
         Text(
           textAlign: TextAlign.center,
-          'あなたの体重を教えて下さい?',
+          '現在の体重を教えて下さい?',
           style: TextStyle(fontSize: 23, fontWeight: FontWeight.w600),
         ),
         Text(

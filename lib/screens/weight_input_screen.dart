@@ -124,7 +124,7 @@ class _TextField extends StatelessWidget {
           alignment: Alignment.center,
           child: const Text(
             '目標体重を教えて下さい！',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
           ),
         ),
         SizedBox(height: 8),
@@ -132,7 +132,7 @@ class _TextField extends StatelessWidget {
           alignment: Alignment.center,
           child: const Text(
             '最初は、２ヶ月後を目標にしましょう。',
-            style: TextStyle(fontSize: 18, color: Colors.grey),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
           ),
         ),
       ],

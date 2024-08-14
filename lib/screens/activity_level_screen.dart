@@ -17,12 +17,14 @@ class _ActivityLevelScreenState extends State<ActivityLevelScreen> {
   String? state = '';
 
   late UserValue userValue;
+  late Color userGenderColor;
 
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     userValue = ModalRoute.of(context)!.settings.arguments as UserValue;
+    userGenderColor = userValue.userGenderColor!;
   }
 
   @override
@@ -45,8 +47,8 @@ class _ActivityLevelScreenState extends State<ActivityLevelScreen> {
           TextButton(
             onPressed: state != null
                 ? () {
-              // 다음 페이지로 이동하는 로직 추가
-            }
+                    // 다음 페이지로 이동하는 로직 추가
+                  }
                 : null,
             child: Text(
               '次へ',
@@ -59,34 +61,25 @@ class _ActivityLevelScreenState extends State<ActivityLevelScreen> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Column(
-                children: [
-                  SizedBox(
-                    height: 100,
-                  ),
-                  _IconBuild(),
-                  const SizedBox(height: 33.0),
-                  _MainText(),
-                  const SizedBox(height: 34.0),
-                  _OptionButton(
-                    onFirstSelected: onFirstSelected,
-                    onSecondSelected: onSecondSelected,
-                    onThirdSelected: onThirdSelected,
-                    onFourthSelected: onFourthSelected,
-                    onFifthSelected: onFifthSelected,
-                    currentState: state ?? '',
-                    sedentary: sedentary,
-                    lightActivity: lightActivity,
-                    moderateActivity: moderateActivity,
-                    veryActive: veryActive,
-                    extremelyActive: extremelyActive,
-                  ),
-                ],
+              _MainText(),
+              _OptionButton(
+                onFirstSelected: onFirstSelected,
+                onSecondSelected: onSecondSelected,
+                onThirdSelected: onThirdSelected,
+                onFourthSelected: onFourthSelected,
+                onFifthSelected: onFifthSelected,
+                currentState: state ?? '',
+                sedentary: sedentary,
+                lightActivity: lightActivity,
+                moderateActivity: moderateActivity,
+                veryActive: veryActive,
+                extremelyActive: extremelyActive,
+                userGenderColor: userGenderColor,
               ),
             ],
           ),
@@ -99,10 +92,12 @@ class _ActivityLevelScreenState extends State<ActivityLevelScreen> {
     setState(() {
       state = value;
       userValue = userValue.copyWith(activityLevel: state);
-      Navigator.of(context).pushNamed('/user-activity-level',
+      Navigator.of(context).pushNamed(
+        '/user-activity-level',
         arguments: userValue,
       );
-      print('nickname: ${userValue.nickname}, sex: ${userValue.sex}, age: ${userValue.age}, height: ${userValue.height}, weight: ${userValue.weight}, weightDifference: ${userValue.weightDiffrence}, activityLevel: ${userValue.activityLevel}');
+      print(
+          'nickname: ${userValue.nickname}, sex: ${userValue.sex}, age: ${userValue.age}, height: ${userValue.height}, weight: ${userValue.weight}, weightDifference: ${userValue.weightDiffrence}, activityLevel: ${userValue.activityLevel}');
     });
   }
 
@@ -110,10 +105,12 @@ class _ActivityLevelScreenState extends State<ActivityLevelScreen> {
     setState(() {
       state = value;
       userValue = userValue.copyWith(activityLevel: state);
-      Navigator.of(context).pushNamed('/user-activity-level',
+      Navigator.of(context).pushNamed(
+        '/user-activity-level',
         arguments: userValue,
       );
-      print('nickname: ${userValue.nickname}, sex: ${userValue.sex}, age: ${userValue.age}, height: ${userValue.height}, weight: ${userValue.weight}, weightDifference: ${userValue.weightDiffrence}, activityLevel: ${userValue.activityLevel}');
+      print(
+          'nickname: ${userValue.nickname}, sex: ${userValue.sex}, age: ${userValue.age}, height: ${userValue.height}, weight: ${userValue.weight}, weightDifference: ${userValue.weightDiffrence}, activityLevel: ${userValue.activityLevel}');
     });
   }
 
@@ -121,10 +118,12 @@ class _ActivityLevelScreenState extends State<ActivityLevelScreen> {
     setState(() {
       state = value;
       userValue = userValue.copyWith(activityLevel: state);
-      Navigator.of(context).pushNamed('/user-activity-level',
+      Navigator.of(context).pushNamed(
+        '/user-activity-level',
         arguments: userValue,
       );
-      print('nickname: ${userValue.nickname}, sex: ${userValue.sex}, age: ${userValue.age}, height: ${userValue.height}, weight: ${userValue.weight}, weightDifference: ${userValue.weightDiffrence}, activityLevel: ${userValue.activityLevel}');
+      print(
+          'nickname: ${userValue.nickname}, sex: ${userValue.sex}, age: ${userValue.age}, height: ${userValue.height}, weight: ${userValue.weight}, weightDifference: ${userValue.weightDiffrence}, activityLevel: ${userValue.activityLevel}');
     });
   }
 
@@ -132,10 +131,12 @@ class _ActivityLevelScreenState extends State<ActivityLevelScreen> {
     setState(() {
       state = value;
       userValue = userValue.copyWith(activityLevel: state);
-      Navigator.of(context).pushNamed('/user-activity-level',
+      Navigator.of(context).pushNamed(
+        '/user-activity-level',
         arguments: userValue,
       );
-      print('nickname: ${userValue.nickname}, sex: ${userValue.sex}, age: ${userValue.age}, height: ${userValue.height}, weight: ${userValue.weight}, weightDifference: ${userValue.weightDiffrence}, activityLevel: ${userValue.activityLevel}');
+      print(
+          'nickname: ${userValue.nickname}, sex: ${userValue.sex}, age: ${userValue.age}, height: ${userValue.height}, weight: ${userValue.weight}, weightDifference: ${userValue.weightDiffrence}, activityLevel: ${userValue.activityLevel}');
     });
   }
 
@@ -143,65 +144,13 @@ class _ActivityLevelScreenState extends State<ActivityLevelScreen> {
     setState(() {
       state = value;
       userValue = userValue.copyWith(activityLevel: state);
-      Navigator.of(context).pushNamed('/user-activity-level',
+      Navigator.of(context).pushNamed(
+        '/user-activity-level',
         arguments: userValue,
       );
-      print('nickname: ${userValue.nickname}, sex: ${userValue.sex}, age: ${userValue.age}, height: ${userValue.height}, weight: ${userValue.weight}, weightDifference: ${userValue.weightDiffrence}, activityLevel: ${userValue.activityLevel}');
+      print(
+          'nickname: ${userValue.nickname}, sex: ${userValue.sex}, age: ${userValue.age}, height: ${userValue.height}, weight: ${userValue.weight}, weightDifference: ${userValue.weightDiffrence}, activityLevel: ${userValue.activityLevel}');
     });
-  }
-}
-
-class _ActivityLevelOption extends StatelessWidget {
-  final String label;
-  final String stateValue;
-  final String? currentState;
-  final ValueChanged<String> onSelected;
-
-  const _ActivityLevelOption({
-    required this.label,
-    required this.stateValue,
-    required this.currentState,
-    required this.onSelected,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return OutlinedButton(
-      onPressed: () {
-        onSelected(stateValue);
-      },
-      style: OutlinedButton.styleFrom(
-        minimumSize: const Size(double.infinity, 60),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        backgroundColor:
-        currentState == stateValue ? Colors.green : Colors.white,
-        side: const BorderSide(color: Colors.green),
-      ),
-      child: Text(
-        label,
-        style: TextStyle(
-          color: currentState == stateValue ? Colors.white : Colors.green,
-          fontSize: 18,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    );
-  }
-}
-
-class _IconBuild extends StatelessWidget {
-  const _IconBuild({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Icon(
-      Icons.run_circle_outlined,
-      size: 100,
-      color: Colors.green,
-    );
   }
 }
 
@@ -211,11 +160,11 @@ class _MainText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      'あなたの活動レベルは？',
+      '活動レベルを教えて下さい！',
       style: TextStyle(
-        fontSize: 20,
+        fontSize: 23,
         fontWeight: FontWeight.bold,
-        color: Colors.green,
+        color: Colors.black,
       ),
       textAlign: TextAlign.center,
     );
@@ -234,20 +183,22 @@ class _OptionButton extends StatelessWidget {
   final String moderateActivity;
   final String veryActive;
   final String extremelyActive;
+  final Color userGenderColor;
 
   const _OptionButton(
       {required this.onFirstSelected,
-        required this.onSecondSelected,
-        required this.onThirdSelected,
-        required this.onFourthSelected,
-        required this.onFifthSelected,
-        required this.currentState,
-        required this.sedentary,
-        required this.lightActivity,
-        required this.moderateActivity,
-        required this.veryActive,
-        required this.extremelyActive,
-        super.key});
+      required this.onSecondSelected,
+      required this.onThirdSelected,
+      required this.onFourthSelected,
+      required this.onFifthSelected,
+      required this.currentState,
+      required this.sedentary,
+      required this.lightActivity,
+      required this.moderateActivity,
+      required this.veryActive,
+      required this.extremelyActive,
+      required this.userGenderColor,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -258,35 +209,111 @@ class _OptionButton extends StatelessWidget {
           stateValue: sedentary,
           currentState: currentState,
           onSelected: onFirstSelected,
+          userGenderColor: userGenderColor,
+          buttonImage: 'asset/okarada_logo_image/okarada_logo.png',
         ),
-        const SizedBox(height: 10.0),
+        SizedBox(
+          height: 10,
+        ),
         _ActivityLevelOption(
           label: '週1~3日軽い運動',
           stateValue: lightActivity,
           currentState: currentState,
           onSelected: onSecondSelected,
+          userGenderColor: userGenderColor,
+          buttonImage: 'asset/okarada_logo_image/okarada_logo.png',
         ),
-        const SizedBox(height: 10.0),
+        SizedBox(
+          height: 10,
+        ),
         _ActivityLevelOption(
-            label: '学生または一般事務職',
-            stateValue: moderateActivity,
-            currentState: currentState,
-            onSelected: onThirdSelected),
-        const SizedBox(height: 10.0),
+          label: '学生または一般事務職',
+          stateValue: moderateActivity,
+          currentState: currentState,
+          onSelected: onThirdSelected,
+          userGenderColor: userGenderColor,
+          buttonImage: 'asset/okarada_logo_image/okarada_logo.png',
+        ),
+        SizedBox(
+          height: 10,
+        ),
         _ActivityLevelOption(
           label: '非常に活動的',
           stateValue: veryActive,
           currentState: currentState,
           onSelected: onFourthSelected,
+          userGenderColor: userGenderColor,
+          buttonImage: 'asset/okarada_logo_image/okarada_logo.png',
         ),
-        const SizedBox(height: 10.0),
+        SizedBox(
+          height: 10,
+        ),
         _ActivityLevelOption(
           label: '肉体労働または激しい運動',
           stateValue: extremelyActive,
           currentState: currentState,
           onSelected: onFifthSelected,
+          userGenderColor: userGenderColor,
+          buttonImage: 'asset/okarada_logo_image/okarada_logo.png',
         ),
       ],
+    );
+  }
+}
+
+class _ActivityLevelOption extends StatelessWidget {
+  final String label;
+  final String stateValue;
+  final String? currentState;
+  final ValueChanged<String> onSelected;
+  final Color userGenderColor;
+  final String buttonImage;
+
+  const _ActivityLevelOption({
+    required this.label,
+    required this.stateValue,
+    required this.currentState,
+    required this.onSelected,
+    required this.userGenderColor,
+    required this.buttonImage,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton(
+      onPressed: () {
+        onSelected(stateValue);
+      },
+      style: OutlinedButton.styleFrom(
+        minimumSize: Size(double.infinity, 60),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        backgroundColor:
+            currentState == stateValue ? userGenderColor : Colors.white,
+        side: BorderSide(
+          color: userGenderColor,
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Image.asset('$buttonImage',
+              scale: 12,
+              color:
+                  currentState == stateValue ? Colors.white : userGenderColor),
+          Text(
+            label,
+            style: TextStyle(
+              color:
+                  currentState == stateValue ? Colors.white : userGenderColor,
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
