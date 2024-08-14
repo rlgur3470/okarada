@@ -504,19 +504,19 @@ class _FoodRecommendationScreenState extends State<FoodRecommendationScreen> {
             builder: (context) => MealScreen(
               cuisine: selectedCuisine,
               mealTime: '朝ご飯',
-              imagePath: 'asset/image/morning.jpg',
+              imagePath: 'asset/image/morning.png',
               mealData: mealData,
               userValue: userValue,
               nextMealScreen: MealScreen(
                 cuisine: selectedCuisine,
                 mealTime: '昼ご飯',
-                imagePath: 'asset/image/afternoon.jpg',
+                imagePath: 'asset/image/lunch.png',
                 mealData: mealData,
                 userValue: userValue,
                 nextMealScreen: MealScreen(
                   cuisine: selectedCuisine,
                   mealTime: '夜ご飯',
-                  imagePath: 'asset/image/evening.jpg',
+                  imagePath: 'asset/image/evening.png',
                   mealData: mealData,
                   userValue: userValue,
                   nextMealScreen: FinishedScreen(
