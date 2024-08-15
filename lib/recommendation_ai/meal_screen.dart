@@ -30,7 +30,8 @@ class MealScreen extends StatelessWidget {
         children: [
           Image.asset(
             imagePath,
-            fit: BoxFit.cover,
+            fit: BoxFit.fill,
+
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -60,7 +61,7 @@ class MealScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 170),
+              SizedBox(height: 80),
               Expanded(
                 child: ListView.builder(
                   padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -101,10 +102,10 @@ class MealScreen extends StatelessWidget {
                   ),
                   child: Text(
                     mealTime == '朝ご飯'
-                        ? '昼ご飯へ！'
+                        ? '昼ご飯へ'
                         : mealTime == '昼ご飯'
-                            ? '夜ご飯へ！'
-                            : '次へ！',
+                            ? '夜ご飯へ'
+                            : '次へ',
                     style: TextStyle(fontSize: 18, color: Colors.white),
                   ),
                 ),
