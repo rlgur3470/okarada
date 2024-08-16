@@ -171,7 +171,7 @@ class _BirthdayText extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                   border: Border(
-                      bottom: BorderSide(width: 3, color: userGenderColor))),
+                      bottom: BorderSide(width: 3, color: userGenderColor),),),
               child: Text(
                 "$userNick",
                 style: TextStyle(
