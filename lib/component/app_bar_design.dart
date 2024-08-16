@@ -1,35 +1,40 @@
 import 'package:flutter/material.dart';
-
-
-
+import 'package:weight_control/component/okarada_color.dart';
 
 class ProgressBarStateStyle extends StatelessWidget {
+  final Color color;
   final double progress;
-  const ProgressBarStateStyle ({
+  const ProgressBarStateStyle({
     required this.progress,
-    super.key});
+    required this.color,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return  LinearProgressIndicator(
+    return LinearProgressIndicator(
       value: progress,
       backgroundColor: Colors.grey[300],
-      color: Colors.green,
+      color: color,
       minHeight: 6.0,
     );
   }
 }
 
-
 class TugiheButtonStyle extends StatelessWidget {
-  const TugiheButtonStyle({super.key});
+  final Color color;
+  const TugiheButtonStyle({
+    required this.color,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Text(
       '次へ',
-      style: TextStyle(color: Colors.green),
+      style: TextStyle(
+        color: color,
+      ),
     );
   }
 }
-

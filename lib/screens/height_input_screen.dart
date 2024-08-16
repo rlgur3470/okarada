@@ -16,6 +16,7 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
   late UserValue userValue;
   int height = 165;
   late String userSexImage;
+  late Color userGenderColor;
 
   @override
   void didChangeDependencies() {
@@ -25,6 +26,7 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
     userSexImage = userValue.sex == 'male'
         ? 'asset/height_image/male_height.png'
         : 'asset/height_image/women_height.png';
+    userGenderColor = userValue.userGenderColor!;
   }
 
   @override
@@ -63,18 +65,23 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
     return AppBar(
       forceMaterialTransparency: true,
       leading: IconButton(
-        icon: const Icon(Icons.arrow_back_ios),
+        icon: Icon(Icons.arrow_back_ios,
+        color: userGenderColor,
+        ),
         onPressed: () {
           Navigator.of(context).pop();
         },
       ),
       title: ProgressBarStateStyle(
-        progress: 0.37,
+        progress: 0.4,
+        color: userGenderColor,
       ),
       actions: [
         TextButton(
-          onPressed: () {},
-          child: const TugiheButtonStyle(),
+          onPressed: buttonOnPressed,
+          child: TugiheButtonStyle(
+            color: userGenderColor,
+          ),
         )
       ],
     );

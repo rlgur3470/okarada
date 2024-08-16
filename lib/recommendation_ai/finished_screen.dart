@@ -16,7 +16,7 @@ class FinishedScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back_ios),
           onPressed: () {
             Navigator.of(context).pop(); // 뒤로 가기 버튼의 동작 정의
           },

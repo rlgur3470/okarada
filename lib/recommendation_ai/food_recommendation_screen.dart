@@ -16,18 +16,20 @@ class FoodRecommendationScreen extends StatefulWidget {
 class _FoodRecommendationScreenState extends State<FoodRecommendationScreen> {
   late UserValue userValue;
   late int recommendedCalories;
+  late Color userGenderColor;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     userValue = ModalRoute.of(context)!.settings.arguments as UserValue;
     recommendedCalories = userValue.dailyKcal!;
+    userGenderColor = userValue.userGenderColor!;
   }
 
   String selectedCuisine = '韓国料理'; // Default cuisine
 
   final Map<String, Map<String, List<Map<String, dynamic>>>> foodDatabase =
-  const {
+      const {
     '韓国料理': {
       '밥류': [
         {'food_name': 'クッパ', 'calories': 343.9},
@@ -359,7 +361,7 @@ class _FoodRecommendationScreenState extends State<FoodRecommendationScreen> {
     // 한식과 일식의 경우 밥류는 항상 1개 선택
     if (selectedCuisine == '韓国料理' || selectedCuisine == '和食') {
       List<Map<String, dynamic>> riceMeals =
-      List.from(foodDatabase[selectedCuisine]?['밥류'] ?? []);
+          List.from(foodDatabase[selectedCuisine]?['밥류'] ?? []);
       if (riceMeals.isNotEmpty) {
         int randomIndex = random.nextInt(riceMeals.length);
         Map<String, dynamic> meal = riceMeals[randomIndex];
@@ -374,7 +376,7 @@ class _FoodRecommendationScreenState extends State<FoodRecommendationScreen> {
     // 국류, 메인에서 각각 0~1개 선택
     for (String category in ['국류', '메인']) {
       List<Map<String, dynamic>> cuisineMeals =
-      List.from(foodDatabase[selectedCuisine]?[category] ?? []);
+          List.from(foodDatabase[selectedCuisine]?[category] ?? []);
       if (cuisineMeals.isNotEmpty && random.nextBool()) {
         int randomIndex = random.nextInt(cuisineMeals.length);
         Map<String, dynamic> meal = cuisineMeals[randomIndex];
@@ -390,7 +392,7 @@ class _FoodRecommendationScreenState extends State<FoodRecommendationScreen> {
 
     // 서브리스트에서 여러 개 선택
     List<Map<String, dynamic>> sideDishes =
-    List.from(foodDatabase[selectedCuisine]?['서브'] ?? []);
+        List.from(foodDatabase[selectedCuisine]?['서브'] ?? []);
     while (totalCalories < calories && sideDishes.isNotEmpty) {
       int randomIndex = random.nextInt(sideDishes.length);
       Map<String, dynamic> meal = sideDishes[randomIndex];
@@ -408,7 +410,7 @@ class _FoodRecommendationScreenState extends State<FoodRecommendationScreen> {
 
     // 간식에서 0~1개 선택
     List<Map<String, dynamic>> snacks =
-    List.from(foodDatabase[selectedCuisine]?['간식'] ?? []);
+        List.from(foodDatabase[selectedCuisine]?['간식'] ?? []);
     if (snacks.isNotEmpty && random.nextBool()) {
       int randomIndex = random.nextInt(snacks.length);
       Map<String, dynamic> meal = snacks[randomIndex];
@@ -443,50 +445,97 @@ class _FoodRecommendationScreenState extends State<FoodRecommendationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        title: ProgressBarStateStyle(
-          progress: 0.36,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {},
-            child: const TugiheButtonStyle(),
-          )
-        ],
-      ),
+      appBar: _BuildAppBar(),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              const Text(
-                '皆さんの食の好みを選んでください！\nお好みに合わせた1日のカスタマイズされた献立を\nおすすめします！',
-                style: TextStyle(fontSize: 15),
-                textAlign: TextAlign.center,
+              Column(
+                children: [
+                  Text(
+                    '食事プランのテーマを選びましょう！',
+                    style: TextStyle(
+                      fontSize: 23,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 15),
+                  Text(
+                    'ご希望の食事テーマに合わせて、\n食事プランを組み合わせていただきます！',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
-              const SizedBox(height: 60),
-              _buildCuisineButton(
-                  context, '韓国料理', 'asset/image/korean_food.jpg'),
-              const SizedBox(height: 15),
-              _buildCuisineButton(
-                  context, '和食', 'asset/image/japanese_food.jpg'),
-              const SizedBox(height: 15),
-              _buildCuisineButton(
-                  context, '洋食', 'asset/image/western_food.jpg'),
-              const SizedBox(height: 15),
-              _buildCuisineButton(
-                  context, 'ビーガン', 'asset/image/vegan_food.jpg'),
+              Column(
+                children: [
+                  _buildCuisineButton(
+                    context,
+                    '韓国料理',
+                    'asset/image/korean_food.jpg',
+                  ),
+                  SizedBox(
+                    height: 10
+                  ),
+                  _buildCuisineButton(
+                    context,
+                    '和食',
+                    'asset/image/japanese_food.jpg',
+                  ),
+                  SizedBox(
+                      height: 10
+                  ),
+                  _buildCuisineButton(
+                    context,
+                    '洋食',
+                    'asset/image/western_food.jpg',
+                  ),
+                  SizedBox(
+                      height: 10
+                  ),
+                  _buildCuisineButton(
+                    context,
+                    'ビーガン',
+                    'asset/image/vegan_food.jpg',
+                  ),
+                ],
+              ),
+              SizedBox(height: 30,)
             ],
           ),
         ),
       ),
+    );
+  }
+
+  AppBar _BuildAppBar(){
+    return AppBar(
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back_ios,
+          color: userGenderColor,
+        ),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      ),
+      title: ProgressBarStateStyle(
+        color: userGenderColor,
+        progress: 1,
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {},
+          child: TugiheButtonStyle(
+            color: userGenderColor,
+          ),
+        )
+      ],
     );
   }
 
@@ -531,22 +580,27 @@ class _FoodRecommendationScreenState extends State<FoodRecommendationScreen> {
       },
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
-        backgroundColor: const Color(0xFF3EB489),
-        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 5),
+        backgroundColor: userGenderColor,
+        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 5),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
       ),
       child: Row(
         children: [
-          Image.asset(imagePath, fit: BoxFit.cover, height: 50, width: 100,),
+          Image.asset(
+            imagePath,
+            fit: BoxFit.cover,
+            height: 50,
+            width: 100,
+          ),
           const SizedBox(width: 120),
           Text(
             cuisine,
             style: const TextStyle(fontSize: 18),
             textAlign: TextAlign.center,
           ),
-          const Icon(Icons.arrow_forward),
+          const Icon(Icons.arrow_forward_ios),
         ],
       ),
     );

@@ -32,14 +32,14 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const NicknameScreen(),
         '/sex': (context) => const SexScreen(),
-        '/perpose': (context) => const PerposeScreen(),
+        // '/perpose': (context) => const PerposeScreen(),
         '/birthday': (context) => const BirthdayScreen(),
         '/height-input': (context) => const HeightInputScreen(),
         '/user-weight': (context) => const UserWeightScreen(),
-        '/email-input': (context) => const EmailInputScreen(),
+        // '/email-input': (context) => const EmailInputScreen(),
         '/weight-input': (context) => const WeightInputScreen(),
-        '/pace-selection': (context) => const PaceSelectionScreen(),
-        '/approach-selection': (context) => const ApproachSelectionScreen(),
+        // '/pace-selection': (context) => const PaceSelectionScreen(),
+        // '/approach-selection': (context) => const ApproachSelectionScreen(),
         '/activity-level': (context) => const ActivityLevelScreen(),
         '/user-activity-level': (context) => const UserActivityLevelScreen(),
         '/food-recommendation' : (context) => const FoodRecommendationScreen()

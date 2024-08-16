@@ -14,12 +14,14 @@ class _UserWeightScreenState extends State<UserWeightScreen> {
   //final TextEditingController _controller = TextEditingController();
   late UserValue userValue;
   int userWeight = 30;
+  late Color userGenderColor;
 
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     userValue = ModalRoute.of(context)!.settings.arguments as UserValue;
+    userGenderColor = userValue.userGenderColor!;
   }
 
   @override
@@ -76,18 +78,24 @@ class _UserWeightScreenState extends State<UserWeightScreen> {
     return AppBar(
       forceMaterialTransparency: true,
       leading: IconButton(
-        icon: Icon(Icons.arrow_back_ios),
+        icon: Icon(
+          Icons.arrow_back_ios,
+          color: userGenderColor,
+        ),
         onPressed: () {
           Navigator.of(context).pop();
         },
       ),
       title: ProgressBarStateStyle(
-        progress: 0.44,
+        progress: 0.5,
+        color: userGenderColor,
       ),
       actions: [
         TextButton(
-          onPressed: () {},
-          child: const TugiheButtonStyle(),
+          onPressed: moveToNextPage,
+          child: TugiheButtonStyle(
+            color: userGenderColor,
+          ),
         )
       ],
     );
@@ -207,9 +215,7 @@ class _SelectedWeight extends StatelessWidget {
         Text(
           'kg',
           style: TextStyle(
-              color: Colors.black,
-              fontSize: 20,
-              fontWeight: FontWeight.w600),
+              color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
         ),
       ],
     );

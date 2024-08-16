@@ -26,26 +26,7 @@ class _SexScreenState extends State<SexScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            Navigator.of(context).maybePop();
-          },
-        ),
-        title: LinearProgressIndicator(
-          value: 0.05,
-          backgroundColor: Colors.grey[300],
-          color: Colors.green,
-          minHeight: 6.0,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {},
-            child: const TugiheButtonStyle(),
-          )
-        ],
-      ),
+      appBar: _BuildAppBar(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(
@@ -65,6 +46,7 @@ class _SexScreenState extends State<SexScreen> {
                 _BodyText(),
                 _IconSelect(
                   onMalePressed: onMaleButtonPressed,
+
                   onFemalePressed: onFemaleButtonPressed,
                   male: male,
                   female: female,
@@ -78,6 +60,34 @@ class _SexScreenState extends State<SexScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  AppBar _BuildAppBar(){
+    return AppBar(
+      leading: IconButton(
+        icon: const Icon(
+          Icons.arrow_back_ios,
+          color: Colors.black,
+        ),
+        onPressed: () {
+          Navigator.of(context).maybePop();
+        },
+      ),
+      title: LinearProgressIndicator(
+        value: 0.2,
+        backgroundColor: Colors.grey[300],
+        color: Colors.black,
+        minHeight: 6.0,
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {},
+          child: TugiheButtonStyle(
+            color: Colors.black,
+          ),
+        )
+      ],
     );
   }
 

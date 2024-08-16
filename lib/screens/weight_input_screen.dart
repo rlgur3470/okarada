@@ -38,24 +38,7 @@ class _WeightInputScreenState extends State<WeightInputScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        forceMaterialTransparency: true,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        title: ProgressBarStateStyle(
-          progress: 0.63,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {},
-            child: const TugiheButtonStyle(),
-          )
-        ],
-      ),
+      appBar: _BuildAppBar(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(
@@ -99,6 +82,33 @@ class _WeightInputScreenState extends State<WeightInputScreen> {
     );
   }
 
+  AppBar _BuildAppBar(){
+    return AppBar(
+      forceMaterialTransparency: true,
+      leading: IconButton(
+        icon: Icon(
+          Icons.arrow_back_ios,
+          color: userGenderColor,
+        ),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      ),
+      title: ProgressBarStateStyle(
+        progress: 0.6,
+        color: userGenderColor,
+      ),
+      actions: [
+        TextButton(
+          onPressed: onNextButtonPressed,
+          child: TugiheButtonStyle(
+            color: userGenderColor,
+          ),
+        )
+      ],
+    );
+  }
+
   onNextButtonPressed() {
     setState(() {
       userValue = userValue.copyWith(weightDiffrence: weightDifference.round());
@@ -124,7 +134,7 @@ class _TextField extends StatelessWidget {
           alignment: Alignment.center,
           child: const Text(
             '目標体重を教えて下さい！',
-            style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 23, fontWeight: FontWeight.w600),
           ),
         ),
         SizedBox(height: 8),

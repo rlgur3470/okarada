@@ -28,23 +28,7 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        title: ProgressBarStateStyle(
-          progress: 0.36,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {},
-            child: const TugiheButtonStyle(),
-          )
-        ],
-      ),
+      appBar: _BuildAppBar(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -88,6 +72,32 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  AppBar _BuildAppBar(){
+    return AppBar(
+      leading: IconButton(
+        icon: Icon(
+          Icons.arrow_back_ios,
+          color: userGenderColor,
+        ),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      ),
+      title: ProgressBarStateStyle(
+        progress: 0.3,
+        color: userGenderColor,
+      ),
+      actions: [
+        TextButton(
+          onPressed: NextPageButtonPressed,
+          child: TugiheButtonStyle(
+            color: userGenderColor,
+          ),
+        )
+      ],
     );
   }
 
@@ -278,10 +288,9 @@ class _BirthdayPicker extends StatelessWidget {
                         child: Text(
                           '選択する',
                           style: TextStyle(
-                            color: userGenderColor,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600
-                          ),
+                              color: userGenderColor,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600),
                         ),
                         onPressed: () {
                           Navigator.of(context).pop();

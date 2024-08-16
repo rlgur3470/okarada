@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:weight_control/user_data_creator/User_Data_Creator.dart';
 
+import '../component/app_bar_design.dart';
+
 class ActivityLevelScreen extends StatefulWidget {
   const ActivityLevelScreen({super.key});
 
@@ -30,35 +32,7 @@ class _ActivityLevelScreenState extends State<ActivityLevelScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        title: LinearProgressIndicator(
-          value: 0.75,
-          backgroundColor: Colors.grey[300],
-          color: Colors.green,
-          minHeight: 6.0,
-        ),
-        actions: [
-          TextButton(
-            onPressed: state != null
-                ? () {
-                    // 다음 페이지로 이동하는 로직 추가
-                  }
-                : null,
-            child: Text(
-              '次へ',
-              style: TextStyle(
-                color: state != null ? Colors.green : Colors.grey,
-              ),
-            ),
-          )
-        ],
-      ),
+      appBar: _BuildAppBar(),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -85,6 +59,32 @@ class _ActivityLevelScreenState extends State<ActivityLevelScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  AppBar _BuildAppBar(){
+    return AppBar(
+      forceMaterialTransparency: true,
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back_ios,
+          color: userGenderColor,
+        ),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      ),
+      title: ProgressBarStateStyle(
+        progress: 0.7,
+        color: userGenderColor,
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {},
+          child: TugiheButtonStyle(
+            color: userGenderColor,
+          ),
+        )
+      ],
     );
   }
 

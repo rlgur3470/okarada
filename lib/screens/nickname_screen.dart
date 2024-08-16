@@ -14,7 +14,6 @@ class NicknameScreen extends StatefulWidget {
 }
 
 class _NicknameScreenState extends State<NicknameScreen> {
-
   UserValue userValue = UserValue(
     sex: '',
     purpose: '',
@@ -41,17 +40,7 @@ class _NicknameScreenState extends State<NicknameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: ProgressBarStateStyle(
-          progress: 0.24,
-        ),
-        actions: [
-          TextButton(
-            onPressed: onNextPageButtonPressed,
-            child: const TugiheButtonStyle(),
-          )
-        ],
-      ),
+      appBar: _BuildAppBar(),
       body: SafeArea(
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
@@ -83,7 +72,9 @@ class _NicknameScreenState extends State<NicknameScreen> {
                 _NextPageButton(
                   onPressed: onNextPageButtonPressed,
                   controller: _controller,
-                  backColor: _controller.text.isNotEmpty ? okaradaGreenColor : Colors.grey[300]!,
+                  backColor: _controller.text.isNotEmpty
+                      ? okaradaGreenColor
+                      : Colors.grey[300]!,
                   foreColor: Colors.black,
                 ),
               ],
@@ -94,10 +85,32 @@ class _NicknameScreenState extends State<NicknameScreen> {
     );
   }
 
-  onNextPageButtonPressed(){
+  AppBar _BuildAppBar(){
+    return AppBar(
+      title: ProgressBarStateStyle(
+        progress: 0.1,
+        color: Colors.black,
+      ),
+      leading: Icon(
+        Icons.double_arrow,
+        color: Colors.black,
+      ),
+      actions: [
+        TextButton(
+          onPressed: onNextPageButtonPressed,
+          child: TugiheButtonStyle(
+            color: Colors.black,
+          ),
+        )
+      ],
+    );
+  }
+
+  onNextPageButtonPressed() {
     if (_controller.text.isNotEmpty) {
       userValue = userValue.copyWith(nickname: _controller.text);
-      Navigator.of(context).pushNamed('/sex',
+      Navigator.of(context).pushNamed(
+        '/sex',
         arguments: userValue,
       );
 
@@ -105,7 +118,7 @@ class _NicknameScreenState extends State<NicknameScreen> {
     }
   }
 
-  backColorSettings(){
+  backColorSettings() {
     setState(() {
       _controller.text.isNotEmpty ? okaradaGreenColor : Colors.grey[300];
     });
@@ -117,7 +130,8 @@ class _Okarada_Logo_Icon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset('asset/okarada_logo_image/okarada_logo.png',
+    return Image.asset(
+      'asset/okarada_logo_image/okarada_logo.png',
       scale: 5,
     );
   }
@@ -137,7 +151,6 @@ class _QuestionText extends StatelessWidget {
     );
   }
 }
-
 
 class _TextInput extends StatelessWidget {
   final TextEditingController controller;
@@ -168,19 +181,15 @@ class _TextInput extends StatelessWidget {
                     controller: controller,
                     decoration: const InputDecoration(
                       hintText: '10文字以内',
-                      hintStyle: TextStyle(
-                          fontSize: 18,
-                          height: 1.8
-                      ),
+                      hintStyle: TextStyle(fontSize: 18, height: 1.8),
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: okaradaGreenColor),
                       ),
                       focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: okaradaGreenColor, width: 2)
-                      ),
+                          borderSide:
+                              BorderSide(color: okaradaGreenColor, width: 2)),
                     ),
                     style: TextStyle(fontSize: 25),
-
                   ),
                 ),
               ),
@@ -207,7 +216,8 @@ class _NextPageButton extends StatelessWidget {
 
   const _NextPageButton({
     required this.onPressed,
-    required this.controller, super.key,
+    required this.controller,
+    super.key,
     required this.backColor,
     required this.foreColor,
   });
@@ -219,17 +229,13 @@ class _NextPageButton extends StatelessWidget {
       children: [
         ElevatedButton(
           onPressed: onPressed,
-          style:
-          ElevatedButton.styleFrom(
+          style: ElevatedButton.styleFrom(
             backgroundColor: backColor,
             foregroundColor: foreColor,
           ),
           child: const Text(
             '次へ',
-            style: TextStyle(
-              fontSize: 18,
-              color: Colors.white
-            ),
+            style: TextStyle(fontSize: 18, color: Colors.white),
           ),
         ),
       ],

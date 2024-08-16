@@ -45,7 +45,8 @@ class MealScreen extends StatelessWidget {
                       onPressed: (){
                         Navigator.of(context).pop();
                       },
-                      icon: Icon(Icons.arrow_back)
+                      icon: Icon(Icons.arrow_back_ios,
+                      color: userGenderColor,)
                     ),
                     Text(
                       _getMealTitle(mealTime),
