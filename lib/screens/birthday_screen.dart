@@ -182,15 +182,7 @@ class _BirthdayText extends StatelessWidget {
               ),
             ),
             Text(
-              "様",
-              style: TextStyle(
-                fontSize: 23,
-                fontWeight: FontWeight.w600,
-                color: userGenderColor,
-              ),
-            ),
-            Text(
-              "の",
+              " 様の",
               style: TextStyle(
                 fontSize: 23,
                 fontWeight: FontWeight.w600,
