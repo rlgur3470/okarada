@@ -31,7 +31,6 @@ class MealScreen extends StatelessWidget {
           Image.asset(
             imagePath,
             fit: BoxFit.fill,
-
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,

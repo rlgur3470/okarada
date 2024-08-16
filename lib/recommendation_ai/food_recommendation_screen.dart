@@ -480,25 +480,19 @@ class _FoodRecommendationScreenState extends State<FoodRecommendationScreen> {
                     '韓国料理',
                     'asset/image/korean_food.jpg',
                   ),
-                  SizedBox(
-                    height: 10
-                  ),
+                  SizedBox(height: 10),
                   _buildCuisineButton(
                     context,
                     '和食',
                     'asset/image/japanese_food.jpg',
                   ),
-                  SizedBox(
-                      height: 10
-                  ),
+                  SizedBox(height: 10),
                   _buildCuisineButton(
                     context,
                     '洋食',
                     'asset/image/western_food.jpg',
                   ),
-                  SizedBox(
-                      height: 10
-                  ),
+                  SizedBox(height: 10),
                   _buildCuisineButton(
                     context,
                     'ビーガン',
@@ -506,7 +500,9 @@ class _FoodRecommendationScreenState extends State<FoodRecommendationScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 30,)
+              SizedBox(
+                height: 30,
+              )
             ],
           ),
         ),
@@ -514,10 +510,11 @@ class _FoodRecommendationScreenState extends State<FoodRecommendationScreen> {
     );
   }
 
-  AppBar _BuildAppBar(){
+  AppBar _BuildAppBar() {
     return AppBar(
       leading: IconButton(
-        icon: Icon(Icons.arrow_back_ios,
+        icon: Icon(
+          Icons.arrow_back_ios,
           color: userGenderColor,
         ),
         onPressed: () {
@@ -541,67 +538,92 @@ class _FoodRecommendationScreenState extends State<FoodRecommendationScreen> {
 
   Widget _buildCuisineButton(
       BuildContext context, String cuisine, String imagePath) {
-    return ElevatedButton(
-      onPressed: () {
-        setState(() {
-          selectedCuisine = cuisine;
-          _generateMealPlans();
-        });
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MealScreen(
-              cuisine: selectedCuisine,
-              mealTime: '朝ご飯',
-              imagePath: 'asset/image/morning.jpeg',
-              mealData: mealData,
-              userValue: userValue,
-              nextMealScreen: MealScreen(
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 1,
+            blurRadius: 5,
+          ),
+        ],
+      ),
+      child: ElevatedButton(
+        onPressed: () {
+          setState(() {
+            selectedCuisine = cuisine;
+            _generateMealPlans();
+          });
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MealScreen(
                 cuisine: selectedCuisine,
-                mealTime: '昼ご飯',
-                imagePath: 'asset/image/lunch.jpeg',
+                mealTime: '朝ご飯',
+                imagePath: 'asset/image/morning.jpeg',
                 mealData: mealData,
                 userValue: userValue,
                 nextMealScreen: MealScreen(
                   cuisine: selectedCuisine,
-                  mealTime: '夜ご飯',
-                  imagePath: 'asset/image/evening.jpeg',
+                  mealTime: '昼ご飯',
+                  imagePath: 'asset/image/lunch.jpeg',
                   mealData: mealData,
                   userValue: userValue,
-                  nextMealScreen: FinishedScreen(
-                    selectedCuisine: selectedCuisine,
-                    recommendedCalories: recommendedCalories,
+                  nextMealScreen: MealScreen(
+                    cuisine: selectedCuisine,
+                    mealTime: '夜ご飯',
+                    imagePath: 'asset/image/evening.jpeg',
+                    mealData: mealData,
+                    userValue: userValue,
+                    nextMealScreen: FinishedScreen(
+                      selectedCuisine: selectedCuisine,
+                      recommendedCalories: recommendedCalories,
+                    ),
                   ),
                 ),
               ),
             ),
+          );
+        },
+        style: ElevatedButton.styleFrom(
+          foregroundColor: Colors.white,
+          backgroundColor: Colors.white,
+          padding: EdgeInsets.symmetric(horizontal: 0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
           ),
-        );
-      },
-      style: ElevatedButton.styleFrom(
-        foregroundColor: Colors.white,
-        backgroundColor: userGenderColor,
-        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 5),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
         ),
-      ),
-      child: Row(
-        children: [
-          Image.asset(
-            imagePath,
-            fit: BoxFit.cover,
-            height: 50,
-            width: 100,
-          ),
-          const SizedBox(width: 120),
-          Text(
-            cuisine,
-            style: const TextStyle(fontSize: 18),
-            textAlign: TextAlign.center,
-          ),
-          const Icon(Icons.arrow_forward_ios),
-        ],
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10),
+                bottomLeft: Radius.circular(10),
+                bottomRight: Radius.circular(20),
+                topRight: Radius.circular(20)
+              ),
+              child: Image.asset(
+                imagePath,
+                fit: BoxFit.cover,
+                height: 80,
+                width: 150,
+              ),
+            ),
+            Expanded(
+              child: Text(
+                cuisine,
+                style: TextStyle(
+                  fontSize: 23,
+                  fontWeight: FontWeight.w600,
+                  color: userGenderColor
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
