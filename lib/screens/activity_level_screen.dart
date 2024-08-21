@@ -210,7 +210,7 @@ class _OptionButton extends StatelessWidget {
           currentState: currentState,
           onSelected: onFirstSelected,
           userGenderColor: userGenderColor,
-          buttonImage: 'asset/okarada_logo_image/okarada_logo.png',
+          buttonImage: 'asset/image/deskWork.png',
         ),
         SizedBox(
           height: 10,
@@ -221,7 +221,7 @@ class _OptionButton extends StatelessWidget {
           currentState: currentState,
           onSelected: onSecondSelected,
           userGenderColor: userGenderColor,
-          buttonImage: 'asset/okarada_logo_image/okarada_logo.png',
+          buttonImage: 'asset/image/run.png',
         ),
         SizedBox(
           height: 10,
@@ -232,7 +232,7 @@ class _OptionButton extends StatelessWidget {
           currentState: currentState,
           onSelected: onThirdSelected,
           userGenderColor: userGenderColor,
-          buttonImage: 'asset/okarada_logo_image/okarada_logo.png',
+          buttonImage: 'asset/image/active.png',
         ),
         SizedBox(
           height: 10,
@@ -243,7 +243,7 @@ class _OptionButton extends StatelessWidget {
           currentState: currentState,
           onSelected: onFourthSelected,
           userGenderColor: userGenderColor,
-          buttonImage: 'asset/okarada_logo_image/okarada_logo.png',
+          buttonImage: 'asset/image/very_active.png',
         ),
         SizedBox(
           height: 10,
@@ -254,7 +254,7 @@ class _OptionButton extends StatelessWidget {
           currentState: currentState,
           onSelected: onFifthSelected,
           userGenderColor: userGenderColor,
-          buttonImage: 'asset/okarada_logo_image/okarada_logo.png',
+          buttonImage: 'asset/image/strong.png',
         ),
       ],
     );
@@ -286,6 +286,8 @@ class _ActivityLevelOption extends StatelessWidget {
         onSelected(stateValue);
       },
       style: OutlinedButton.styleFrom(
+        shadowColor: Colors.grey,
+        elevation: 2,
         minimumSize: Size(double.infinity, 60),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
@@ -300,7 +302,7 @@ class _ActivityLevelOption extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Image.asset('$buttonImage',
-              scale: 12,
+              scale: 1.5,
               color:
                   currentState == stateValue ? Colors.white : userGenderColor),
           Text(
